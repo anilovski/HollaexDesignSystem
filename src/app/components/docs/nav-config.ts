@@ -29,6 +29,7 @@ export const navigation: NavSection[] = [
       { label: "Checkbox", href: "/components/checkbox" },
       { label: "Chip", href: "/components/chip" },
       { label: "Coin Card", href: "/components/coin-card" },
+      { label: "Coin Amount Field", href: "/components/coin-amount-field" },
       { label: "Collapsible", href: "/components/collapsible" },
       { label: "Content Switcher", href: "/components/content-switcher" },
       { label: "Context Menu", href: "/components/context-menu" },
@@ -88,6 +89,7 @@ export const pinnedNavSections: NavSection[] = [
       { label: "Data Display", href: "/patterns/data-display" },
       { label: "Email Templates", href: "/patterns/email-templates" },
       { label: "Testing with Agents", href: "/patterns/testing-with-agents" },
+      { label: "Quick Trade", href: "/patterns/quick-trade" },
     ],
   },
 ];

@@ -56,6 +56,7 @@ const CarouselPage = lazyPage(() => import("./components/pages/carousel-page"), 
 const CheckboxPage = lazyPage(() => import("./components/pages/checkbox-page"), "CheckboxPage", "checkbox");
 const ChipPage = lazyPage(() => import("./components/pages/chip-page"), "ChipPage", "chip");
 const CoinCardPage = lazyPage(() => import("./components/pages/coin-card-page"), "CoinCardPage", "coin-card");
+const CoinAmountFieldPage = lazyPage(() => import("./components/pages/coin-amount-field-page"), "CoinAmountFieldPage", "coin-amount-field");
 const CollapsiblePage = lazyPage(() => import("./components/pages/collapsible-page"), "CollapsiblePage", "collapsible");
 const ContentSwitcherPage = lazyPage(() => import("./components/pages/content-switcher-page"), "ContentSwitcherPage", "content-switcher");
 const ContextMenuPage = lazyPage(() => import("./components/pages/context-menu-page"), "ContextMenuPage", "context-menu");
@@ -98,6 +99,7 @@ const GenericComponentPage = lazyPage(() => import("./components/pages/generic-c
 const DataDisplayPage = lazyPage(() => import("./components/pages/data-display-page"), "DataDisplayPage", "data-display");
 const EmailTemplatesPage = lazyPage(() => import("./components/pages/email-templates-page"), "EmailTemplatesPage", "email-templates");
 const TestingWithAgentsPage = lazyPage(() => import("./components/pages/testing-with-agents-page"), "TestingWithAgentsPage", "testing-with-agents");
+const QuickTradePage = lazyPage(() => import("./components/pages/quick-trade-page"), "QuickTradePage", "quick-trade");
 
 // ── Router ──────────────────────────────────────────────────────
 export const router = createBrowserRouter([
@@ -124,6 +126,7 @@ export const router = createBrowserRouter([
       { path: "components/checkbox", Component: CheckboxPage },
       { path: "components/chip", Component: ChipPage },
       { path: "components/coin-card", Component: CoinCardPage },
+      { path: "components/coin-amount-field", Component: CoinAmountFieldPage },
       { path: "components/collapsible", Component: CollapsiblePage },
       { path: "components/content-switcher", Component: ContentSwitcherPage },
       { path: "components/context-menu", Component: ContextMenuPage },
@@ -164,6 +167,7 @@ export const router = createBrowserRouter([
       { path: "patterns/data-display", Component: DataDisplayPage },
       { path: "patterns/email-templates", Component: EmailTemplatesPage },
       { path: "patterns/testing-with-agents", Component: TestingWithAgentsPage },
+      { path: "patterns/quick-trade", Component: QuickTradePage },
       { path: "*", Component: OverviewPage },
     ],
   },

@@ -48,7 +48,7 @@ export function ComponentPage({
   const [sentinelRef, scrolled] = useScrolledPast();
 
   return (
-    <div className="min-h-full" style={{ backgroundColor: "var(--background)" }}>
+    <div className="min-h-full">
       {/* Scroll sentinel – sits at the very top; when it's gone the breadcrumb gets a shadow */}
       <div ref={sentinelRef} className="h-0 w-full" aria-hidden="true" />
 

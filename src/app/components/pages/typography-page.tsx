@@ -1,5 +1,5 @@
 import { HxThemeToggle } from "../ui/hx-toggle";
-import { useOutletContext } from "react-router";
+import { useOutletContext, useLocation } from "react-router";
 import { SearchTrigger } from "../docs/search-command";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { Button } from "../ui/hollaex-button";
@@ -438,8 +438,29 @@ function FontWeightsSection({ font }: { font: FontTab }) {
 
 export function TypographyPage() {
   const [scrolled, setScrolled] = useState(false);
-  const [activeTab, setActiveTab] = useState<FontTab>("supreme");
+  const location = useLocation();
+  const [activeTab, setActiveTab] = useState<FontTab>(() => {
+    const hash = window.location.hash.replace("#", "");
+    if (hash === "mono" || hash === "jetbrains-mono") return "mono";
+    return "supreme";
+  });
   const sentinelRef = useRef<HTMLDivElement>(null);
+
+  /* Sync tab with URL hash changes (e.g. back/forward navigation) */
+  useEffect(() => {
+    const hash = location.hash.replace("#", "");
+    if (hash === "mono" || hash === "jetbrains-mono") {
+      setActiveTab("mono");
+    } else if (hash === "supreme" || hash === "") {
+      setActiveTab("supreme");
+    }
+  }, [location.hash]);
+
+  /* Update URL hash when tab changes */
+  const handleTabChange = useCallback((tab: FontTab) => {
+    setActiveTab(tab);
+    window.history.replaceState(null, "", `#${tab}`);
+  }, []);
 
   useEffect(() => {
     const el = sentinelRef.current;
@@ -499,7 +520,7 @@ export function TypographyPage() {
                   key={tab.value}
                   role="tab"
                   aria-selected={isActive}
-                  onClick={() => setActiveTab(tab.value)}
+                  onClick={() => handleTabChange(tab.value)}
                   className="relative flex items-center justify-center cursor-pointer select-none outline-none transition-colors duration-[var(--duration-short-3)]"
                   style={{
                     height: "72px",

@@ -157,6 +157,14 @@ export const searchIndex: SearchEntry[] = [
     keywords: ["crypto", "coin", "price", "trend", "sparkline", "watchlist", "card", "bitcoin", "ethereum"],
   },
   {
+    name: "Coin Amount Field",
+    href: "/components/coin-amount-field",
+    description:
+      "Composite input for selecting a crypto asset and entering an amount. Used across Quick Trade, Convert, Withdraw, Deposit, and Staking flows.",
+    category: "Components",
+    keywords: ["coin", "amount", "input", "convert", "trade", "swap", "deposit", "withdraw", "crypto", "asset", "balance", "quick trade"],
+  },
+  {
     name: "Collapsible",
     href: "/components/collapsible",
     description:
@@ -453,6 +461,22 @@ export const searchIndex: SearchEntry[] = [
       "Standardized, on-brand email templates for transactional and security communications. Includes confirmation, passcode, password reset, welcome, suspicious login, and deposit notification templates.",
     category: "Patterns",
     keywords: ["email", "template", "confirmation", "passcode", "otp", "password", "reset", "welcome", "security", "deposit", "notification", "transactional", "html"],
+  },
+  {
+    name: "Testing",
+    href: "/patterns/testing",
+    description:
+      "Testing patterns and guidelines for ensuring accessibility and quality assurance. Includes testing agents, AI automation, QA practices, accessibility checks, and ARIA attributes.",
+    category: "Patterns",
+    keywords: ["testing", "agents", "ai", "automation", "qa", "accessibility", "screen reader", "aria"],
+  },
+  {
+    name: "Quick Trade",
+    href: "/patterns/quick-trade",
+    description:
+      "A complete conversion flow composing CoinAmountField, ButtonGroup, Button, and a coin-selector Sheet into a full Quick Trade module.",
+    category: "Patterns",
+    keywords: ["quick trade", "convert", "swap", "exchange", "crypto", "coin", "trading", "pattern", "module"],
   },
 ];
 

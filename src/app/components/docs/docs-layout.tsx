@@ -44,6 +44,7 @@ export default function DocsLayout() {
         id="main-content"
         ref={contentRef}
         className="flex flex-col flex-1 min-w-0 h-full overflow-y-auto"
+        style={{ backgroundColor: "var(--muted)" }}
         tabIndex={-1}
       >
         <Outlet context={search} />
