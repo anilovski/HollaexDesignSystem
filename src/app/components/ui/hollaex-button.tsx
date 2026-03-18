@@ -13,7 +13,7 @@ function sizeIcon(icon: React.ReactNode, size: number): React.ReactNode {
 }
 
 const buttonVariants = cva(
-  ["inline-flex items-center justify-center", "font-sans font-medium leading-none whitespace-nowrap", "border border-transparent", "transition-colors duration-150", "select-none cursor-pointer", "focus-visible:outline-none focus-visible:ring-2", "focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2", "focus-visible:ring-offset-[var(--focus-ring-offset)]", "disabled:pointer-events-none disabled:cursor-not-allowed"],
+  ["inline-flex items-center justify-center", "font-sans font-medium leading-none whitespace-nowrap", "border border-transparent", "transition-all duration-[var(--duration-short-3)]", "select-none cursor-pointer", "focus-visible:outline-none focus-visible:ring-2", "focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2", "focus-visible:ring-offset-[var(--focus-ring-offset)]", "disabled:pointer-events-none disabled:cursor-not-allowed", "active:scale-[0.98]"],
   {
     variants: {
       variant: {

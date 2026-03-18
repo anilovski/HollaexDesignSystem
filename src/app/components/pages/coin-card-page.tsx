@@ -24,14 +24,14 @@ function CoinCard({ symbol, name, price, change, positive, sparklineData, onRemo
   );
   return (
     <div className="group/card relative w-[212px] h-[224px] rounded-[8px] overflow-hidden border border-[#e1e1e1] bg-white pl-[16px] pr-[8px] py-[16px] flex flex-col justify-between cursor-pointer isolate">
-      <div className={cn("absolute inset-[-1px] z-[4] backdrop-blur-[8px] bg-[rgba(255,255,255,0.30)] opacity-0 group-hover/card:opacity-100 transition-opacity duration-200")} />
-      {onRemove && <div className="absolute inset-0 z-[6] flex items-center justify-center opacity-0 group-hover/card:opacity-100 transition-opacity duration-200 pointer-events-none group-hover/card:pointer-events-auto"><span className="text-[16px] font-bold text-[#1a1a1a]">Remove From Watchlist</span></div>}
+      <div className={cn("absolute inset-[-1px] z-[4] backdrop-blur-[8px] bg-[rgba(255,255,255,0.30)] opacity-0 group-hover/card:opacity-100 transition-opacity duration-[var(--duration-short-4)]")} />
+      {onRemove && <div className="absolute inset-0 z-[6] flex items-center justify-center opacity-0 group-hover/card:opacity-100 transition-opacity duration-[var(--duration-short-4)] pointer-events-none group-hover/card:pointer-events-auto"><span className="text-[16px] font-bold text-[#1a1a1a]">Remove From Watchlist</span></div>}
       <div className="relative z-[3] flex items-start justify-between">
         <div className="flex items-start gap-[8px]">
           <div className="size-[32px] rounded-full bg-[#f4f4f4] flex items-center justify-center shrink-0"><span className="text-[10px] font-bold text-[#525252]">{symbol.slice(0, 2)}</span></div>
           <div className="flex flex-col"><span className="text-[16px] font-medium leading-[24px]" style={{ color: "var(--color-text-primary)" }}>{name}</span><span className="text-[12px] leading-[16px]" style={{ color: "var(--color-text-tertiary)" }}>{symbol}</span></div>
         </div>
-        {onRemove && <button type="button" onClick={e => { e.stopPropagation(); onRemove() }} className="relative z-[6] flex items-center justify-center shrink-0 size-[22px] rounded-full opacity-0 group-hover/card:opacity-100 transition-opacity duration-200 cursor-pointer" style={{ color: "var(--color-text-primary)" }}><X size={16} /></button>}
+        {onRemove && <button type="button" onClick={e => { e.stopPropagation(); onRemove() }} className="relative z-[6] flex items-center justify-center shrink-0 size-[22px] rounded-full opacity-0 group-hover/card:opacity-100 transition-opacity duration-[var(--duration-short-4)] cursor-pointer" style={{ color: "var(--color-text-primary)" }}><X size={16} /></button>}
       </div>
       <div className="absolute left-0 top-[80px] z-[1] w-full h-[50px] pointer-events-none flex items-center justify-center"><Sparkline data={sparklineData} positive={positive} /></div>
       <div className="relative z-[2] flex flex-col gap-0">

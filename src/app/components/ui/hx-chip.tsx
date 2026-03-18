@@ -25,7 +25,7 @@ export function Chip({ color = "white", variant = "round", size = "md", icon, ri
 
   return (
     <button type="button" disabled={disabled} onClick={onClick}
-      className={cn("inline-flex items-center select-none border transition-colors duration-100 font-sans", !onClick && !onRemove && "cursor-default", disabled && "cursor-not-allowed", s.chip, s.radius[variant], colorCls, className)} {...props}>
+      className={cn("inline-flex items-center select-none border transition-all duration-[var(--duration-short-2)] font-sans active:scale-[0.97]", !onClick && !onRemove && "cursor-default", disabled && "cursor-not-allowed", s.chip, s.radius[variant], colorCls, className)} {...props}>
       <span className={cn("flex items-center", s.innerGap)}>
         <span className={cn("flex items-center", s.innerGap)}>
           {icon && <span className={cn("shrink-0 flex items-center justify-center", s.iconSize, disabled && "opacity-40")}>{icon}</span>}
@@ -34,7 +34,7 @@ export function Chip({ color = "white", variant = "round", size = "md", icon, ri
         </span>
         {counter !== undefined && <span className={cn("shrink-0 flex items-center justify-center rounded-full overflow-hidden font-medium size-6 text-[14px]", isActive ? "bg-white text-[#1a1a1a]" : "bg-[#f4f4f4] text-[#1a1a1a]")}>{counter}</span>}
       </span>
-      {onRemove && <span role="button" tabIndex={disabled ? -1 : 0} aria-label="Remove" onClick={e => { e.stopPropagation(); if (!disabled) onRemove() }} className={cn("shrink-0 flex items-center justify-center rounded-full opacity-60 hover:opacity-100 transition-opacity", disabled && "pointer-events-none opacity-30", s.closeSize)}><X className="size-full" /></span>}
+      {onRemove && <span role="button" tabIndex={disabled ? -1 : 0} aria-label="Remove" onClick={e => { e.stopPropagation(); if (!disabled) onRemove() }} className={cn("shrink-0 flex items-center justify-center rounded-full opacity-60 hover:opacity-100 hover:rotate-90 transition-all duration-[var(--duration-short-3)]", disabled && "pointer-events-none opacity-30", s.closeSize)}><X className="size-full" /></span>}
     </button>
   )
 }

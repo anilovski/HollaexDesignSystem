@@ -36,7 +36,7 @@ function DatePicker({ size = "lg", label, placeholder = "dd/mm/yyyy", state = "d
           <span className={cn("flex-1 text-left text-[14px] font-sans", selected ? "text-[var(--color-text-primary)]" : "text-[#a0a0a0]")}>{selected ? formatDate(selected) : placeholder}</span>
           <Calendar size={16} className="shrink-0 text-[#a0a0a0]" />
         </button>
-        <span aria-hidden className={cn("absolute bottom-0 left-0 right-0 h-[2px] origin-left transition-transform duration-300 ease-[cubic-bezier(0.25,0.1,0.25,1)]", open ? "scale-x-100" : "scale-x-0")} style={{ backgroundColor: isError ? "var(--danger-default)" : "var(--brand-default)" }} />
+        <span aria-hidden className={cn("absolute bottom-0 left-0 right-0 h-[2px] origin-left transition-transform duration-[var(--duration-medium-2)] ease-[cubic-bezier(0.25,0.1,0.25,1)]", open ? "scale-x-100" : "scale-x-0")} style={{ backgroundColor: isError ? "var(--danger-default)" : "var(--brand-default)" }} />
       </div>
       {isError && errorText && <span className="text-[12px] pt-[4px] text-[var(--danger-default)]">{errorText}</span>}
       {state === "warning" && warningText && <span className="text-[12px] pt-[4px] text-[#D4A017]">{warningText}</span>}

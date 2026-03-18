@@ -1,5 +1,7 @@
 import { ComponentPage, Section, ExampleGrid, ExampleRow } from "../docs/component-page";
 import { HxSkeleton, SkeletonCard, SkeletonListItem, SkeletonAvatar, SkeletonTable } from "../ui/hx-skeleton";
+import { SkeletonCrossfade } from "../ui/hx-skeleton-crossfade";
+import { useState, useEffect, type ReactNode } from "react";
 
 export function SkeletonPage() {
   return (
@@ -93,11 +95,132 @@ export function SkeletonPage() {
           </div>
         </ExampleRow>
       </Section>
+
+      <Section title="Crossfade Transition" description="SkeletonCrossfade wraps a skeleton and its real content, applying a blur-to-sharp crossfade when loading completes. Supports custom duration, easing, and blur toggle — all driven by CSS variables.">
+        <ExampleGrid label="Default crossfade (blur + decelerate)">
+          <CrossfadeDemo />
+        </ExampleGrid>
+        <ExampleGrid label="Custom timing — slow reveal, no blur">
+          <CrossfadeDemo
+            duration="var(--duration-long-1)"
+            easing="var(--ease-standard)"
+            blur={false}
+          />
+        </ExampleGrid>
+        <ExampleGrid label="Fast crossfade — quick entrance">
+          <CrossfadeDemo
+            duration="var(--duration-short-4)"
+            easing="var(--ease-emphasized-decelerate)"
+            blur
+          />
+        </ExampleGrid>
+      </Section>
     </ComponentPage>
   );
 }
 
-function Label({ children }: { children: React.ReactNode }) {
+function CrossfadeDemo({
+  duration,
+  easing,
+  blur,
+}: {
+  duration?: string
+  easing?: string
+  blur?: boolean
+}) {
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const t = setTimeout(() => setLoading(false), 2000)
+    return () => clearTimeout(t)
+  }, [])
+
+  const restart = () => {
+    setLoading(true)
+    setTimeout(() => setLoading(false), 2000)
+  }
+
+  return (
+    <div className="flex flex-col" style={{ gap: "var(--space-4)" }}>
+      <SkeletonCrossfade
+        loading={loading}
+        skeleton={<SkeletonCard />}
+        {...(duration ? { duration } : {})}
+        {...(easing ? { easing } : {})}
+        {...(blur !== undefined ? { blur } : {})}
+      >
+        <div
+          className="border rounded-lg overflow-hidden"
+          style={{ borderColor: "var(--border-subtle)", width: 280 }}
+        >
+          <div
+            style={{
+              height: 140,
+              background: "linear-gradient(135deg, var(--brand-subtle) 0%, var(--brand-default) 100%)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <span
+              style={{
+                color: "var(--brand-fg)",
+                fontFamily: "var(--font-family-supreme)",
+                fontWeight: "var(--font-weight-bold)",
+                fontSize: "var(--text-h5)",
+              }}
+            >
+              Content Loaded
+            </span>
+          </div>
+          <div style={{ padding: "var(--space-4)" }}>
+            <span
+              style={{
+                fontFamily: "var(--font-family-supreme)",
+                fontWeight: "var(--font-weight-medium)",
+                fontSize: "var(--text-base)",
+                color: "var(--color-text-primary)",
+                display: "block",
+              }}
+            >
+              Card Title
+            </span>
+            <p
+              style={{
+                fontFamily: "var(--font-family-supreme)",
+                fontSize: "var(--text-label)",
+                color: "var(--color-text-secondary)",
+                marginTop: "var(--space-2)",
+                lineHeight: 1.5,
+              }}
+            >
+              This content faded in from a skeleton placeholder using the blur-to-sharp crossfade animation.
+            </p>
+          </div>
+        </div>
+      </SkeletonCrossfade>
+
+      <button
+        type="button"
+        onClick={restart}
+        className="cursor-pointer"
+        style={{
+          fontFamily: "var(--font-family-supreme)",
+          fontSize: "var(--text-label)",
+          color: "var(--brand-default)",
+          background: "none",
+          border: "none",
+          padding: 0,
+          fontWeight: "var(--font-weight-medium)",
+        }}
+      >
+        Replay crossfade
+      </button>
+    </div>
+  )
+}
+
+function Label({ children }: { children: ReactNode }) {
   return (
     <span style={{
       fontSize: "var(--text-caption)",

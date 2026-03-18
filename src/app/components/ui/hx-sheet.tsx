@@ -136,14 +136,14 @@ export function HxSheet({
             <button
               type="button"
               onClick={handleClose}
-              className="shrink-0 flex items-center justify-center rounded-full cursor-pointer"
+              className="shrink-0 flex items-center justify-center rounded-full cursor-pointer hover:rotate-90"
               style={{
                 width: 28,
                 height: 28,
                 color: "var(--color-text-tertiary)",
                 backgroundColor: "transparent",
                 border: "none",
-                transition: "background var(--motion-hover)",
+                transition: "background var(--motion-hover), transform var(--duration-short-4) var(--ease-emphasized-decelerate)",
               }}
               onMouseEnter={e => e.currentTarget.style.backgroundColor = "var(--secondary-subtle)"}
               onMouseLeave={e => e.currentTarget.style.backgroundColor = "transparent"}

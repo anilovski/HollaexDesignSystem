@@ -126,7 +126,7 @@ export function HxPagination({
       {/* ── Center: Prev / Pages / Next ───────────────── */}
       <div className="flex items-center" style={{ gap: "var(--space-1)" }}>
         {/* Previous */}
-        <NavButton disabled={!canPrev} onClick={() => onPageChange(currentPage - 1)} s={s} aria-label="Previous page">
+        <NavButton disabled={!canPrev} onClick={() => onPageChange(currentPage - 1)} s={s} aria-label="Previous page" nudge="left">
           <ChevronLeft size={s.iconSize} />
         </NavButton>
 
@@ -161,7 +161,7 @@ export function HxPagination({
         )}
 
         {/* Next */}
-        <NavButton disabled={!canNext} onClick={() => onPageChange(currentPage + 1)} s={s} aria-label="Next page">
+        <NavButton disabled={!canNext} onClick={() => onPageChange(currentPage + 1)} s={s} aria-label="Next page" nudge="right">
           <ChevronRight size={s.iconSize} />
         </NavButton>
       </div>
@@ -186,19 +186,21 @@ function NavButton({
   disabled,
   onClick,
   s,
+  nudge,
   ...rest
 }: {
   children: React.ReactNode
   disabled?: boolean
   onClick?: () => void
   s: typeof SIZES["md"]
+  nudge?: "left" | "right"
 } & React.ButtonHTMLAttributes<HTMLButtonElement>) {
   return (
     <button
       type="button"
       disabled={disabled}
       onClick={onClick}
-      className="inline-flex items-center justify-center select-none cursor-pointer disabled:cursor-not-allowed rounded-[var(--radius-button)]"
+      className="group inline-flex items-center justify-center select-none cursor-pointer disabled:cursor-not-allowed rounded-[var(--radius-button)]"
       style={{
         width: s.height,
         height: s.height,
@@ -213,7 +215,16 @@ function NavButton({
       onMouseLeave={e => { e.currentTarget.style.backgroundColor = "transparent"; e.currentTarget.style.borderColor = "var(--border-subtle)" }}
       {...rest}
     >
-      {children}
+      <span
+        className={cn(
+          "inline-flex transition-transform duration-[var(--duration-short-3)]",
+          nudge === "left" && "group-hover:-translate-x-0.5 group-active:-translate-x-1",
+          nudge === "right" && "group-hover:translate-x-0.5 group-active:translate-x-1",
+        )}
+        style={{ transitionTimingFunction: "var(--ease-standard)" }}
+      >
+        {children}
+      </span>
     </button>
   )
 }
@@ -345,7 +356,7 @@ function PageSelectDropdown({
             animation: "toast-enter 180ms var(--ease-emphasized-decelerate) forwards",
           }}
         >
-          {range(1, totalPages).map(p => (
+          {range(1, totalPages).map((p, idx) => (
             <button
               key={p}
               type="button"
@@ -365,6 +376,8 @@ function PageSelectDropdown({
                 borderRadius: "var(--radius-xs)",
                 transition: "background var(--motion-hover)",
                 padding: `0 var(--space-2)`,
+                animation: `hx-menu-item-in var(--duration-short-4) var(--ease-emphasized-decelerate) both`,
+                animationDelay: `${Math.min(idx, 8) * 20}ms`,
               }}
               onMouseEnter={e => { if (p !== currentPage) e.currentTarget.style.backgroundColor = "var(--table-pagination-hover-bg)" }}
               onMouseLeave={e => { if (p !== currentPage) e.currentTarget.style.backgroundColor = "transparent" }}

@@ -51,16 +51,41 @@ const AccordionItem = React.forwardRef<HTMLDivElement, AccordionItemProps>(
     const toggle = () => { if (disabled) return; const next = !isOpen; if (!isControlled) setInternalOpen(next); onOpenChange?.(next) }
     const sc = SIZE_CONFIG[size]; const stc = STYLE_CONFIG[style]
 
+    const contentRef = React.useRef<HTMLDivElement>(null)
+    const [contentHeight, setContentHeight] = React.useState<number | undefined>(undefined)
+
+    React.useEffect(() => {
+      if (contentRef.current) setContentHeight(contentRef.current.scrollHeight)
+    }, [children])
+
+    React.useEffect(() => {
+      const el = contentRef.current
+      if (!el) return
+      const ro = new ResizeObserver(() => { if (isOpen) setContentHeight(el.scrollHeight) })
+      ro.observe(el)
+      return () => ro.disconnect()
+    }, [isOpen])
+
     return (
       <div ref={ref} className={cn("w-full flex flex-col", stc.bg, !flush && stc.border, disabled && "opacity-50", className)} {...props}>
         <button type="button" onClick={toggle} disabled={disabled} aria-expanded={isOpen}
-          className={cn("w-full flex items-center gap-[8px] px-[16px] text-left", sc.py, "cursor-pointer transition-colors duration-150", !disabled && stc.hoverBg, "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-inset", "disabled:cursor-not-allowed disabled:pointer-events-none")}>
+          className={cn("w-full flex items-center gap-[8px] px-[16px] text-left", sc.py, "cursor-pointer transition-colors duration-[var(--duration-short-3)]", !disabled && stc.hoverBg, "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-inset", "disabled:cursor-not-allowed disabled:pointer-events-none")}>
           {leftSlot && <span className="shrink-0 flex items-center justify-center" style={{ width: sc.iconSlot, height: sc.iconSlot }}>{leftSlot}</span>}
-          {alignment === "left" && <span className="shrink-0 flex items-center justify-center size-[16px]"><Plus size={12} className="text-[var(--color-text-primary)] transition-transform duration-200 ease-in-out" style={{ transform: isOpen ? "rotate(45deg)" : "rotate(0deg)" }} /></span>}
+          {alignment === "left" && <span className="shrink-0 flex items-center justify-center size-[16px]"><Plus size={12} className="text-[var(--color-text-primary)] transition-transform duration-[var(--duration-short-4)] ease-in-out" style={{ transform: isOpen ? "rotate(45deg)" : "rotate(0deg)" }} /></span>}
           <span className={cn("flex-1 font-bold font-sans text-[var(--color-text-primary)]", sc.text, sc.lh)}>{title}</span>
-          {alignment === "right" && <span className="shrink-0 flex items-center justify-center size-[16px]"><Plus size={12} className="text-[var(--color-text-primary)] transition-transform duration-200 ease-in-out" style={{ transform: isOpen ? "rotate(45deg)" : "rotate(0deg)" }} /></span>}
+          {alignment === "right" && <span className="shrink-0 flex items-center justify-center size-[16px]"><Plus size={12} className="text-[var(--color-text-primary)] transition-transform duration-[var(--duration-short-4)] ease-in-out" style={{ transform: isOpen ? "rotate(45deg)" : "rotate(0deg)" }} /></span>}
         </button>
-        {isOpen && <div className="px-[16px] pb-[24px] pt-[8px] flex flex-col gap-[16px] items-start">{children}</div>}
+        <div
+          ref={contentRef}
+          style={{
+            overflow: "hidden",
+            maxHeight: isOpen ? (contentHeight ?? 1000) : 0,
+            opacity: isOpen ? 1 : 0,
+            transition: `max-height var(--duration-medium-4) ${isOpen ? "var(--ease-emphasized-decelerate)" : "var(--ease-emphasized-accelerate)"}, opacity var(--duration-short-4) ${isOpen ? "var(--ease-standard-decelerate)" : "var(--ease-standard-accelerate)"}`,
+          }}
+        >
+          <div className="px-[16px] pb-[24px] pt-[8px] flex flex-col gap-[16px] items-start">{children}</div>
+        </div>
       </div>
     )
   }

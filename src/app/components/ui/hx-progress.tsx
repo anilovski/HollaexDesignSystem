@@ -13,18 +13,18 @@ const ProgressBar = React.forwardRef<HTMLDivElement, ProgressBarProps>(({ value:
 
   if (label === "inside") return (
     <div ref={ref} role="progressbar" aria-valuenow={value} aria-valuemin={0} aria-valuemax={100} className={cn("w-full font-sans", className)} {...props}>
-      <div className="relative h-5 w-full"><div className="absolute inset-0 rounded-full" style={{ backgroundColor: trackColor }} /><div className="absolute top-0.5 bottom-0.5 left-0.5 rounded-full transition-all duration-500 ease-out" style={{ width: `calc(${value}% - 4px)`, backgroundColor: fillColor }} /><div className="absolute top-1/2 -translate-y-1/2 right-0.5 rounded-full px-1 flex items-center justify-center" style={{ backgroundColor: "#1a1a1a" }}><span className="text-[12px] leading-[16px] font-bold text-white whitespace-nowrap">{text}</span></div></div>
+      <div className="relative h-5 w-full"><div className="absolute inset-0 rounded-full" style={{ backgroundColor: trackColor }} /><div className="absolute top-0.5 bottom-0.5 left-0.5 rounded-full transition-all duration-[var(--duration-long-2)] ease-out" style={{ width: `calc(${value}% - 4px)`, backgroundColor: fillColor }} /><div className="absolute top-1/2 -translate-y-1/2 right-0.5 rounded-full px-1 flex items-center justify-center" style={{ backgroundColor: "#1a1a1a" }}><span className="text-[12px] leading-[16px] font-bold text-white whitespace-nowrap">{text}</span></div></div>
     </div>
   )
   if (label === "right") return (
     <div ref={ref} role="progressbar" aria-valuenow={value} className={cn("flex items-center gap-2 w-full font-sans", className)} {...props}>
-      <div className="relative flex-1 h-3"><div className="absolute inset-0 rounded-full" style={{ backgroundColor: trackColor }} /><div className="absolute top-0.5 bottom-0.5 left-0.5 rounded-full transition-all duration-500 ease-out" style={{ width: value > 0 ? `calc(${value}% - 4px)` : "0px", backgroundColor: fillColor }} /></div>
+      <div className="relative flex-1 h-3"><div className="absolute inset-0 rounded-full" style={{ backgroundColor: trackColor }} /><div className="absolute top-0.5 bottom-0.5 left-0.5 rounded-full transition-all duration-[var(--duration-long-2)] ease-out" style={{ width: value > 0 ? `calc(${value}% - 4px)` : "0px", backgroundColor: fillColor }} /></div>
       <span className="text-[14px] leading-[22px] font-bold whitespace-nowrap shrink-0 w-10 text-right" style={{ color: "var(--color-text-primary)" }}>{text}</span>
     </div>
   )
   return (
     <div ref={ref} role="progressbar" aria-valuenow={value} className={cn("w-full font-sans", className)} {...props}>
-      <div className="relative h-3 w-full"><div className="absolute inset-0 rounded-full" style={{ backgroundColor: trackColor }} /><div className="absolute top-0.5 bottom-0.5 left-0.5 rounded-full transition-all duration-500 ease-out" style={{ width: value > 0 ? `calc(${value}% - 4px)` : "0px", backgroundColor: fillColor }} /></div>
+      <div className="relative h-3 w-full"><div className="absolute inset-0 rounded-full" style={{ backgroundColor: trackColor }} /><div className="absolute top-0.5 bottom-0.5 left-0.5 rounded-full transition-all duration-[var(--duration-long-2)] ease-out" style={{ width: value > 0 ? `calc(${value}% - 4px)` : "0px", backgroundColor: fillColor }} /></div>
     </div>
   )
 })
@@ -56,7 +56,7 @@ const ProgressCircle = React.forwardRef<HTMLDivElement, ProgressCircleProps>(({ 
       <div ref={ref} role="progressbar" aria-valuenow={value} className={cn("relative inline-flex items-end justify-center font-sans", className)} style={{ width: px, height: aspectH }} {...props}>
         <svg viewBox={`0 0 ${viewBoxSize} ${viewBoxSize / 2 + strokeWidth}`} className="absolute top-0 left-0 w-full" style={{ height: aspectH }}>
           <path d={describeArc(center, center, radius, 180, 360)} fill="none" stroke={trackColor} strokeWidth={strokeWidth} strokeLinecap="round" />
-          <path d={describeArc(center, center, radius, 180, 360)} fill="none" stroke={fillColor} strokeWidth={strokeWidth} strokeLinecap="round" strokeDasharray={halfCircumference} strokeDashoffset={offset} className="transition-all duration-700 ease-out" />
+          <path d={describeArc(center, center, radius, 180, 360)} fill="none" stroke={fillColor} strokeWidth={strokeWidth} strokeLinecap="round" strokeDasharray={halfCircumference} strokeDashoffset={offset} className="transition-all duration-[var(--duration-extra-long-1)] ease-out" />
         </svg>
         {showValue && <div className="absolute inset-0 flex flex-col items-center justify-end pb-0">{label && <span className={cn("font-medium", LABEL_TEXT[size])} style={{ color: "var(--color-text-tertiary)" }}>{label}</span>}<span className={cn("font-bold", VALUE_TEXT[size])} style={{ color: "var(--color-text-primary)" }}>{text}</span></div>}
       </div>
@@ -67,7 +67,7 @@ const ProgressCircle = React.forwardRef<HTMLDivElement, ProgressCircleProps>(({ 
     <div ref={ref} role="progressbar" aria-valuenow={value} className={cn("relative inline-flex items-center justify-center font-sans", className)} style={{ width: px, height: px }} {...props}>
       <svg viewBox={`0 0 ${viewBoxSize} ${viewBoxSize}`} className="w-full h-full -rotate-90">
         <circle cx={center} cy={center} r={radius} fill="none" stroke={trackColor} strokeWidth={strokeWidth} />
-        <circle cx={center} cy={center} r={radius} fill="none" stroke={fillColor} strokeWidth={strokeWidth} strokeLinecap="round" strokeDasharray={circumference} strokeDashoffset={offset} className="transition-all duration-700 ease-out" />
+        <circle cx={center} cy={center} r={radius} fill="none" stroke={fillColor} strokeWidth={strokeWidth} strokeLinecap="round" strokeDasharray={circumference} strokeDashoffset={offset} className="transition-all duration-[var(--duration-extra-long-1)] ease-out" />
       </svg>
       {showValue && <div className="absolute inset-0 flex flex-col items-center justify-center">{label && <span className={cn("font-medium -mb-1", LABEL_TEXT[size])} style={{ color: "var(--color-text-tertiary)" }}>{label}</span>}<span className={cn("font-bold", VALUE_TEXT[size])} style={{ color: "var(--color-text-primary)" }}>{text}</span></div>}
     </div>

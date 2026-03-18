@@ -254,7 +254,7 @@ export function HxModalHeader({
         <button
           onClick={onClose}
           aria-label="Close modal"
-          className="shrink-0 inline-flex items-center justify-center cursor-pointer transition-colors duration-150"
+          className="shrink-0 inline-flex items-center justify-center cursor-pointer transition-all duration-[var(--duration-short-3)] hover:rotate-90"
           style={{
             width: "28px",
             height: "28px",

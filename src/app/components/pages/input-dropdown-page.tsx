@@ -40,16 +40,17 @@ function InputDropdown({ color = "gray", corners = "sharp", size = "lg", state, 
             </button>
             {dropOpen && coins.length > 0 && (
               <div className="absolute right-0 top-full mt-[4px] z-50 min-w-[160px] rounded-[6px] border border-[#e1e1e1] bg-white shadow-lg py-[4px]">
-                {coins.map(c => (
+                {coins.map((c, idx) => (
                   <button key={c.symbol} type="button" onClick={() => { setCoin(c.symbol); setDropOpen(false) }}
-                    className={cn("flex items-center gap-[8px] w-full px-[12px] py-[8px] text-[13px] cursor-pointer transition-colors", c.symbol === coin ? "bg-[#e9effd] font-medium" : "hover:bg-[#f4f4f4]")}>
+                    className={cn("flex items-center gap-[8px] w-full px-[12px] py-[8px] text-[13px] cursor-pointer transition-colors", c.symbol === coin ? "bg-[#e9effd] font-medium" : "hover:bg-[#f4f4f4]")}
+                    style={{ animation: `hx-menu-item-in var(--duration-short-4) var(--ease-emphasized-decelerate) both`, animationDelay: `${idx * 30}ms` }}>
                     <div className="size-4 rounded-full bg-[#e1e1e1]" /><span className="font-medium">{c.symbol}</span>{c.name && <span className="text-[#a0a0a0]">{c.name}</span>}
                   </button>
                 ))}
               </div>
             )}
           </div>
-          <span aria-hidden className="absolute bottom-0 left-0 right-0 h-[2px] origin-left scale-x-0 group-focus-within:scale-x-100" style={{ backgroundColor: focusLineColor, transition: "transform var(--motion-focus-line)" }} />
+          <span aria-hidden className="absolute bottom-0 left-0 right-0 h-[2px] origin-left scale-x-0 group-focus-within:scale-x-100 transition-transform duration-[var(--duration-medium-2)] ease-[cubic-bezier(0.25,0.1,0.25,1)]" style={{ backgroundColor: focusLineColor }} />
         </div>
       </div>
       {isError && errorText && <span className="text-[12px] pt-[4px] text-[var(--danger-default)]">{errorText}</span>}

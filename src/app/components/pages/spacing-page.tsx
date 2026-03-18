@@ -3,6 +3,7 @@ import { useOutletContext } from "react-router";
 import { SearchTrigger } from "../docs/search-command";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { Copy, Check } from "lucide-react";
+import { SectionJumpFab } from "../docs/section-jump-fab";
 
 /* ══════════════════════════════════════════════════════════════
    COPY BUTTON
@@ -21,7 +22,7 @@ function CopyButton({ text }: { text: string }) {
     <button
       type="button"
       onClick={copy}
-      className="flex items-center justify-center transition-all duration-150 cursor-pointer"
+      className="flex items-center justify-center transition-all duration-[var(--duration-short-3)] cursor-pointer"
       style={{
         width: 28,
         height: 28,
@@ -70,10 +71,10 @@ function CodeBlock({ code, label }: { code: string; label?: string }) {
           <span
             style={{
               fontFamily: "var(--font-family-mono)",
-              fontSize: "10px",
+              fontSize: "var(--text-overline)",
               color: "var(--muted-foreground)",
               textTransform: "uppercase",
-              letterSpacing: "0.08em",
+              letterSpacing: "var(--ls-overline)",
               fontWeight: "var(--font-weight-bold)" as any,
             }}
           >
@@ -91,7 +92,7 @@ function CodeBlock({ code, label }: { code: string; label?: string }) {
         <code
           style={{
             fontFamily: "var(--font-family-mono)",
-            fontSize: "13px",
+            fontSize: "var(--text-body-sm)",
             color: "var(--foreground)",
             lineHeight: 1.6,
             whiteSpace: "pre-wrap",
@@ -189,9 +190,9 @@ const TAB_ITEMS: { value: SpacingTab; label: string }[] = [
    ══════════════════════════════════════════════════════════════ */
 
 const headStyle: React.CSSProperties = {
-  fontSize: "10px",
+  fontSize: "var(--text-overline)",
   fontWeight: 700,
-  letterSpacing: "0.14em",
+  letterSpacing: "var(--ls-overline)",
   textTransform: "uppercase",
   color: "var(--muted-foreground)",
   fontFamily: "var(--font-family-supreme)",
@@ -211,16 +212,17 @@ function ScaleTab() {
     <div className="flex flex-col" style={{ gap: "var(--space-9)" }}>
       {categories.map((cat) => {
         const steps = spacingScale.filter((s) => s.category === cat);
+        const catId = `spacing-${cat}`;
         return (
-          <div key={cat}>
+          <div key={cat} id={catId} data-section-title={CATEGORY_LABELS[cat]} className="section-block">
             {/* Category label */}
             <div style={{ marginBottom: 6 }}>
               <span
                 style={{
                   fontFamily: "var(--font-family-supreme)",
-                  fontSize: "11px",
+                  fontSize: "var(--text-caption)",
                   fontWeight: "var(--font-weight-bold)" as any,
-                  letterSpacing: "0.12em",
+                  letterSpacing: "var(--ls-overline)",
                   textTransform: "uppercase",
                   color: "var(--muted-foreground)",
                 }}
@@ -231,7 +233,7 @@ function ScaleTab() {
             <p
               style={{
                 fontFamily: "var(--font-family-supreme)",
-                fontSize: "12px",
+                fontSize: "var(--text-meta)",
                 color: "var(--color-text-tertiary)",
                 lineHeight: 1.5,
                 marginBottom: "var(--space-5)",
@@ -284,7 +286,7 @@ function ScaleTab() {
                     <span
                       style={{
                         fontFamily: "var(--font-family-mono)",
-                        fontSize: "12px",
+                        fontSize: "var(--text-body-sm)",
                         fontWeight: "var(--font-weight-medium)" as any,
                         color: "var(--foreground)",
                       }}
@@ -296,7 +298,7 @@ function ScaleTab() {
                       className="tabular-nums"
                       style={{
                         fontFamily: "var(--font-family-mono)",
-                        fontSize: "11px",
+                        fontSize: "var(--text-caption)",
                         color: "var(--muted-foreground)",
                       }}
                     >
@@ -307,7 +309,7 @@ function ScaleTab() {
                       className="tabular-nums"
                       style={{
                         fontFamily: "var(--font-family-mono)",
-                        fontSize: "11px",
+                        fontSize: "var(--text-caption)",
                         color: "var(--muted-foreground)",
                       }}
                     >
@@ -330,7 +332,7 @@ function ScaleTab() {
                     <span
                       style={{
                         fontFamily: "var(--font-family-supreme)",
-                        fontSize: "11px",
+                        fontSize: "var(--text-caption)",
                         color: "var(--color-text-tertiary)",
                         lineHeight: 1.4,
                       }}
@@ -356,14 +358,14 @@ function TokensTab() {
   return (
     <div className="flex flex-col" style={{ gap: "var(--space-9)" }}>
       {/* Base scale tokens */}
-      <div>
+      <div id="spacing-base-scale" data-section-title="Base Scale" className="section-block">
         <div style={{ marginBottom: 6 }}>
           <span
             style={{
               fontFamily: "var(--font-family-supreme)",
-              fontSize: "11px",
+              fontSize: "var(--text-caption)",
               fontWeight: "var(--font-weight-bold)" as any,
-              letterSpacing: "0.12em",
+              letterSpacing: "var(--ls-overline)",
               textTransform: "uppercase",
               color: "var(--muted-foreground)",
             }}
@@ -374,13 +376,13 @@ function TokensTab() {
         <p
           style={{
             fontFamily: "var(--font-family-supreme)",
-            fontSize: "12px",
+            fontSize: "var(--text-meta)",
             color: "var(--color-text-tertiary)",
             lineHeight: 1.5,
             marginBottom: "var(--space-5)",
           }}
         >
-          17 steps from 0 to 160px. All tokens live in <code style={{ fontFamily: "var(--font-family-mono)", fontSize: "12px", backgroundColor: "var(--secondary)", padding: "1px 5px", borderRadius: "var(--radius-xs)" }}>:root</code> and are theme-independent.
+          17 steps from 0 to 160px. All tokens live in <code style={{ fontFamily: "var(--font-family-mono)", fontSize: "var(--text-meta)", backgroundColor: "var(--secondary)", padding: "1px 5px", borderRadius: "var(--radius-xs)" }}>:root</code> and are theme-independent.
         </p>
 
         <div
@@ -421,7 +423,7 @@ function TokensTab() {
                 <span
                   style={{
                     fontFamily: "var(--font-family-mono)",
-                    fontSize: "12px",
+                    fontSize: "var(--text-meta)",
                     color: "var(--color-text-brand)",
                   }}
                 >
@@ -433,7 +435,7 @@ function TokensTab() {
                 className="tabular-nums"
                 style={{
                   fontFamily: "var(--font-family-mono)",
-                  fontSize: "11px",
+                  fontSize: "var(--text-caption)",
                   color: "var(--muted-foreground)",
                 }}
               >
@@ -443,7 +445,7 @@ function TokensTab() {
               <span
                 style={{
                   fontFamily: "var(--font-family-supreme)",
-                  fontSize: "11px",
+                  fontSize: "var(--text-caption)",
                   color: "var(--color-text-tertiary)",
                   textTransform: "capitalize",
                 }}
@@ -456,14 +458,14 @@ function TokensTab() {
       </div>
 
       {/* Component tokens */}
-      <div>
+      <div id="spacing-component" data-section-title="Component Spacing" className="section-block">
         <div style={{ marginBottom: 6 }}>
           <span
             style={{
               fontFamily: "var(--font-family-supreme)",
-              fontSize: "11px",
+              fontSize: "var(--text-caption)",
               fontWeight: "var(--font-weight-bold)" as any,
-              letterSpacing: "0.12em",
+              letterSpacing: "var(--ls-overline)",
               textTransform: "uppercase",
               color: "var(--muted-foreground)",
             }}
@@ -474,7 +476,7 @@ function TokensTab() {
         <p
           style={{
             fontFamily: "var(--font-family-supreme)",
-            fontSize: "12px",
+            fontSize: "var(--text-meta)",
             color: "var(--color-text-tertiary)",
             lineHeight: 1.5,
             marginBottom: "var(--space-5)",
@@ -522,7 +524,7 @@ function TokensTab() {
                 <span
                   style={{
                     fontFamily: "var(--font-family-mono)",
-                    fontSize: "12px",
+                    fontSize: "var(--text-meta)",
                     color: "var(--color-text-brand)",
                   }}
                 >
@@ -534,7 +536,7 @@ function TokensTab() {
                 className="tabular-nums"
                 style={{
                   fontFamily: "var(--font-family-mono)",
-                  fontSize: "11px",
+                  fontSize: "var(--text-caption)",
                   color: "var(--muted-foreground)",
                 }}
               >
@@ -543,7 +545,7 @@ function TokensTab() {
               <span
                 style={{
                   fontFamily: "var(--font-family-supreme)",
-                  fontSize: "11px",
+                  fontSize: "var(--text-caption)",
                   fontWeight: "var(--font-weight-medium)" as any,
                   color: "var(--foreground)",
                 }}
@@ -553,7 +555,7 @@ function TokensTab() {
               <span
                 style={{
                   fontFamily: "var(--font-family-supreme)",
-                  fontSize: "11px",
+                  fontSize: "var(--text-caption)",
                   color: "var(--color-text-tertiary)",
                 }}
               >
@@ -565,14 +567,14 @@ function TokensTab() {
       </div>
 
       {/* Usage code blocks */}
-      <div>
+      <div id="spacing-usage" data-section-title="Usage" className="section-block">
         <div style={{ marginBottom: 6 }}>
           <span
             style={{
               fontFamily: "var(--font-family-supreme)",
-              fontSize: "11px",
+              fontSize: "var(--text-caption)",
               fontWeight: "var(--font-weight-bold)" as any,
-              letterSpacing: "0.12em",
+              letterSpacing: "var(--ls-overline)",
               textTransform: "uppercase",
               color: "var(--muted-foreground)",
             }}
@@ -641,7 +643,7 @@ function GuidelinesTab() {
             color: "var(--brand-fg)",
             borderRadius: "var(--radius-button)",
             fontFamily: "var(--font-family-supreme)",
-            fontSize: "14px",
+            fontSize: "var(--text-body)",
             fontWeight: "var(--font-weight-medium)" as any,
           }}
         >
@@ -665,7 +667,7 @@ function GuidelinesTab() {
           <div
             style={{
               fontFamily: "var(--font-family-supreme)",
-              fontSize: "14px",
+              fontSize: "var(--text-body)",
               fontWeight: "var(--font-weight-medium)" as any,
               color: "var(--foreground)",
               marginBottom: "var(--space-2)",
@@ -676,12 +678,12 @@ function GuidelinesTab() {
           <div
             style={{
               fontFamily: "var(--font-family-supreme)",
-              fontSize: "12px",
+              fontSize: "var(--text-meta)",
               color: "var(--muted-foreground)",
               lineHeight: 1.5,
             }}
           >
-            Card body content with var(--space-7) padding on all sides.
+            Card body content
           </div>
         </div>
       ),
@@ -696,7 +698,7 @@ function GuidelinesTab() {
               <span
                 style={{
                   fontFamily: "var(--font-family-supreme)",
-                  fontSize: "12px",
+                  fontSize: "var(--text-meta)",
                   fontWeight: "var(--font-weight-medium)" as any,
                   color: "var(--foreground)",
                 }}
@@ -741,7 +743,7 @@ function GuidelinesTab() {
               <div
                 style={{
                   fontFamily: "var(--font-family-supreme)",
-                  fontSize: "13px",
+                  fontSize: "var(--text-body-sm)",
                   fontWeight: "var(--font-weight-medium)" as any,
                   color: "var(--foreground)",
                   marginBottom: "var(--space-2)",
@@ -752,7 +754,7 @@ function GuidelinesTab() {
               <div
                 style={{
                   fontFamily: "var(--font-family-supreme)",
-                  fontSize: "11px",
+                  fontSize: "var(--text-caption)",
                   color: "var(--muted-foreground)",
                 }}
               >
@@ -768,14 +770,14 @@ function GuidelinesTab() {
   return (
     <div className="flex flex-col" style={{ gap: "var(--space-10)" }}>
       {/* Principles */}
-      <div>
+      <div id="spacing-principles" data-section-title="Principles" className="section-block">
         <div style={{ marginBottom: 6 }}>
           <span
             style={{
               fontFamily: "var(--font-family-supreme)",
-              fontSize: "11px",
+              fontSize: "var(--text-caption)",
               fontWeight: "var(--font-weight-bold)" as any,
-              letterSpacing: "0.12em",
+              letterSpacing: "var(--ls-overline)",
               textTransform: "uppercase",
               color: "var(--muted-foreground)",
             }}
@@ -786,7 +788,7 @@ function GuidelinesTab() {
         <p
           style={{
             fontFamily: "var(--font-family-supreme)",
-            fontSize: "12px",
+            fontSize: "var(--text-meta)",
             color: "var(--color-text-tertiary)",
             lineHeight: 1.5,
             marginBottom: "var(--space-7)",
@@ -820,7 +822,7 @@ function GuidelinesTab() {
                       backgroundColor: "var(--brand-default)",
                       color: "var(--brand-fg)",
                       fontFamily: "var(--font-family-mono)",
-                      fontSize: "10px",
+                      fontSize: "var(--text-overline)",
                       fontWeight: "var(--font-weight-bold)" as any,
                     }}
                   >
@@ -829,7 +831,7 @@ function GuidelinesTab() {
                   <span
                     style={{
                       fontFamily: "var(--font-family-supreme)",
-                      fontSize: "14px",
+                      fontSize: "var(--text-body)",
                       fontWeight: "var(--font-weight-medium)" as any,
                       color: "var(--foreground)",
                     }}
@@ -840,7 +842,7 @@ function GuidelinesTab() {
                 <p
                   style={{
                     fontFamily: "var(--font-family-supreme)",
-                    fontSize: "12px",
+                    fontSize: "var(--text-meta)",
                     color: "var(--muted-foreground)",
                     lineHeight: 1.6,
                     marginLeft: 34,
@@ -866,7 +868,7 @@ function GuidelinesTab() {
                         borderRadius: "var(--radius-circle)",
                         backgroundColor: "var(--badge-success-bg)",
                         color: "var(--badge-success-text)",
-                        fontSize: "10px",
+                        fontSize: "var(--text-overline)",
                         fontWeight: 700,
                       }}
                     >
@@ -875,9 +877,9 @@ function GuidelinesTab() {
                     <span
                       style={{
                         fontFamily: "var(--font-family-supreme)",
-                        fontSize: "10px",
+                        fontSize: "var(--text-overline)",
                         fontWeight: "var(--font-weight-bold)" as any,
-                        letterSpacing: "0.1em",
+                        letterSpacing: "var(--ls-overline)",
                         textTransform: "uppercase",
                         color: "var(--badge-success-text)",
                       }}
@@ -888,7 +890,7 @@ function GuidelinesTab() {
                   <pre
                     style={{
                       fontFamily: "var(--font-family-mono)",
-                      fontSize: "11px",
+                      fontSize: "var(--text-caption)",
                       color: "var(--foreground)",
                       lineHeight: 1.6,
                       margin: 0,
@@ -909,7 +911,7 @@ function GuidelinesTab() {
                         borderRadius: "var(--radius-circle)",
                         backgroundColor: "var(--badge-error-bg)",
                         color: "var(--badge-error-text)",
-                        fontSize: "10px",
+                        fontSize: "var(--text-overline)",
                         fontWeight: 700,
                       }}
                     >
@@ -918,9 +920,9 @@ function GuidelinesTab() {
                     <span
                       style={{
                         fontFamily: "var(--font-family-supreme)",
-                        fontSize: "10px",
+                        fontSize: "var(--text-overline)",
                         fontWeight: "var(--font-weight-bold)" as any,
-                        letterSpacing: "0.1em",
+                        letterSpacing: "var(--ls-overline)",
                         textTransform: "uppercase",
                         color: "var(--badge-error-text)",
                       }}
@@ -931,7 +933,7 @@ function GuidelinesTab() {
                   <pre
                     style={{
                       fontFamily: "var(--font-family-mono)",
-                      fontSize: "11px",
+                      fontSize: "var(--text-caption)",
                       color: "var(--foreground)",
                       lineHeight: 1.6,
                       margin: 0,
@@ -949,14 +951,14 @@ function GuidelinesTab() {
       </div>
 
       {/* Context examples */}
-      <div>
+      <div id="spacing-applied-examples" data-section-title="Applied Examples" className="section-block">
         <div style={{ marginBottom: 6 }}>
           <span
             style={{
               fontFamily: "var(--font-family-supreme)",
-              fontSize: "11px",
+              fontSize: "var(--text-caption)",
               fontWeight: "var(--font-weight-bold)" as any,
-              letterSpacing: "0.12em",
+              letterSpacing: "var(--ls-overline)",
               textTransform: "uppercase",
               color: "var(--muted-foreground)",
             }}
@@ -967,7 +969,7 @@ function GuidelinesTab() {
         <p
           style={{
             fontFamily: "var(--font-family-supreme)",
-            fontSize: "12px",
+            fontSize: "var(--text-meta)",
             color: "var(--color-text-tertiary)",
             lineHeight: 1.5,
             marginBottom: "var(--space-7)",
@@ -999,7 +1001,7 @@ function GuidelinesTab() {
                 <span
                   style={{
                     fontFamily: "var(--font-family-supreme)",
-                    fontSize: "11px",
+                    fontSize: "var(--text-caption)",
                     fontWeight: "var(--font-weight-medium)" as any,
                     color: "var(--foreground)",
                   }}
@@ -1009,7 +1011,7 @@ function GuidelinesTab() {
                 <span
                   style={{
                     fontFamily: "var(--font-family-mono)",
-                    fontSize: "10px",
+                    fontSize: "var(--text-overline)",
                     color: "var(--muted-foreground)",
                   }}
                 >
@@ -1050,7 +1052,7 @@ export function SpacingPage() {
 
   return (
     <div
-      className="min-h-screen"
+      className="min-h-full"
       style={{
         backgroundColor: "var(--secondary-subtle)",
         fontFamily: "var(--font-family-supreme)",
@@ -1060,7 +1062,7 @@ export function SpacingPage() {
 
       {/* ── Sticky breadcrumb bar with centered tabs ──────── */}
       <div
-        className="border-b sticky top-0 z-10 transition-shadow duration-200 relative"
+        className="border-b sticky top-0 z-10 transition-shadow duration-[var(--duration-short-4)] relative"
         style={{
           height: 72,
           borderColor: "var(--border-subtle)",
@@ -1071,12 +1073,12 @@ export function SpacingPage() {
         {/* Full-width layer: breadcrumb left, controls right */}
         <div className="h-full flex items-center justify-between relative z-[1]" style={{ padding: "0 var(--space-10)" }}>
           <div className="flex items-center shrink-0" style={{ gap: "var(--space-3)" }}>
-            <span style={{ fontSize: "11px", color: "var(--muted-foreground)", fontFamily: "var(--font-family-supreme)" }}>Foundation</span>
-            <span style={{ fontSize: "11px", color: "var(--border)" }}>&rsaquo;</span>
-            <span style={{ fontSize: "11px", color: "var(--foreground)", fontWeight: "var(--font-weight-bold)" as any, fontFamily: "var(--font-family-supreme)" }}>Spacing</span>
+            <span style={{ fontSize: "var(--text-caption)", color: "var(--muted-foreground)", fontFamily: "var(--font-family-supreme)" }}>Foundation</span>
+            <span style={{ fontSize: "var(--text-caption)", color: "var(--border)" }}>&rsaquo;</span>
+            <span style={{ fontSize: "var(--text-caption)", color: "var(--foreground)", fontWeight: "var(--font-weight-bold)" as any, fontFamily: "var(--font-family-supreme)" }}>Spacing</span>
           </div>
           <div className="flex items-center shrink-0" style={{ gap: "var(--space-5)" }}>
-            <span style={{ fontSize: "11px", color: "var(--muted-foreground)", fontFamily: "var(--font-family-supreme)" }}>{totalTokens} tokens</span>
+            <span style={{ fontSize: "var(--text-caption)", color: "var(--muted-foreground)", fontFamily: "var(--font-family-supreme)" }}>{totalTokens} tokens</span>
             <BreadcrumbSearch />
             <HxThemeToggle size="lg" />
           </div>
@@ -1093,11 +1095,11 @@ export function SpacingPage() {
                   role="tab"
                   aria-selected={isActive}
                   onClick={() => setActiveTab(tab.value)}
-                  className="relative flex items-center justify-center cursor-pointer select-none outline-none transition-colors duration-150"
+                  className="relative flex items-center justify-center cursor-pointer select-none outline-none transition-colors duration-[var(--duration-short-3)]"
                   style={{
                     height: "72px",
                     padding: "0 var(--space-5)",
-                    fontSize: "14px",
+                    fontSize: "var(--text-body)",
                     fontWeight: isActive ? ("var(--font-weight-medium)" as any) : ("var(--font-weight-regular)" as any),
                     color: isActive ? "var(--color-text-primary)" : "var(--color-text-tertiary)",
                     fontFamily: "var(--font-family-supreme)",
@@ -1109,7 +1111,7 @@ export function SpacingPage() {
                 >
                   {tab.label}
                   <span
-                    className="absolute bottom-0 left-0 w-full transition-transform duration-300 origin-left"
+                    className="absolute bottom-0 left-0 w-full transition-transform duration-[var(--duration-medium-2)] origin-left"
                     style={{
                       height: "2px",
                       backgroundColor: "var(--brand-default)",
@@ -1137,11 +1139,11 @@ export function SpacingPage() {
         >
           <h1
             style={{
-              fontSize: "48px",
+              fontSize: "var(--text-huge)",
               fontWeight: "var(--font-weight-bold)" as any,
               color: "var(--foreground)",
-              lineHeight: 1.1,
-              letterSpacing: "-0.02em",
+              lineHeight: "var(--lh-huge)",
+              letterSpacing: "var(--ls-huge)",
               fontFamily: "var(--font-family-supreme)",
               marginBottom: "var(--space-5)",
             }}
@@ -1161,7 +1163,7 @@ export function SpacingPage() {
             <code
               style={{
                 fontFamily: "var(--font-family-mono)",
-                fontSize: "14px",
+                fontSize: "var(--text-body)",
                 backgroundColor: "var(--secondary)",
                 padding: "2px 6px",
                 borderRadius: "var(--radius-xs)",
@@ -1173,7 +1175,7 @@ export function SpacingPage() {
             <code
               style={{
                 fontFamily: "var(--font-family-mono)",
-                fontSize: "14px",
+                fontSize: "var(--text-body)",
                 backgroundColor: "var(--secondary)",
                 padding: "2px 6px",
                 borderRadius: "var(--radius-xs)",
@@ -1227,7 +1229,7 @@ export function SpacingPage() {
         >
           <p
             style={{
-              fontSize: "12px",
+              fontSize: "var(--text-meta)",
               color: "var(--muted-foreground)",
               fontFamily: "var(--font-family-supreme)",
             }}
@@ -1236,15 +1238,16 @@ export function SpacingPage() {
           </p>
           <p
             style={{
-              fontSize: "12px",
+              fontSize: "var(--text-meta)",
               color: "var(--muted-foreground)",
-              fontFamily: "var(--font-family-mono)",
+              fontFamily: "var(--font-family-supreme)",
             }}
           >
-            {spacingScale.length} scale + {componentTokens.length} component &middot; base 4px
+            <span style={{ fontFamily: "var(--font-family-mono)", fontVariantNumeric: "tabular-nums" }}>{spacingScale.length}</span> scale + <span style={{ fontFamily: "var(--font-family-mono)", fontVariantNumeric: "tabular-nums" }}>{componentTokens.length}</span> component &middot; base <span style={{ fontFamily: "var(--font-family-mono)", fontVariantNumeric: "tabular-nums" }}>4</span>px
           </p>
         </div>
       </div>
+      <SectionJumpFab />
     </div>
   );
 }

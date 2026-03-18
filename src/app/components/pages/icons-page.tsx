@@ -5,6 +5,7 @@ import { CryptoIcon, CRYPTO_COINS } from "../ui/crypto-icon";
 import { TablerIcon, ALL_TABLER_ICONS, TABLER_ICON_CATEGORIES } from "../ui/tabler-icon";
 import type { TablerIconVariant } from "../ui/tabler-icon";
 import { Copy, Check, Search, X } from "lucide-react";
+import { SectionJumpFab } from "../docs/section-jump-fab";
 
 /* ══════════════════════════════════════════════════════════════
    SHARED HELPERS
@@ -46,7 +47,7 @@ function CopyButton({ text }: { text: string }) {
     <button
       type="button"
       onClick={(e) => { e.stopPropagation(); copy(); }}
-      className="flex items-center justify-center transition-all duration-150 cursor-pointer"
+      className="flex items-center justify-center transition-all duration-[var(--duration-short-3)] cursor-pointer"
       style={{
         width: 28, height: 28,
         borderRadius: "var(--radius-circle)",
@@ -71,7 +72,7 @@ function CryptoIconCard({ symbol, name, iconSize }: { symbol: string; name: stri
   const [hovered, setHovered] = useState(false);
   return (
     <div
-      className="relative flex flex-col items-center justify-center transition-all duration-150"
+      className="relative flex flex-col items-center justify-center transition-all duration-[var(--duration-short-3)]"
       style={{
         backgroundColor: "var(--card)",
         border: `1px solid ${hovered ? "var(--border)" : "var(--border-subtle)"}`,
@@ -84,13 +85,13 @@ function CryptoIconCard({ symbol, name, iconSize }: { symbol: string; name: stri
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      <div className="absolute transition-opacity duration-150" style={{ top: 8, right: 8, opacity: hovered ? 1 : 0 }}>
+      <div className="absolute transition-opacity duration-[var(--duration-short-3)]" style={{ top: 8, right: 8, opacity: hovered ? 1 : 0 }}>
         <CopyButton text={symbol.toLowerCase()} />
       </div>
       <CryptoIcon symbol={symbol} size={iconSize} />
       <div className="flex flex-col items-center gap-1 w-full">
-        <span className="truncate w-full text-center" style={{ fontFamily: "var(--font-family-supreme)", fontWeight: "var(--font-weight-medium)" as any, fontSize: "13px", color: "var(--foreground)", lineHeight: 1.3 }}>{name}</span>
-        <span style={{ fontFamily: "var(--font-family-mono)", fontSize: "11px", color: "var(--muted-foreground)", lineHeight: 1.3, textTransform: "uppercase" }}>{symbol}</span>
+        <span className="truncate w-full text-center" style={{ fontFamily: "var(--font-family-supreme)", fontWeight: "var(--font-weight-medium)" as any, fontSize: "var(--text-body-sm)", color: "var(--foreground)", lineHeight: 1.3 }}>{name}</span>
+        <span style={{ fontFamily: "var(--font-family-mono)", fontSize: "var(--text-caption)", color: "var(--muted-foreground)", lineHeight: 1.3, textTransform: "uppercase" }}>{symbol}</span>
       </div>
     </div>
   );
@@ -102,7 +103,7 @@ function TablerIconCard({ name, iconSize, variant = "outline" }: { name: string;
 
   return (
     <div
-      className="relative flex flex-col items-center justify-center transition-all duration-150"
+      className="relative flex flex-col items-center justify-center transition-all duration-[var(--duration-short-3)]"
       style={{
         backgroundColor: "var(--card)",
         border: `1px solid ${hovered ? "var(--border)" : "var(--border-subtle)"}`,
@@ -115,15 +116,15 @@ function TablerIconCard({ name, iconSize, variant = "outline" }: { name: string;
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      <div className="absolute transition-opacity duration-150" style={{ top: 8, right: 8, opacity: hovered ? 1 : 0 }}>
+      <div className="absolute transition-opacity duration-[var(--duration-short-3)]" style={{ top: 8, right: 8, opacity: hovered ? 1 : 0 }}>
         <CopyButton text={name} />
       </div>
       <div style={{ width: iconSize, height: iconSize, display: "flex", alignItems: "center", justifyContent: "center" }}>
         <TablerIcon name={name} size={iconSize} variant={variant} style={{ filter: "var(--tabler-icon-filter, none)" }} />
       </div>
       <div className="flex flex-col items-center gap-1 w-full">
-        <span className="truncate w-full text-center" style={{ fontFamily: "var(--font-family-supreme)", fontWeight: "var(--font-weight-medium)" as any, fontSize: "12px", color: "var(--foreground)", lineHeight: 1.3 }}>{displayName}</span>
-        <span className="truncate w-full text-center" style={{ fontFamily: "var(--font-family-mono)", fontSize: "10px", color: "var(--muted-foreground)", lineHeight: 1.3 }}>{name}</span>
+        <span className="truncate w-full text-center" style={{ fontFamily: "var(--font-family-supreme)", fontWeight: "var(--font-weight-medium)" as any, fontSize: "var(--text-meta)", color: "var(--foreground)", lineHeight: 1.3 }}>{displayName}</span>
+        <span className="truncate w-full text-center" style={{ fontFamily: "var(--font-family-mono)", fontSize: "var(--text-overline)", color: "var(--muted-foreground)", lineHeight: 1.3 }}>{name}</span>
       </div>
     </div>
   );
@@ -154,7 +155,7 @@ function IconSearch({ value, onChange }: { value: string; onChange: (v: string) 
         onChange={(e) => onChange(e.target.value)}
         placeholder="Search icons..."
         className="w-full h-full bg-transparent outline-none"
-        style={{ paddingLeft: 32, paddingRight: value ? 32 : 10, fontFamily: "var(--font-family-supreme)", fontSize: "13px", color: "var(--foreground)", border: "none" }}
+        style={{ paddingLeft: 32, paddingRight: value ? 32 : 10, fontFamily: "var(--font-family-supreme)", fontSize: "var(--text-body-sm)", color: "var(--foreground)", border: "none" }}
       />
       {value && (
         <button
@@ -186,10 +187,10 @@ function SizePicker({ sizes, active, onChange }: { sizes: typeof SIZE_OPTIONS; a
             key={s.value}
             type="button"
             onClick={() => onChange(s.value)}
-            className="flex items-center justify-center cursor-pointer transition-colors duration-150"
+            className="flex items-center justify-center cursor-pointer transition-colors duration-[var(--duration-short-3)]"
             style={{
-              height: 36, padding: "0 14px",
-              fontFamily: "var(--font-family-supreme)", fontSize: "12px",
+              height: 36, padding: "0 var(--space-4)",
+              fontFamily: "var(--font-family-supreme)", fontSize: "var(--text-meta)",
               fontWeight: isActive ? "var(--font-weight-bold)" as any : "var(--font-weight-regular)" as any,
               color: isActive ? "var(--foreground)" : "var(--muted-foreground)",
               backgroundColor: isActive ? "var(--secondary)" : "transparent",
@@ -229,7 +230,7 @@ function CategorySideNav({
     <nav
       className="sticky flex flex-col"
       style={{
-        top: "152px",
+        top: "calc(var(--space-12) + var(--space-3))",
         width: "180px",
         flexShrink: 0,
         fontFamily: "var(--font-family-supreme)",
@@ -238,9 +239,9 @@ function CategorySideNav({
     >
       <span
         style={{
-          fontSize: "10px",
+          fontSize: "var(--text-caption)",
           fontWeight: "var(--font-weight-bold)" as any,
-          letterSpacing: "0.14em",
+          letterSpacing: "var(--ls-overline)",
           textTransform: "uppercase",
           color: "var(--muted-foreground)",
           padding: "0 var(--space-3) var(--space-3)",
@@ -259,9 +260,9 @@ function CategorySideNav({
               e.preventDefault();
               onNavigate?.(item.id);
             }}
-            className="flex items-center gap-2.5 truncate transition-colors duration-150"
+            className="flex items-center gap-2.5 truncate transition-colors duration-[var(--duration-short-3)]"
             style={{
-              fontSize: "13px",
+              fontSize: "var(--text-body-sm)",
               fontWeight: isActive ? "var(--font-weight-medium)" : "var(--font-weight-regular)",
               color: isActive ? "var(--foreground)" : "var(--color-text-tertiary)",
               padding: "var(--space-2) var(--space-3)",
@@ -285,7 +286,7 @@ function CategorySideNav({
             <span
               style={{
                 marginLeft: "auto",
-                fontSize: "10px",
+                fontSize: "var(--text-overline)",
                 fontFamily: "var(--font-family-mono)",
                 color: "var(--muted-foreground)",
                 opacity: isActive ? 1 : 0.5,
@@ -419,7 +420,7 @@ function TablerTabContent({ search, iconSize, variant }: { search: string; iconS
         {filteredCategories.map((cat) => {
           const sectionId = `cat-${cat.category.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
           return (
-            <section key={cat.category} id={sectionId} style={{ scrollMarginTop: 160 }}>
+            <section key={cat.category} id={sectionId} data-section-title={cat.category} className="section-block" style={{ scrollMarginTop: 160 }}>
               {/* Category header */}
               <div
                 className="flex items-center gap-2.5"
@@ -437,7 +438,7 @@ function TablerTabContent({ search, iconSize, variant }: { search: string; iconS
                   style={{
                     fontFamily: "var(--font-family-supreme)",
                     fontWeight: "var(--font-weight-bold)" as any,
-                    fontSize: "16px",
+                    fontSize: "var(--text-base)",
                     color: "var(--foreground)",
                     margin: 0,
                     lineHeight: 1.3,
@@ -448,7 +449,7 @@ function TablerTabContent({ search, iconSize, variant }: { search: string; iconS
                 <span
                   style={{
                     fontFamily: "var(--font-family-mono)",
-                    fontSize: "11px",
+                    fontSize: "var(--text-caption)",
                     color: "var(--muted-foreground)",
                     marginLeft: 4,
                   }}
@@ -524,7 +525,7 @@ function EmptyState({ search }: { search: string }) {
       className="flex flex-col items-center justify-center"
       style={{ padding: "var(--space-13) 0", fontFamily: "var(--font-family-supreme)" }}
     >
-      <span style={{ fontSize: "15px", color: "var(--muted-foreground)", fontWeight: "var(--font-weight-medium)" as any }}>
+      <span style={{ fontSize: "var(--text-body)", color: "var(--muted-foreground)", fontWeight: "var(--font-weight-medium)" as any }}>
         No icons match &ldquo;{search}&rdquo;
       </span>
     </div>
@@ -538,15 +539,15 @@ function EmptyState({ search }: { search: string }) {
 function TablerUsageSection() {
   return (
     <div className="border-t" style={{ borderColor: "var(--secondary)", paddingTop: "var(--space-10)", paddingBottom: "var(--space-13)" }}>
-      <h2 style={{ fontSize: "24px", fontWeight: "var(--font-weight-bold)" as any, color: "var(--foreground)", fontFamily: "var(--font-family-supreme)", marginBottom: "var(--space-5)" }}>
+      <h2 style={{ fontSize: "var(--text-h3)", fontWeight: "var(--font-weight-bold)" as any, color: "var(--foreground)", fontFamily: "var(--font-family-supreme)", marginBottom: "var(--space-5)" }}>
         Usage
       </h2>
       <div style={{ backgroundColor: "var(--card)", border: "1px solid var(--border-subtle)", borderRadius: "var(--radius-card)", overflow: "hidden" }}>
         <div className="flex items-center justify-between" style={{ padding: "var(--space-3) var(--space-5)", borderBottom: "1px solid var(--border-subtle)", backgroundColor: "var(--preview-header-bg)" }}>
-          <span style={{ fontFamily: "var(--font-family-mono)", fontSize: "11px", color: "var(--muted-foreground)", textTransform: "uppercase", letterSpacing: "0.08em" }}>React</span>
+          <span style={{ fontFamily: "var(--font-family-mono)", fontSize: "var(--text-caption)", color: "var(--muted-foreground)", textTransform: "uppercase", letterSpacing: "var(--ls-overline)" }}>React</span>
           <CopyButton text={`import { TablerIcon } from "./components/ui/tabler-icon";\n\n<TablerIcon name="home" size={24} />\n<TablerIcon name="home" size={24} variant="filled" />`} />
         </div>
-        <pre style={{ padding: "var(--space-6) var(--space-7)", margin: 0, fontFamily: "var(--font-family-mono)", fontSize: "13px", lineHeight: 1.7, color: "var(--foreground)", overflowX: "auto" }}>
+        <pre style={{ padding: "var(--space-6) var(--space-7)", margin: 0, fontFamily: "var(--font-family-mono)", fontSize: "var(--text-body-sm)", lineHeight: 1.7, color: "var(--foreground)", overflowX: "auto" }}>
           <code>
             <span style={{ color: "var(--color-text-brand)" }}>import</span>
             {" { TablerIcon } "}
@@ -574,7 +575,7 @@ function TablerUsageSection() {
         </pre>
       </div>
 
-      <h3 style={{ fontSize: "18px", fontWeight: "var(--font-weight-bold)" as any, color: "var(--foreground)", fontFamily: "var(--font-family-supreme)", marginTop: "var(--space-9)", marginBottom: "var(--space-4)" }}>
+      <h3 style={{ fontSize: "var(--text-h5)", fontWeight: "var(--font-weight-bold)" as any, color: "var(--foreground)", fontFamily: "var(--font-family-supreme)", marginTop: "var(--space-9)", marginBottom: "var(--space-4)" }}>
         Props
       </h3>
       <PropsTable rows={[
@@ -591,15 +592,15 @@ function TablerUsageSection() {
 function CryptoUsageSection() {
   return (
     <div className="border-t" style={{ borderColor: "var(--secondary)", paddingTop: "var(--space-10)", paddingBottom: "var(--space-13)" }}>
-      <h2 style={{ fontSize: "24px", fontWeight: "var(--font-weight-bold)" as any, color: "var(--foreground)", fontFamily: "var(--font-family-supreme)", marginBottom: "var(--space-5)" }}>
+      <h2 style={{ fontSize: "var(--text-h3)", fontWeight: "var(--font-weight-bold)" as any, color: "var(--foreground)", fontFamily: "var(--font-family-supreme)", marginBottom: "var(--space-5)" }}>
         Usage
       </h2>
       <div style={{ backgroundColor: "var(--card)", border: "1px solid var(--border-subtle)", borderRadius: "var(--radius-card)", overflow: "hidden" }}>
         <div className="flex items-center justify-between" style={{ padding: "var(--space-3) var(--space-5)", borderBottom: "1px solid var(--border-subtle)", backgroundColor: "var(--preview-header-bg)" }}>
-          <span style={{ fontFamily: "var(--font-family-mono)", fontSize: "11px", color: "var(--muted-foreground)", textTransform: "uppercase", letterSpacing: "0.08em" }}>React</span>
+          <span style={{ fontFamily: "var(--font-family-mono)", fontSize: "var(--text-caption)", color: "var(--muted-foreground)", textTransform: "uppercase", letterSpacing: "var(--ls-overline)" }}>React</span>
           <CopyButton text={`import { CryptoIcon } from "./components/ui/crypto-icon";\n\n<CryptoIcon symbol="btc" size={32} />`} />
         </div>
-        <pre style={{ padding: "var(--space-6) var(--space-7)", margin: 0, fontFamily: "var(--font-family-mono)", fontSize: "13px", lineHeight: 1.7, color: "var(--foreground)", overflowX: "auto" }}>
+        <pre style={{ padding: "var(--space-6) var(--space-7)", margin: 0, fontFamily: "var(--font-family-mono)", fontSize: "var(--text-body-sm)", lineHeight: 1.7, color: "var(--foreground)", overflowX: "auto" }}>
           <code>
             <span style={{ color: "var(--color-text-brand)" }}>import</span>
             {" { CryptoIcon } "}
@@ -627,7 +628,7 @@ function CryptoUsageSection() {
         </pre>
       </div>
 
-      <h3 style={{ fontSize: "18px", fontWeight: "var(--font-weight-bold)" as any, color: "var(--foreground)", fontFamily: "var(--font-family-supreme)", marginTop: "var(--space-9)", marginBottom: "var(--space-4)" }}>
+      <h3 style={{ fontSize: "var(--text-h5)", fontWeight: "var(--font-weight-bold)" as any, color: "var(--foreground)", fontFamily: "var(--font-family-supreme)", marginTop: "var(--space-9)", marginBottom: "var(--space-4)" }}>
         Props
       </h3>
       <PropsTable rows={[
@@ -651,17 +652,17 @@ function PropsTable({ rows }: { rows: { prop: string; type: string; def: string;
         <thead>
           <tr style={{ backgroundColor: "var(--table-header-bg)" }}>
             {["Prop", "Type", "Default", "Description"].map((h) => (
-              <th key={h} style={{ textAlign: "left", padding: "var(--table-header-padding-y) var(--table-cell-padding-x)", fontFamily: "var(--font-family-supreme)", fontSize: "12px", fontWeight: "var(--font-weight-bold)" as any, color: "var(--table-header-fg)", borderBottom: "1px solid var(--table-border)" }}>{h}</th>
+              <th key={h} style={{ textAlign: "left", padding: "var(--table-header-padding-y) var(--table-cell-padding-x)", fontFamily: "var(--font-family-supreme)", fontSize: "var(--text-meta)", fontWeight: "var(--font-weight-bold)" as any, color: "var(--table-header-fg)", borderBottom: "1px solid var(--table-border)" }}>{h}</th>
             ))}
           </tr>
         </thead>
         <tbody>
           {rows.map((row) => (
             <tr key={row.prop}>
-              <td style={{ padding: "var(--table-cell-padding-y) var(--table-cell-padding-x)", fontFamily: "var(--font-family-mono)", fontSize: "13px", color: "var(--table-cell-fg)", borderBottom: "1px solid var(--table-border)" }}>{row.prop}</td>
-              <td style={{ padding: "var(--table-cell-padding-y) var(--table-cell-padding-x)", fontFamily: "var(--font-family-mono)", fontSize: "12px", color: "var(--color-text-brand)", borderBottom: "1px solid var(--table-border)" }}>{row.type}</td>
-              <td style={{ padding: "var(--table-cell-padding-y) var(--table-cell-padding-x)", fontFamily: "var(--font-family-mono)", fontSize: "12px", color: "var(--muted-foreground)", borderBottom: "1px solid var(--table-border)" }}>{row.def}</td>
-              <td style={{ padding: "var(--table-cell-padding-y) var(--table-cell-padding-x)", fontFamily: "var(--font-family-supreme)", fontSize: "13px", color: "var(--table-cell-secondary-fg)", borderBottom: "1px solid var(--table-border)" }}>{row.desc}</td>
+              <td style={{ padding: "var(--table-cell-padding-y) var(--table-cell-padding-x)", fontFamily: "var(--font-family-mono)", fontSize: "var(--text-body-sm)", color: "var(--table-cell-fg)", borderBottom: "1px solid var(--table-border)" }}>{row.prop}</td>
+              <td style={{ padding: "var(--table-cell-padding-y) var(--table-cell-padding-x)", fontFamily: "var(--font-family-mono)", fontSize: "var(--text-meta)", color: "var(--color-text-brand)", borderBottom: "1px solid var(--table-border)" }}>{row.type}</td>
+              <td style={{ padding: "var(--table-cell-padding-y) var(--table-cell-padding-x)", fontFamily: "var(--font-family-mono)", fontSize: "var(--text-meta)", color: "var(--muted-foreground)", borderBottom: "1px solid var(--table-border)" }}>{row.def}</td>
+              <td style={{ padding: "var(--table-cell-padding-y) var(--table-cell-padding-x)", fontFamily: "var(--font-family-supreme)", fontSize: "var(--text-body-sm)", color: "var(--table-cell-secondary-fg)", borderBottom: "1px solid var(--table-border)" }}>{row.desc}</td>
             </tr>
           ))}
         </tbody>
@@ -724,7 +725,7 @@ export function IconsPage() {
             Tabler Icons
           </a>
           , served via jsDelivr CDN and organized into {TABLER_ICON_CATEGORIES.length} categories. Use the{" "}
-          <code style={{ fontFamily: "var(--font-family-mono)", fontSize: "14px", backgroundColor: "var(--secondary)", padding: "2px 6px", borderRadius: "var(--radius-xs)" }}>
+          <code style={{ fontFamily: "var(--font-family-mono)", fontSize: "var(--text-body)", backgroundColor: "var(--secondary)", padding: "2px 6px", borderRadius: "var(--radius-xs)" }}>
             {"<TablerIcon />"}
           </code>{" "}
           component with any icon name.
@@ -740,7 +741,7 @@ export function IconsPage() {
             NiceHash Crypto Icons
           </a>{" "}
           library, served via jsDelivr CDN. Use the{" "}
-          <code style={{ fontFamily: "var(--font-family-mono)", fontSize: "14px", backgroundColor: "var(--secondary)", padding: "2px 6px", borderRadius: "var(--radius-xs)" }}>
+          <code style={{ fontFamily: "var(--font-family-mono)", fontSize: "var(--text-body)", backgroundColor: "var(--secondary)", padding: "2px 6px", borderRadius: "var(--radius-xs)" }}>
             {"<CryptoIcon />"}
           </code>{" "}
           component with any coin ticker symbol.
@@ -750,13 +751,13 @@ export function IconsPage() {
   };
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: "var(--secondary-subtle)" }}>
+    <div className="min-h-full" style={{ backgroundColor: "var(--secondary-subtle)" }}>
       {/* Scroll sentinel */}
       <div ref={sentinelRef} className="h-0 w-full" aria-hidden="true" />
 
       {/* ── Breadcrumb bar with centered tabs ──────────── */}
       <div
-        className="border-b sticky top-0 z-10 transition-shadow duration-200 relative"
+        className="border-b sticky top-0 z-10 transition-shadow duration-[var(--duration-short-4)] relative"
         style={{
           height: 72,
           borderColor: "var(--border-subtle)",
@@ -767,12 +768,12 @@ export function IconsPage() {
         {/* Full-width layer: breadcrumb left, controls right */}
         <div className="h-full flex items-center justify-between relative z-[1]" style={{ padding: "0 var(--space-10)" }}>
           <div className="flex items-center shrink-0" style={{ gap: "var(--space-3)" }}>
-            <span style={{ fontSize: "11px", color: "var(--muted-foreground)", fontFamily: "var(--font-family-supreme)" }}>Foundation</span>
-            <span style={{ fontSize: "11px", color: "var(--border)" }}>&rsaquo;</span>
-            <span style={{ fontSize: "11px", color: "var(--foreground)", fontWeight: "var(--font-weight-bold)" as any, fontFamily: "var(--font-family-supreme)" }}>Icons</span>
+            <span style={{ fontSize: "var(--text-caption)", color: "var(--muted-foreground)", fontFamily: "var(--font-family-supreme)" }}>Foundation</span>
+            <span style={{ fontSize: "var(--text-caption)", color: "var(--border)" }}>&rsaquo;</span>
+            <span style={{ fontSize: "var(--text-caption)", color: "var(--foreground)", fontWeight: "var(--font-weight-bold)" as any, fontFamily: "var(--font-family-supreme)" }}>Icons</span>
           </div>
           <div className="flex items-center shrink-0" style={{ gap: "var(--space-5)" }}>
-            <span style={{ fontSize: "11px", color: "var(--muted-foreground)", fontFamily: "var(--font-family-supreme)" }}>{countLabel}</span>
+            <span style={{ fontSize: "var(--text-caption)", color: "var(--muted-foreground)", fontFamily: "var(--font-family-supreme)" }}>{countLabel}</span>
             <SearchTrigger />
             <HxThemeToggle size="lg" />
           </div>
@@ -789,11 +790,11 @@ export function IconsPage() {
                   role="tab"
                   aria-selected={isActive}
                   onClick={() => setActiveTab(tab.value)}
-                  className="relative flex items-center justify-center cursor-pointer select-none outline-none transition-colors duration-150"
+                  className="relative flex items-center justify-center cursor-pointer select-none outline-none transition-colors duration-[var(--duration-short-3)]"
                   style={{
                     height: "72px",
-                    padding: "0 16px",
-                    fontSize: "14px",
+                    padding: "0 var(--space-5)",
+                    fontSize: "var(--text-body)",
                     fontWeight: isActive ? "var(--font-weight-medium)" : "var(--font-weight-regular)",
                     color: isActive ? "var(--color-text-primary)" : "var(--color-text-tertiary)",
                     fontFamily: "var(--font-family-supreme)",
@@ -805,7 +806,7 @@ export function IconsPage() {
                 >
                   {tab.label}
                   <span
-                    className="absolute bottom-0 left-0 w-full transition-transform duration-300 origin-left"
+                    className="absolute bottom-0 left-0 w-full transition-transform duration-[var(--duration-medium-2)] origin-left"
                     style={{
                       height: "2px",
                       backgroundColor: "var(--brand-default)",
@@ -825,13 +826,13 @@ export function IconsPage() {
         {/* Header */}
         <div className="border-b" style={{ paddingTop: "var(--space-10)", paddingBottom: "var(--space-9)", borderColor: "var(--secondary)" }}>
           <h1 style={{
-            fontSize: "48px",
+            fontSize: "var(--text-huge)",
             fontWeight: "var(--font-weight-bold)" as any,
             color: "var(--foreground)",
-            lineHeight: 1.1,
-            letterSpacing: "-0.02em",
+            lineHeight: "var(--lh-huge)",
+            letterSpacing: "var(--ls-huge)",
             fontFamily: "var(--font-family-supreme)",
-            marginBottom: "var(--space-5)",
+            margin: 0,
           }}>
             {descriptions[activeTab].title}
           </h1>
@@ -852,7 +853,7 @@ export function IconsPage() {
           style={{
             gap: "var(--space-5)",
             position: "sticky",
-            top: 84,
+            top: "calc(var(--space-12) + var(--space-3))",
             zIndex: 20,
             padding: "var(--space-3) var(--space-6)",
             backgroundColor: "var(--secondary-subtle)",
@@ -863,14 +864,14 @@ export function IconsPage() {
           }}
         >
           <div className="flex items-center" style={{ gap: "var(--space-4)" }}>
-            <span style={{ fontFamily: "var(--font-family-supreme)", fontSize: "13px", color: "var(--muted-foreground)", fontWeight: "var(--font-weight-medium)" as any }}>
+            <span style={{ fontFamily: "var(--font-family-supreme)", fontSize: "var(--text-body-sm)", color: "var(--muted-foreground)", fontWeight: "var(--font-weight-medium)" as any }}>
               Size
             </span>
             <SizePicker sizes={SIZE_OPTIONS} active={iconSize} onChange={setIconSize} />
             {activeTab === "tabler" && (
               <>
                 <div style={{ width: 1, height: 20, backgroundColor: "var(--border-subtle)", margin: "0 4px" }} />
-                <span style={{ fontFamily: "var(--font-family-supreme)", fontSize: "13px", color: "var(--muted-foreground)", fontWeight: "var(--font-weight-medium)" as any }}>
+                <span style={{ fontFamily: "var(--font-family-supreme)", fontSize: "var(--text-body-sm)", color: "var(--muted-foreground)", fontWeight: "var(--font-weight-medium)" as any }}>
                   Style
                 </span>
                 <div className="flex items-center" style={{ borderRadius: "var(--radius)", border: "1px solid var(--border-subtle)", overflow: "hidden" }}>
@@ -881,10 +882,10 @@ export function IconsPage() {
                         key={v}
                         type="button"
                         onClick={() => setIconVariant(v)}
-                        className="flex items-center justify-center cursor-pointer transition-colors duration-150"
+                        className="flex items-center justify-center cursor-pointer transition-colors duration-[var(--duration-short-3)]"
                         style={{
-                          height: 36, padding: "0 14px",
-                          fontFamily: "var(--font-family-supreme)", fontSize: "12px",
+                          height: 36, padding: "0 var(--space-4)",
+                          fontFamily: "var(--font-family-supreme)", fontSize: "var(--text-meta)",
                           fontWeight: isActive ? "var(--font-weight-bold)" as any : "var(--font-weight-regular)" as any,
                           color: isActive ? "var(--foreground)" : "var(--muted-foreground)",
                           backgroundColor: isActive ? "var(--secondary)" : "transparent",
@@ -914,6 +915,7 @@ export function IconsPage() {
         {/* Usage section per tab */}
         {activeTab === "tabler" ? <TablerUsageSection /> : <CryptoUsageSection />}
       </div>
+      <SectionJumpFab />
     </div>
   );
 }

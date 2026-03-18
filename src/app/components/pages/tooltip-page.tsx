@@ -500,9 +500,9 @@ function ControlGroup({
     <div className="flex flex-col gap-2">
       <span
         style={{
-          fontSize: "10px",
+          fontSize: "var(--text-overline)",
           fontWeight: "var(--font-weight-bold)",
-          letterSpacing: "0.14em",
+          letterSpacing: "var(--ls-overline)",
           textTransform: "uppercase" as const,
           color: "var(--muted-foreground)",
           fontFamily: "var(--font-family-supreme)",
@@ -534,7 +534,7 @@ function PillButton({
         height: "28px",
         padding: "0 10px",
         borderRadius: "var(--radius-chip)",
-        fontSize: "11px",
+        fontSize: "var(--text-caption)",
         fontWeight: "var(--font-weight-medium)",
         fontFamily: "var(--font-family-supreme)",
         border: active ? "1px solid var(--brand-default)" : "1px solid var(--border)",

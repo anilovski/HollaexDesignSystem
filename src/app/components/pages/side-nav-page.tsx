@@ -197,11 +197,11 @@ export function SideNavPage() {
               footer={
                 <div className="flex items-center gap-[10px] px-[14px] py-[12px]">
                   <div className="flex items-center justify-center shrink-0 rounded-full" style={{ width: "28px", height: "28px", backgroundColor: "var(--secondary-default)" }}>
-                    <span style={{ fontSize: "11px", fontWeight: "var(--font-weight-medium)", color: "var(--secondary-fg)", fontFamily: "var(--font-family-supreme)" }}>JD</span>
+                    <span style={{ fontSize: "var(--text-caption)", fontWeight: "var(--font-weight-medium)", color: "var(--secondary-fg)", fontFamily: "var(--font-family-supreme)" }}>JD</span>
                   </div>
                   <div className="flex flex-col flex-1 min-w-0">
-                    <span style={{ fontSize: "12px", fontWeight: "var(--font-weight-medium)", color: "var(--color-text-primary)", lineHeight: "1.2", fontFamily: "var(--font-family-supreme)" }} className="truncate">John Doe</span>
-                    <span style={{ fontSize: "10px", color: "var(--color-text-tertiary)", lineHeight: "1.2", fontFamily: "var(--font-family-supreme)" }} className="truncate">john@hollaex.com</span>
+                    <span style={{ fontSize: "var(--text-meta)", fontWeight: "var(--font-weight-medium)", color: "var(--color-text-primary)", lineHeight: "1.2", fontFamily: "var(--font-family-supreme)" }} className="truncate">John Doe</span>
+                    <span style={{ fontSize: "var(--text-overline)", color: "var(--color-text-tertiary)", lineHeight: "1.2", fontFamily: "var(--font-family-supreme)" }} className="truncate">john@hollaex.com</span>
                   </div>
                 </div>
               }
@@ -388,11 +388,11 @@ export function SideNavPage() {
               footer={
                 <div className="flex items-center gap-[10px] px-[14px] py-[12px]">
                   <div className="flex items-center justify-center shrink-0 rounded-full" style={{ width: "28px", height: "28px", backgroundColor: "var(--secondary-default)" }}>
-                    <span style={{ fontSize: "11px", fontWeight: "var(--font-weight-medium)", color: "var(--secondary-fg)", fontFamily: "var(--font-family-supreme)" }}>JD</span>
+                    <span style={{ fontSize: "var(--text-caption)", fontWeight: "var(--font-weight-medium)", color: "var(--secondary-fg)", fontFamily: "var(--font-family-supreme)" }}>JD</span>
                   </div>
                   <div className="flex flex-col flex-1 min-w-0">
-                    <span style={{ fontSize: "12px", fontWeight: "var(--font-weight-medium)", color: "var(--color-text-primary)", lineHeight: "1.2", fontFamily: "var(--font-family-supreme)" }} className="truncate">John Doe</span>
-                    <span style={{ fontSize: "10px", color: "var(--color-text-tertiary)", lineHeight: "1.2", fontFamily: "var(--font-family-supreme)" }} className="truncate">john@hollaex.com</span>
+                    <span style={{ fontSize: "var(--text-meta)", fontWeight: "var(--font-weight-medium)", color: "var(--color-text-primary)", lineHeight: "1.2", fontFamily: "var(--font-family-supreme)" }} className="truncate">John Doe</span>
+                    <span style={{ fontSize: "var(--text-overline)", color: "var(--color-text-tertiary)", lineHeight: "1.2", fontFamily: "var(--font-family-supreme)" }} className="truncate">john@hollaex.com</span>
                   </div>
                 </div>
               }

@@ -28,7 +28,7 @@ function SearchInput({ variant = "white", size = "huge", placeholder = "Search..
             {shortcut && !hasValue && <span className="bg-[#f4f4f4] border border-[#e1e1e1] text-[#a0a0a0] font-medium rounded text-[10px] px-1 py-0.5 whitespace-nowrap">{shortcut}</span>}
             {rightIcon && <span className="flex items-center justify-center shrink-0">{rightIcon}</span>}
           </div>
-          <span aria-hidden className="absolute bottom-0 left-0 right-0 h-[2px] bg-[var(--brand-default)] origin-left scale-x-0 transition-transform duration-300 ease-[cubic-bezier(0.25,0.1,0.25,1)] group-focus-within:scale-x-100" />
+          <span aria-hidden className="absolute bottom-0 left-0 right-0 h-[2px] bg-[var(--brand-default)] origin-left scale-x-0 transition-transform duration-[var(--duration-medium-2)] ease-[cubic-bezier(0.25,0.1,0.25,1)] group-focus-within:scale-x-100" />
         </div>
       </div>
       {helperText && <p className="text-[12px] leading-[16px] text-[#a0a0a0]">{helperText}</p>}

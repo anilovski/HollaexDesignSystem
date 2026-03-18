@@ -2,3 +2,10 @@
 @source '../**/*.{js,ts,jsx,tsx}';
 
 @import 'tw-animate-css';
+
+@theme {
+  --default-font-family: 'Supreme', sans-serif;
+  --default-mono-font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
+  --font-sans: 'Supreme', sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
+}

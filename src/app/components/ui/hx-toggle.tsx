@@ -1,5 +1,6 @@
 import * as React from "react"
 import { cn } from "./utils"
+import { useReducedMotion } from "./use-reduced-motion"
 import { useTheme } from "../theme-context"
 
 /* ────────────────────────────────────────────────────────────
@@ -134,6 +135,18 @@ export function HxToggle({
   const isControlled = controlledChecked !== undefined
   const [internal, setInternal] = React.useState(defaultChecked)
   const isOn = isControlled ? controlledChecked : internal
+  const [glowing, setGlowing] = React.useState(false)
+  const prevOn = React.useRef(isOn)
+  const reducedMotion = useReducedMotion()
+
+  React.useEffect(() => {
+    if (isOn && !prevOn.current && !disabled && !reducedMotion) {
+      setGlowing(true)
+      const t = setTimeout(() => setGlowing(false), 500)
+      return () => clearTimeout(t)
+    }
+    prevOn.current = isOn
+  }, [isOn, disabled, reducedMotion])
 
   const s = SIZE[size]
 
@@ -176,7 +189,7 @@ export function HxToggle({
       disabled={disabled}
       onClick={handleClick}
       className={cn(
-        "relative shrink-0 inline-flex items-center outline-none transition-colors duration-200",
+        "relative shrink-0 inline-flex items-center outline-none transition-colors duration-[var(--duration-short-4)]",
         "focus-visible:ring-2 focus-visible:ring-offset-2",
         disabled ? "cursor-not-allowed" : "cursor-pointer",
       )}
@@ -189,14 +202,16 @@ export function HxToggle({
           : isOn
             ? "var(--toggle-on-bg)"
             : "var(--toggle-off-bg)",
+        animation: glowing ? "hx-toggle-glow 500ms var(--ease-emphasized-decelerate)" : "none",
         // @ts-expect-error -- CSS variable for focus ring
         "--tw-ring-color": "var(--toggle-focus-ring)",
         "--tw-ring-offset-color": "var(--focus-ring-offset)",
+        "--toggle-glow-color": "var(--toggle-on-bg)",
       }}
     >
       {/* Thumb */}
       <span
-        className="absolute block rounded-full transition-transform duration-200"
+        className="absolute block rounded-full transition-transform duration-[var(--duration-short-4)]"
         style={{
           width: s.thumb.size,
           height: s.thumb.size,
@@ -207,7 +222,7 @@ export function HxToggle({
             ? "var(--toggle-thumb-disabled-bg)"
             : "var(--toggle-thumb-bg)",
           boxShadow: "var(--toggle-thumb-shadow)",
-          transitionTimingFunction: "cubic-bezier(0.25, 0.1, 0.25, 1)",
+          transitionTimingFunction: "cubic-bezier(0.34, 1.56, 0.64, 1)",
         }}
       />
     </button>
@@ -286,7 +301,7 @@ export function HxThemeToggle({
       disabled={disabled}
       onClick={toggleTheme}
       className={cn(
-        "relative shrink-0 inline-flex items-center outline-none transition-colors duration-300",
+        "relative shrink-0 inline-flex items-center outline-none transition-colors duration-[var(--duration-medium-2)]",
         "focus-visible:ring-2 focus-visible:ring-offset-2",
         disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer",
         className,
@@ -312,13 +327,13 @@ export function HxThemeToggle({
           color: isDark ? "var(--toggle-theme-icon-fg)" : "var(--color-text-secondary)",
         }}
       >
-        <SunIcon size={s.iconSize} className={cn("transition-opacity duration-200", isDark ? "opacity-70" : "opacity-0")} />
-        <MoonIcon size={s.iconSize} className={cn("transition-opacity duration-200", isDark ? "opacity-0" : "opacity-70")} />
+        <SunIcon size={s.iconSize} className={cn("transition-opacity duration-[var(--duration-short-4)]", isDark ? "opacity-70" : "opacity-0")} />
+        <MoonIcon size={s.iconSize} className={cn("transition-opacity duration-[var(--duration-short-4)]", isDark ? "opacity-0" : "opacity-70")} />
       </span>
 
       {/* Thumb with active icon */}
       <span
-        className="absolute flex items-center justify-center rounded-full transition-transform duration-300"
+        className="absolute flex items-center justify-center rounded-full transition-transform duration-[var(--duration-medium-2)]"
         style={{
           width: s.thumb.size,
           height: s.thumb.size,
@@ -334,12 +349,12 @@ export function HxThemeToggle({
         {isDark ? (
           <MoonIcon
             size={Math.round(s.iconSize * 0.9)}
-            className="transition-all duration-300"
+            className="transition-all duration-[var(--duration-medium-2)]"
           />
         ) : (
           <SunIcon
             size={Math.round(s.iconSize * 0.9)}
-            className="transition-all duration-300"
+            className="transition-all duration-[var(--duration-medium-2)]"
           />
         )}
       </span>

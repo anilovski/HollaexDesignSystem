@@ -1,4 +1,4 @@
-import { Link, useNavigate, useOutletContext } from "react-router";
+import { useNavigate, useOutletContext } from "react-router";
 import { HxThemeToggle } from "../ui/hx-toggle";
 import { SearchTrigger } from "../docs/search-command";
 import { useState, useEffect, useRef } from "react";
@@ -20,7 +20,7 @@ const sections = [
       "Reusable, accessible UI components that follow the HollaEx design language consistently across products.",
     href: "/components/button",
     cta: "Browse components",
-    items: ["Accordion", "Alert", "Avatar", "Badge", "Button", "Checkbox", "Chip", "Dropdown"],
+    items: ["Accordion", "Alert", "Alert Dialog", "Avatar", "Badge", "Button", "Carousel", "Checkbox", "Chip", "Slider", "+36 more"],
     accent: "var(--chart-5)",
     bg: "var(--secondary)",
   },
@@ -41,7 +41,7 @@ const stats = [
   { value: "45+", label: "Color tokens" },
   { value: "15", label: "Type sizes" },
   { value: "2", label: "Font families" },
-  { value: "14", label: "Components" },
+  { value: "46", label: "Components" },
 ];
 
 export function OverviewPage() {
@@ -65,7 +65,7 @@ export function OverviewPage() {
       <div ref={sentinelRef} className="h-0 w-full" aria-hidden="true" />
 
       {/* Top bar */}
-      <div className="border-b sticky top-0 z-10 h-[72px] transition-shadow duration-200"
+      <div className="border-b sticky top-0 z-10 h-[72px] transition-shadow duration-[var(--duration-short-4)]"
         style={{
           borderColor: "var(--border-subtle)",
           backgroundColor: "var(--background)",
@@ -76,7 +76,7 @@ export function OverviewPage() {
           style={{ padding: "0 var(--space-10)" }}
         >
           <div className="flex items-center" style={{ gap: "var(--space-3)" }}>
-            <span style={{ fontSize: "11px", color: "var(--foreground)", fontWeight: "var(--font-weight-bold)", fontFamily: "var(--font-family-supreme)" }}>Overview</span>
+            <span style={{ fontSize: "var(--text-caption)", color: "var(--foreground)", fontWeight: "var(--font-weight-bold)", fontFamily: "var(--font-family-supreme)" }}>Overview</span>
           </div>
           <div className="flex items-center" style={{ gap: "var(--space-4)" }}>
             <OverviewSearch />
@@ -95,10 +95,10 @@ export function OverviewPage() {
           >
             <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: "var(--primary)" }} />
             <span style={{
-              fontSize: "11px",
+              fontSize: "var(--text-overline)",
               fontWeight: "var(--font-weight-medium)",
               color: "var(--primary)",
-              letterSpacing: "0.04em",
+              letterSpacing: "var(--ls-overline)",
               fontFamily: "var(--font-family-supreme)",
             }}>
               v1.0.0 — In Progress
@@ -106,11 +106,11 @@ export function OverviewPage() {
           </div>
 
           <h1 style={{
-            fontSize: "60px",
+            fontSize: "var(--text-display)",
             fontWeight: "var(--font-weight-bold)",
             color: "var(--foreground)",
             lineHeight: 1.02,
-            letterSpacing: "-0.03em",
+            letterSpacing: "var(--ls-display)",
             marginBottom: "var(--space-7)",
             fontFamily: "var(--font-family-supreme)",
           }}>
@@ -118,7 +118,7 @@ export function OverviewPage() {
           </h1>
 
           <p style={{
-            fontSize: "18px",
+            fontSize: "var(--text-h5)",
             color: "var(--muted-foreground)",
             lineHeight: 1.6,
             maxWidth: "540px",
@@ -130,9 +130,9 @@ export function OverviewPage() {
           </p>
 
           <div className="flex items-center" style={{ gap: "var(--space-5)" }}>
-            <Link
-              to="/foundation/colors"
-              className="inline-flex items-center transition-colors"
+            <button
+              onClick={() => navigate("/foundation/colors")}
+              className="inline-flex items-center cursor-pointer"
               style={{
                 padding: "var(--space-3) var(--space-6)",
                 gap: "var(--space-3)",
@@ -142,29 +142,37 @@ export function OverviewPage() {
                 fontWeight: "var(--font-weight-medium)",
                 borderRadius: "var(--radius-button)",
                 fontFamily: "var(--font-family-supreme)",
+                border: "none",
+                transition: "opacity var(--motion-hover)",
               }}
+              onMouseEnter={(e) => { e.currentTarget.style.opacity = "0.85"; }}
+              onMouseLeave={(e) => { e.currentTarget.style.opacity = "1"; }}
             >
               Get started
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M5 12h14M12 5l7 7-7 7"/>
               </svg>
-            </Link>
-            <Link
-              to="/foundation/colors"
-              className="inline-flex items-center border transition-colors hover:opacity-80"
+            </button>
+            <button
+              onClick={() => navigate("/foundation/colors")}
+              className="inline-flex items-center border cursor-pointer"
               style={{
                 padding: "var(--space-3) var(--space-6)",
                 gap: "var(--space-3)",
                 borderColor: "var(--border)",
+                backgroundColor: "transparent",
                 color: "var(--muted-foreground)",
                 fontSize: "var(--text-label)",
                 fontWeight: "var(--font-weight-medium)",
                 borderRadius: "var(--radius-button)",
                 fontFamily: "var(--font-family-supreme)",
+                transition: "opacity var(--motion-hover)",
               }}
+              onMouseEnter={(e) => { e.currentTarget.style.opacity = "0.8"; }}
+              onMouseLeave={(e) => { e.currentTarget.style.opacity = "1"; }}
             >
               View color tokens
-            </Link>
+            </button>
           </div>
         </div>
 
@@ -173,18 +181,18 @@ export function OverviewPage() {
           {stats.map((s) => (
             <div key={s.label} style={{ padding: "var(--space-6) var(--space-7)", backgroundColor: "var(--background)" }}>
               <div style={{
-                fontSize: "32px",
+                fontSize: "var(--text-h2)",
                 fontWeight: "var(--font-weight-bold)",
                 color: "var(--foreground)",
                 lineHeight: 1,
-                letterSpacing: "-0.02em",
+                letterSpacing: "var(--ls-h2)",
                 marginBottom: "var(--space-2)",
                 fontFamily: "var(--font-family-supreme)",
               }}>
                 {s.value}
               </div>
               <div style={{
-                fontSize: "12px",
+                fontSize: "var(--text-meta)",
                 color: "var(--muted-foreground)",
                 fontFamily: "var(--font-family-supreme)",
               }}>{s.label}</div>
@@ -195,9 +203,9 @@ export function OverviewPage() {
         {/* Sections */}
         <div style={{ marginBottom: "var(--space-12)" }}>
           <h2 style={{
-            fontSize: "11px",
+            fontSize: "var(--text-caption)",
             fontWeight: "var(--font-weight-bold)",
-            letterSpacing: "0.14em",
+            letterSpacing: "var(--ls-overline)",
             textTransform: "uppercase",
             color: "var(--muted-foreground)",
             marginBottom: "var(--space-7)",
@@ -217,7 +225,7 @@ export function OverviewPage() {
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center" style={{ gap: "var(--space-4)", marginBottom: "var(--space-4)" }}>
                       <h3 style={{
-                        fontSize: "18px",
+                        fontSize: "var(--text-h5)",
                         fontWeight: "var(--font-weight-bold)",
                         color: "var(--foreground)",
                         fontFamily: "var(--font-family-supreme)",
@@ -226,9 +234,9 @@ export function OverviewPage() {
                         <span
                           className="px-2 py-0.5 rounded-full"
                           style={{
-                            fontSize: "9px",
+                            fontSize: "var(--text-overline)",
                             fontWeight: "var(--font-weight-bold)",
-                            letterSpacing: "0.08em",
+                            letterSpacing: "var(--ls-overline)",
                             textTransform: "uppercase",
                             background: s.bg,
                             color: s.accent,
@@ -255,7 +263,7 @@ export function OverviewPage() {
                           key={item}
                           className="px-2.5 py-1 rounded-full border"
                           style={{
-                            fontSize: "11px",
+                            fontSize: "var(--text-caption)",
                             borderColor: "var(--border)",
                             color: "var(--muted-foreground)",
                             fontFamily: "var(--font-family-supreme)",
@@ -270,7 +278,7 @@ export function OverviewPage() {
                   {!s.soon ? (
                     <button
                       onClick={() => navigate(s.href)}
-                      className="shrink-0 flex items-center justify-center transition-transform duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:-translate-y-1 group-hover:translate-x-1 cursor-pointer"
+                      className="shrink-0 flex items-center justify-center transition-transform duration-[var(--duration-long-2)] ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:-translate-y-1 group-hover:translate-x-1 cursor-pointer"
                       style={{
                         width: 36,
                         height: 36,
@@ -308,10 +316,10 @@ export function OverviewPage() {
         <div className="border-t flex items-center justify-between"
           style={{ borderColor: "var(--secondary)", paddingTop: "var(--space-8)" }}
         >
-          <p style={{ fontSize: "12px", color: "var(--muted-foreground)", fontFamily: "var(--font-family-supreme)" }}>
+          <p style={{ fontSize: "var(--text-meta)", color: "var(--muted-foreground)", fontFamily: "var(--font-family-supreme)" }}>
             HollaEx Design System · v1.0.0
           </p>
-          <p style={{ fontSize: "12px", color: "var(--muted-foreground)", fontFamily: "var(--font-family-supreme)" }}>
+          <p style={{ fontSize: "var(--text-meta)", color: "var(--muted-foreground)", fontFamily: "var(--font-family-supreme)" }}>
             More sections shipping soon
           </p>
         </div>

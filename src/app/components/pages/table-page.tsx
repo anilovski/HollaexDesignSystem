@@ -159,7 +159,7 @@ export function TablePage() {
             </span>
             <span
               style={{
-                fontSize: "12px",
+                fontSize: "var(--text-meta)",
                 color: "var(--table-cell-secondary-fg)",
                 fontFamily: "var(--font-family-supreme)",
               }}
@@ -303,7 +303,7 @@ export function TablePage() {
             </span>
             <span
               style={{
-                fontSize: "12px",
+                fontSize: "var(--text-meta)",
                 color: "var(--table-cell-secondary-fg)",
                 fontFamily: "var(--font-family-supreme)",
               }}

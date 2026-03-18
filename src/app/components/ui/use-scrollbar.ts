@@ -43,10 +43,28 @@ export function useScrollbar<T extends HTMLElement = HTMLElement>(
 
     // ── Hide native scrollbar ──
     el.classList.add("hx-scrollbar");
+    el.style.scrollbarWidth = "none"; // Firefox
+    // WebKit/Blink handled via the class if CSS exists, otherwise inline
+    const style = document.createElement("style");
+    style.textContent = `
+      .hx-scrollbar::-webkit-scrollbar { display: none; }
+    `;
+    el.appendChild(style);
 
     // ── Create overlay thumb ──
     const thumb = document.createElement("div");
     thumb.className = "hx-scrollbar-thumb";
+    // Apply all critical styles inline so it works without external CSS
+    thumb.style.position = "absolute";
+    thumb.style.top = "0";
+    thumb.style.right = "2px";
+    thumb.style.width = "5px";
+    thumb.style.borderRadius = "9999px";
+    thumb.style.backgroundColor = "var(--muted-foreground, rgba(0,0,0,0.3))";
+    thumb.style.opacity = "0";
+    thumb.style.pointerEvents = "none";
+    thumb.style.zIndex = "50";
+    thumb.style.transition = "opacity 0.2s ease";
     el.appendChild(thumb);
     state.thumb = thumb;
 
@@ -87,7 +105,8 @@ export function useScrollbar<T extends HTMLElement = HTMLElement>(
       if (!t || !el) return;
       if (el.scrollHeight <= el.clientHeight) return;
       updateThumb();
-      t.classList.add("visible");
+      t.style.opacity = "0.45";
+      t.style.pointerEvents = "auto";
     }
 
     function scheduleHide() {
@@ -95,7 +114,8 @@ export function useScrollbar<T extends HTMLElement = HTMLElement>(
       if (state.dragging) return;
       state.hideTimer = setTimeout(() => {
         if (state.thumb && !state.dragging) {
-          state.thumb.classList.remove("visible");
+          state.thumb.style.opacity = "0";
+          state.thumb.style.pointerEvents = "none";
         }
       }, hideDelay);
     }
@@ -131,7 +151,7 @@ export function useScrollbar<T extends HTMLElement = HTMLElement>(
 
       function onMove(ev: MouseEvent) {
         if (!el) return;
-        const { trackH, thumbH, maxScroll, margin } = getThumbMetrics(el);
+        const { trackH, thumbH, maxScroll } = getThumbMetrics(el);
         const usableTrack = trackH - thumbH;
         if (usableTrack <= 0) return;
 
@@ -155,9 +175,6 @@ export function useScrollbar<T extends HTMLElement = HTMLElement>(
       document.addEventListener("mousemove", onMove);
       document.addEventListener("mouseup", onUp);
     }
-
-    // ── Track click (click on the track area to jump) ──
-    // Not implemented yet — could be added later.
 
     // ── ResizeObserver: update thumb when content or container size changes ──
     const ro = new ResizeObserver(() => {
@@ -189,6 +206,7 @@ export function useScrollbar<T extends HTMLElement = HTMLElement>(
       if (state.hideTimer) clearTimeout(state.hideTimer);
       if (state.rafId) cancelAnimationFrame(state.rafId);
       thumb.remove();
+      style.remove();
       state.thumb = null;
     };
   }, [hideDelay]);

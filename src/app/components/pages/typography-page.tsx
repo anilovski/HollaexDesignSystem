@@ -3,6 +3,7 @@ import { useOutletContext } from "react-router";
 import { SearchTrigger } from "../docs/search-command";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { Copy, Check } from "lucide-react";
+import { SectionJumpFab } from "../docs/section-jump-fab";
 
 /* ══════════════════════════════════════════════════════════════
    COPY BUTTON
@@ -21,7 +22,7 @@ function CopyButton({ text }: { text: string }) {
     <button
       type="button"
       onClick={copy}
-      className="flex items-center justify-center transition-all duration-150 cursor-pointer"
+      className="flex items-center justify-center transition-all duration-[var(--duration-short-3)] cursor-pointer"
       style={{
         width: 28,
         height: 28,
@@ -183,10 +184,10 @@ function CodeBlock({ code, label }: { code: string; label?: string }) {
           <span
             style={{
               fontFamily: "var(--font-family-mono)",
-              fontSize: "10px",
+              fontSize: "var(--text-overline)",
               color: "var(--muted-foreground)",
               textTransform: "uppercase",
-              letterSpacing: "0.08em",
+              letterSpacing: "var(--ls-overline)",
               fontWeight: "var(--font-weight-bold)" as any,
             }}
           >
@@ -204,7 +205,7 @@ function CodeBlock({ code, label }: { code: string; label?: string }) {
         <code
           style={{
             fontFamily: "var(--font-family-mono)",
-            fontSize: "13px",
+            fontSize: "var(--text-body-sm)",
             color: "var(--foreground)",
             lineHeight: 1.6,
             whiteSpace: "pre-wrap",
@@ -239,9 +240,9 @@ function TypeScaleTable({ font }: { font: FontTab }) {
   const fontFamily = font === "supreme" ? "var(--font-family-supreme)" : "var(--font-family-mono)";
 
   const headStyle: React.CSSProperties = {
-    fontSize: "10px",
+    fontSize: "var(--text-overline)",
     fontWeight: "var(--font-weight-bold)" as any,
-    letterSpacing: "0.14em",
+    letterSpacing: "var(--ls-overline)",
     textTransform: "uppercase",
     color: "var(--muted-foreground)",
     fontFamily: "var(--font-family-supreme)",
@@ -259,9 +260,9 @@ function TypeScaleTable({ font }: { font: FontTab }) {
             <div
               style={{
                 fontFamily: "var(--font-family-supreme)",
-                fontSize: "11px",
+                fontSize: "var(--text-caption)",
                 fontWeight: "var(--font-weight-bold)" as any,
-                letterSpacing: "0.12em",
+                letterSpacing: "var(--ls-overline)",
                 textTransform: "uppercase",
                 color: "var(--muted-foreground)",
                 marginBottom: "var(--space-5)",
@@ -319,7 +320,7 @@ function TypeScaleTable({ font }: { font: FontTab }) {
                     <span
                       style={{
                         fontFamily: "var(--font-family-supreme)",
-                        fontSize: "12px",
+                        fontSize: "var(--text-meta)",
                         fontWeight: "var(--font-weight-medium)" as any,
                         color: "var(--foreground)",
                       }}
@@ -331,7 +332,7 @@ function TypeScaleTable({ font }: { font: FontTab }) {
                       className="tabular-nums"
                       style={{
                         fontFamily: "var(--font-family-mono)",
-                        fontSize: "11px",
+                        fontSize: "var(--text-caption)",
                         color: "var(--muted-foreground)",
                       }}
                     >
@@ -343,7 +344,7 @@ function TypeScaleTable({ font }: { font: FontTab }) {
                       className="tabular-nums"
                       style={{
                         fontFamily: "var(--font-family-mono)",
-                        fontSize: "11px",
+                        fontSize: "var(--text-caption)",
                         color: "var(--muted-foreground)",
                       }}
                     >
@@ -355,7 +356,7 @@ function TypeScaleTable({ font }: { font: FontTab }) {
                       className="tabular-nums"
                       style={{
                         fontFamily: "var(--font-family-mono)",
-                        fontSize: "11px",
+                        fontSize: "var(--text-caption)",
                         color: ls === "0" ? "var(--color-text-disabled)" : "var(--muted-foreground)",
                       }}
                     >
@@ -418,7 +419,7 @@ function FontWeightsSection({ font }: { font: FontTab }) {
             <span
               style={{
                 fontFamily: "var(--font-family-supreme)",
-                fontSize: "12px",
+                fontSize: "var(--text-meta)",
                 fontWeight: "var(--font-weight-medium)" as any,
                 color: "var(--foreground)",
               }}
@@ -428,9 +429,9 @@ function FontWeightsSection({ font }: { font: FontTab }) {
             <div
               style={{
                 fontFamily: "var(--font-family-mono)",
-                fontSize: "10px",
+                fontSize: "var(--text-overline)",
                 color: "var(--muted-foreground)",
-                marginTop: 2,
+                marginTop: "var(--space-1)",
               }}
             >
               {w.value}
@@ -440,11 +441,11 @@ function FontWeightsSection({ font }: { font: FontTab }) {
           <span
             style={{
               fontFamily: info.fontFamily,
-              fontSize: "28px",
+              fontSize: "var(--text-h2)",
               fontWeight: w.value,
               color: "var(--foreground)",
-              lineHeight: 1.3,
-              letterSpacing: "-0.01em",
+              lineHeight: "var(--lh-h2)",
+              letterSpacing: "var(--ls-h2)",
             }}
           >
             The quick brown fox jumps over the lazy dog
@@ -480,7 +481,7 @@ export function TypographyPage() {
 
   return (
     <div
-      className="min-h-screen"
+      className="min-h-full"
       style={{
         backgroundColor: "var(--secondary-subtle)",
         fontFamily: "var(--font-family-supreme)",
@@ -490,7 +491,7 @@ export function TypographyPage() {
 
       {/* ── Sticky breadcrumb bar with centered tabs ──────── */}
       <div
-        className="border-b sticky top-0 z-10 transition-shadow duration-200 relative"
+        className="border-b sticky top-0 z-10 transition-shadow duration-[var(--duration-short-4)] relative"
         style={{
           height: 72,
           borderColor: "var(--border-subtle)",
@@ -501,12 +502,12 @@ export function TypographyPage() {
         {/* Full-width layer: breadcrumb left, controls right */}
         <div className="h-full flex items-center justify-between relative z-[1]" style={{ padding: "0 var(--space-10)" }}>
           <div className="flex items-center shrink-0" style={{ gap: "var(--space-3)" }}>
-            <span style={{ fontSize: "11px", color: "var(--muted-foreground)", fontFamily: "var(--font-family-supreme)" }}>Foundation</span>
-            <span style={{ fontSize: "11px", color: "var(--border)" }}>&rsaquo;</span>
-            <span style={{ fontSize: "11px", color: "var(--foreground)", fontWeight: "var(--font-weight-bold)" as any, fontFamily: "var(--font-family-supreme)" }}>Typography</span>
+            <span style={{ fontSize: "var(--text-caption)", color: "var(--muted-foreground)", fontFamily: "var(--font-family-supreme)" }}>Foundation</span>
+            <span style={{ fontSize: "var(--text-caption)", color: "var(--border)" }}>&rsaquo;</span>
+            <span style={{ fontSize: "var(--text-caption)", color: "var(--foreground)", fontWeight: "var(--font-weight-bold)" as any, fontFamily: "var(--font-family-supreme)" }}>Typography</span>
           </div>
           <div className="flex items-center shrink-0" style={{ gap: "var(--space-5)" }}>
-            <span style={{ fontSize: "11px", color: "var(--muted-foreground)", fontFamily: "var(--font-family-supreme)" }}>{scaleCount} sizes · {info.weights.length} weights</span>
+            <span style={{ fontSize: "var(--text-caption)", color: "var(--muted-foreground)", fontFamily: "var(--font-family-supreme)" }}>{scaleCount} sizes · {info.weights.length} weights</span>
             <BreadcrumbSearch />
             <HxThemeToggle size="lg" />
           </div>
@@ -523,11 +524,11 @@ export function TypographyPage() {
                   role="tab"
                   aria-selected={isActive}
                   onClick={() => setActiveTab(tab.value)}
-                  className="relative flex items-center justify-center cursor-pointer select-none outline-none transition-colors duration-150"
+                  className="relative flex items-center justify-center cursor-pointer select-none outline-none transition-colors duration-[var(--duration-short-3)]"
                   style={{
                     height: "72px",
-                    padding: "0 16px",
-                    fontSize: "14px",
+                    padding: "0 var(--space-5)",
+                    fontSize: "var(--text-body)",
                     fontWeight: isActive ? ("var(--font-weight-medium)" as any) : ("var(--font-weight-regular)" as any),
                     color: isActive ? "var(--color-text-primary)" : "var(--color-text-tertiary)",
                     fontFamily: "var(--font-family-supreme)",
@@ -539,7 +540,7 @@ export function TypographyPage() {
                 >
                   {tab.label}
                   <span
-                    className="absolute bottom-0 left-0 w-full transition-transform duration-300 origin-left"
+                    className="absolute bottom-0 left-0 w-full transition-transform duration-[var(--duration-medium-2)] origin-left"
                     style={{
                       height: "2px",
                       backgroundColor: "var(--brand-default)",
@@ -567,11 +568,11 @@ export function TypographyPage() {
         >
           <h1
             style={{
-              fontSize: "48px",
+              fontSize: "var(--text-huge)",
               fontWeight: "var(--font-weight-bold)" as any,
               color: "var(--foreground)",
-              lineHeight: 1.1,
-              letterSpacing: "-0.02em",
+              lineHeight: "var(--lh-huge)",
+              letterSpacing: "var(--ls-huge)",
               fontFamily: "var(--font-family-supreme)",
               marginBottom: "var(--space-5)",
             }}
@@ -600,7 +601,7 @@ export function TypographyPage() {
             <code
               style={{
                 fontFamily: "var(--font-family-mono)",
-                fontSize: "14px",
+                fontSize: "var(--text-body)",
                 backgroundColor: "var(--secondary)",
                 padding: "2px 6px",
                 borderRadius: "var(--radius-xs)",
@@ -612,7 +613,7 @@ export function TypographyPage() {
             <code
               style={{
                 fontFamily: "var(--font-family-mono)",
-                fontSize: "14px",
+                fontSize: "var(--text-body)",
                 backgroundColor: "var(--secondary)",
                 padding: "2px 6px",
                 borderRadius: "var(--radius-xs)",
@@ -628,7 +629,9 @@ export function TypographyPage() {
            SECTION 1: Typeface Specimen + Font Stack
            ══════════════════════════════════════════════════ */}
         <section
-          className="border-b"
+          id="typeface-specimen"
+          data-section-title={`Typeface: ${info.name}`}
+          className="border-b section-block"
           style={{
             paddingTop: "var(--space-10)",
             paddingBottom: "var(--space-10)",
@@ -637,10 +640,10 @@ export function TypographyPage() {
         >
           <h2
             style={{
-              fontSize: "28px",
+              fontSize: "var(--text-h2)",
               fontWeight: "var(--font-weight-bold)" as any,
               color: "var(--foreground)",
-              letterSpacing: "-0.01em",
+              letterSpacing: "var(--ls-h2)",
               fontFamily: "var(--font-family-supreme)",
               marginBottom: "var(--space-3)",
             }}
@@ -687,11 +690,11 @@ export function TypographyPage() {
             <div
               style={{
                 fontFamily: info.fontFamily,
-                fontSize: "40px",
+                fontSize: "var(--text-display)",
                 fontWeight: "var(--font-weight-bold)" as any,
                 color: "var(--foreground)",
-                lineHeight: 1.4,
-                letterSpacing: "-0.01em",
+                lineHeight: "var(--lh-display)",
+                letterSpacing: "var(--ls-display)",
                 whiteSpace: "pre-line",
               }}
             >
@@ -703,7 +706,7 @@ export function TypographyPage() {
           <div
             style={{
               fontFamily: "var(--font-family-supreme)",
-              fontSize: "16px",
+              fontSize: "var(--text-base)",
               fontWeight: "var(--font-weight-medium)" as any,
               color: "var(--foreground)",
               marginBottom: "var(--space-4)",
@@ -719,7 +722,7 @@ export function TypographyPage() {
             <div
               style={{
                 fontFamily: "var(--font-family-supreme)",
-                fontSize: "16px",
+                fontSize: "var(--text-base)",
                 fontWeight: "var(--font-weight-medium)" as any,
                 color: "var(--foreground)",
                 marginBottom: "var(--space-4)",
@@ -738,7 +741,9 @@ export function TypographyPage() {
            SECTION 2: Type Scale
            ══════════════════════════════════════════════════ */}
         <section
-          className="border-b"
+          id="type-scale"
+          data-section-title="Type Scale"
+          className="border-b section-block"
           style={{
             paddingTop: "var(--space-10)",
             paddingBottom: "var(--space-10)",
@@ -749,10 +754,10 @@ export function TypographyPage() {
             <div>
               <h2
                 style={{
-                  fontSize: "28px",
+                  fontSize: "var(--text-h2)",
                   fontWeight: "var(--font-weight-bold)" as any,
                   color: "var(--foreground)",
-                  letterSpacing: "-0.01em",
+                  letterSpacing: "var(--ls-h2)",
                   fontFamily: "var(--font-family-supreme)",
                   marginBottom: "var(--space-3)",
                 }}
@@ -776,7 +781,7 @@ export function TypographyPage() {
             <span
               className="mt-1 px-2.5 py-1 shrink-0"
               style={{
-                fontSize: "11px",
+                fontSize: "var(--text-caption)",
                 color: "var(--muted-foreground)",
                 backgroundColor: "var(--secondary)",
                 borderRadius: "var(--radius-chip)",
@@ -794,7 +799,9 @@ export function TypographyPage() {
            SECTION 3: Font Weights
            ══════════════════════════════════════════════════ */}
         <section
-          className="border-b"
+          id="font-weights"
+          data-section-title="Font Weights"
+          className="border-b section-block"
           style={{
             paddingTop: "var(--space-10)",
             paddingBottom: "var(--space-10)",
@@ -805,10 +812,10 @@ export function TypographyPage() {
             <div>
               <h2
                 style={{
-                  fontSize: "28px",
+                  fontSize: "var(--text-h2)",
                   fontWeight: "var(--font-weight-bold)" as any,
                   color: "var(--foreground)",
-                  letterSpacing: "-0.01em",
+                  letterSpacing: "var(--ls-h2)",
                   fontFamily: "var(--font-family-supreme)",
                   marginBottom: "var(--space-3)",
                 }}
@@ -831,7 +838,7 @@ export function TypographyPage() {
             <span
               className="mt-1 px-2.5 py-1 shrink-0"
               style={{
-                fontSize: "11px",
+                fontSize: "var(--text-caption)",
                 color: "var(--muted-foreground)",
                 backgroundColor: "var(--secondary)",
                 borderRadius: "var(--radius-chip)",
@@ -849,6 +856,9 @@ export function TypographyPage() {
            SECTION 4: Usage Code Block
            ══════════════════════════════════════════════════ */}
         <section
+          id="usage"
+          data-section-title="Usage"
+          className="section-block"
           style={{
             paddingTop: "var(--space-10)",
             paddingBottom: "var(--space-10)",
@@ -856,10 +866,10 @@ export function TypographyPage() {
         >
           <h2
             style={{
-              fontSize: "28px",
+              fontSize: "var(--text-h2)",
               fontWeight: "var(--font-weight-bold)" as any,
               color: "var(--foreground)",
-              letterSpacing: "-0.01em",
+              letterSpacing: "var(--ls-h2)",
               fontFamily: "var(--font-family-supreme)",
               marginBottom: "var(--space-3)",
             }}
@@ -908,7 +918,7 @@ export function TypographyPage() {
         >
           <p
             style={{
-              fontSize: "12px",
+              fontSize: "var(--text-meta)",
               color: "var(--muted-foreground)",
               fontFamily: "var(--font-family-supreme)",
             }}
@@ -917,15 +927,16 @@ export function TypographyPage() {
           </p>
           <p
             style={{
-              fontSize: "12px",
+              fontSize: "var(--text-meta)",
               color: "var(--muted-foreground)",
-              fontFamily: "var(--font-family-mono)",
+              fontFamily: "var(--font-family-supreme)",
             }}
           >
-            {scaleCount} sizes · {info.weights.length} weights · base 16px
+            <span style={{ fontFamily: "var(--font-family-mono)", fontVariantNumeric: "tabular-nums" }}>{scaleCount}</span> sizes · <span style={{ fontFamily: "var(--font-family-mono)", fontVariantNumeric: "tabular-nums" }}>{info.weights.length}</span> weights · base <span style={{ fontFamily: "var(--font-family-mono)", fontVariantNumeric: "tabular-nums" }}>16</span>px
           </p>
         </div>
       </div>
+      <SectionJumpFab />
     </div>
   );
 }

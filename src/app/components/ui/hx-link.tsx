@@ -10,12 +10,12 @@ function sizeIcon(icon: React.ReactNode, size: number): React.ReactNode {
 }
 
 const linkVariants = cva(
-  ["inline-flex items-center font-sans font-medium transition-colors duration-150 cursor-pointer select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2"],
+  ["inline-flex items-center font-sans font-medium transition-all duration-[var(--duration-short-3)] cursor-pointer select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2"],
   {
     variants: {
       variant: {
-        standard: ["text-[var(--brand-default)] no-underline", "hover:text-[var(--brand-hover)]", "active:text-[var(--brand-active)]"],
-        inline: ["text-[var(--brand-default)] underline underline-offset-2", "hover:text-[var(--brand-hover)]", "active:text-[var(--brand-active)]"],
+        standard: ["text-[var(--brand-default)] no-underline hover:underline hover:underline-offset-2", "hover:text-[var(--brand-hover)]", "active:text-[var(--brand-active)]"],
+        inline: ["text-[var(--brand-default)] underline underline-offset-2 decoration-[var(--brand-default)]/40 hover:decoration-[var(--brand-hover)]", "hover:text-[var(--brand-hover)]", "active:text-[var(--brand-active)]"],
       },
       size: { sm: "text-[14px] leading-[22px] gap-[2px]", md: "text-[16px] leading-[24px] gap-[2px]", lg: "text-[18px] leading-[26px] gap-[2px]", huge: "text-[28px] leading-[34px] gap-[2px]" },
     },

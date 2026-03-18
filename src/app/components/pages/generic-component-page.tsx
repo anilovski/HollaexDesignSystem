@@ -11,6 +11,7 @@ const componentMeta: Record<string, { name: string; description: string }> = {
   "content-switcher": { name: "Content Switcher", description: "Tab-like control for switching between content sections. Supports text and icon-only modes, white and gray backgrounds, and 4 sizes." },
   "date-picker": { name: "Date Picker", description: "Calendar date selection with a popup calendar or inline simple mode. Supports multiple sizes, validation states, and date formats." },
   dropdown: { name: "Dropdown", description: "Searchable select menu with gray, white, and midTone styling variants. Supports validation states, coin icons, and helper text." },
+  fab: { name: "FAB", description: "Floating Action Button that morphs into an input, textarea, or action menu with smooth shape-morph animation." },
   header: { name: "Header", description: "Top navigation bar for desktop and mobile with search, notifications, user menu, dark mode toggle, and deposit button." },
   input: { name: "Input", description: "Text, number, and phone-number input fields. All three types share a common size/style/state system with labels, helper text, and validation." },
   "input-dropdown": { name: "Input Dropdown", description: "Hybrid amount input with a coin/token dropdown selector. Combines a numeric input field with a coin picker in a single control." },
@@ -39,16 +40,16 @@ export function GenericComponentPage() {
                   <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
                 </svg>
               </div>
-              <p style={{ fontSize: "18px", fontWeight: 600, color: "var(--foreground)", marginBottom: "8px" }}>{meta.name}</p>
+              <p style={{ fontSize: "var(--text-h5)", fontWeight: 600, color: "var(--foreground)", marginBottom: "var(--space-3)" }}>{meta.name}</p>
               <p style={{ fontSize: "var(--text-label)", color: "var(--muted-foreground)", maxWidth: "400px", lineHeight: 1.6 }}>
                 This component is built and ready in the design system. The interactive demo page is being wired up with live examples showing all variants, sizes, and states.
               </p>
               <div className="flex items-center justify-center" style={{ gap: "var(--space-3)", marginTop: "var(--space-7)" }}>
-                <span className="inline-flex items-center rounded-full border" style={{ gap: "var(--space-2)", padding: "var(--space-2) var(--space-4)", borderColor: "var(--primary)", backgroundColor: "var(--secondary)", fontSize: "11px", fontWeight: 500, color: "var(--primary)" }}>
+                <span className="inline-flex items-center rounded-full border" style={{ gap: "var(--space-2)", padding: "var(--space-2) var(--space-4)", borderColor: "var(--primary)", backgroundColor: "var(--secondary)", fontSize: "var(--text-caption)", fontWeight: 500, color: "var(--primary)" }}>
                   <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: "var(--primary)" }} />
                   Component Built
                 </span>
-                <span className="inline-flex items-center rounded-full border" style={{ gap: "var(--space-2)", padding: "var(--space-2) var(--space-4)", borderColor: "var(--border)", fontSize: "11px", fontWeight: 500, color: "var(--muted-foreground)" }}>
+                <span className="inline-flex items-center rounded-full border" style={{ gap: "var(--space-2)", padding: "var(--space-2) var(--space-4)", borderColor: "var(--border)", fontSize: "var(--text-caption)", fontWeight: 500, color: "var(--muted-foreground)" }}>
                   Demo In Progress
                 </span>
               </div>

@@ -96,7 +96,7 @@ function StepIndicator({
 
   return (
     <div
-      className="shrink-0 flex items-center justify-center rounded-full transition-all duration-300"
+      className="shrink-0 flex items-center justify-center rounded-full transition-all duration-[var(--duration-medium-2)]"
       style={{
         width: dim,
         height: dim,
@@ -109,9 +109,9 @@ function StepIndicator({
       }}
     >
       {status === "completed" ? (
-        <Check size={iconSize} strokeWidth={2.5} />
+        <Check size={iconSize} strokeWidth={2.5} style={{ animation: "hx-check-pop var(--duration-short-4) var(--ease-emphasized-decelerate)" }} />
       ) : status === "error" ? (
-        <X size={iconSize} strokeWidth={2.5} />
+        <X size={iconSize} strokeWidth={2.5} style={{ animation: "hx-check-pop var(--duration-short-4) var(--ease-emphasized-decelerate)" }} />
       ) : icon ? (
         icon
       ) : (
@@ -139,7 +139,7 @@ function Connector({
   if (orientation === "horizontal") {
     return (
       <div
-        className="flex-1 self-center transition-colors duration-300"
+        className="flex-1 self-center transition-colors duration-[var(--duration-medium-2)]"
         style={{
           height: "var(--stepper-connector-thickness)",
           backgroundColor: color,
@@ -153,7 +153,7 @@ function Connector({
   const leftOffset = size === "sm" ? "11px" : size === "lg" ? "19px" : "15px";
   return (
     <div
-      className="transition-colors duration-300"
+      className="transition-colors duration-[var(--duration-medium-2)]"
       style={{
         width: "var(--stepper-connector-thickness)",
         backgroundColor: color,
@@ -223,7 +223,7 @@ function HorizontalStepper({
               />
               <div className="flex flex-col items-center text-center max-w-[120px]">
                 <span
-                  className="transition-colors duration-300"
+                  className="transition-colors duration-[var(--duration-medium-2)]"
                   style={{
                     fontSize: labelSizeMap[s],
                     fontWeight: "var(--font-weight-medium)",
@@ -342,7 +342,7 @@ function VerticalStepper({
               }
             >
               <span
-                className="transition-colors duration-300"
+                className="transition-colors duration-[var(--duration-medium-2)]"
                 style={{
                   fontSize: labelSizeMap[s],
                   fontWeight: "var(--font-weight-medium)",

@@ -1,26 +1,258 @@
 import { Link, useLocation } from "react-router";
-import { navigation } from "./nav-config";
+import { navigation, pinnedNavSections } from "./nav-config";
 import hollaExLogoFull from "../../../imports/HollaEx_Logo-1.svg";
 import { HxThemeToggle } from "../ui/hx-toggle";
 import { useScrollbar } from "../ui/use-scrollbar";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+
+/* ── Tabler Icons ─────────── */
+import {
+  IconLayoutGrid,
+  IconPalette,
+  IconTypography,
+  IconRuler,
+  IconHexagon,
+  IconPlayerPlay,
+  IconSelector,
+  IconAlertTriangle,
+  IconAlertCircle,
+  IconUserCircle,
+  IconMedal,
+  IconDots,
+  IconRectangle,
+  IconSquareHalf,
+  IconSlideshow,
+  IconSquareCheck,
+  IconTag,
+  IconCreditCard,
+  IconArrowsMinimize,
+  IconToggleLeft,
+  IconPointer,
+  IconCalendar,
+  IconChevronDown,
+  IconCircle,
+  IconAppWindow,
+  IconId,
+  IconForms,
+  IconFilter,
+  IconKey,
+  IconExternalLink,
+  IconList,
+  IconMenu2,
+  IconArrowsMaximize,
+  IconCompass,
+  IconChevronsRight,
+  IconMessageDots,
+  IconLoader,
+  IconCircleDot,
+  IconGripVertical,
+  IconSearch,
+  IconMouse,
+  IconChevronsDown,
+  IconLayoutSidebar,
+  IconBone,
+  IconAdjustmentsHorizontal,
+  IconStairs,
+  IconTable,
+  IconColumns,
+  IconAlignLeft,
+  IconBell,
+  IconToggleRight,
+  IconInfoCircle,
+  IconChartBar,
+  IconMail,
+} from "@tabler/icons-react";
+import type { TablerIcon } from "@tabler/icons-react";
+
+/* ── Icon map: label → Tabler icon ─────────── */
+const NAV_ICONS: Record<string, TablerIcon> = {
+  // Getting Started
+  "Overview": IconLayoutGrid,
+  // Foundation
+  "Colors": IconPalette,
+  "Typography": IconTypography,
+  "Spacing": IconRuler,
+  "Icons": IconHexagon,
+  "Motion": IconPlayerPlay,
+  // Components
+  "Accordion": IconSelector,
+  "Alert": IconAlertTriangle,
+  "Alert Dialog": IconAlertCircle,
+  "Avatar": IconUserCircle,
+  "Badge": IconMedal,
+  "Breadcrumb": IconDots,
+  "Button": IconRectangle,
+  "Button Group": IconSquareHalf,
+  "Carousel": IconSlideshow,
+  "Checkbox": IconSquareCheck,
+  "Chip": IconTag,
+  "Coin Card": IconCreditCard,
+  "Collapsible": IconArrowsMinimize,
+  "Content Switcher": IconToggleLeft,
+  "Context Menu": IconPointer,
+  "Date Picker": IconCalendar,
+  "Dropdown": IconChevronDown,
+  "FAB": IconCircle,
+  "Header": IconAppWindow,
+  "Hover Card": IconId,
+  "Input": IconForms,
+  "Input Dropdown": IconFilter,
+  "Input OTP": IconKey,
+  "Link": IconExternalLink,
+  "List": IconList,
+  "Menubar": IconMenu2,
+  "Modal": IconArrowsMaximize,
+  "Navigation Menu": IconCompass,
+  "Pagination": IconChevronsRight,
+  "Popover": IconMessageDots,
+  "Progress": IconLoader,
+  "Radio Button": IconCircleDot,
+  "Resizable": IconGripVertical,
+  "Search": IconSearch,
+  "Scroll Area": IconMouse,
+  "Select": IconChevronsDown,
+  "Sheet": IconLayoutSidebar,
+  "Side Navigation": IconLayoutSidebar,
+  "Skeleton": IconBone,
+  "Slider": IconAdjustmentsHorizontal,
+  "Stepper": IconStairs,
+  "Table": IconTable,
+  "Tabs": IconColumns,
+  "Textarea": IconAlignLeft,
+  "Toast": IconBell,
+  "Toggle": IconToggleRight,
+  "Tooltip": IconInfoCircle,
+  // Patterns
+  "Data Display": IconChartBar,
+  "Email Templates": IconMail,
+};
 
 function cn(...classes: (string | boolean | undefined)[]) {
   return classes.filter(Boolean).join(" ");
 }
 
+/* ── Collapsible nav group with smooth expand/collapse ─── */
+function CollapsibleNavGroup({
+  title,
+  children,
+  defaultOpen = true,
+  isLast = false,
+}: {
+  title: string;
+  children: React.ReactNode;
+  defaultOpen?: boolean;
+  isLast?: boolean;
+}) {
+  const [isOpen, setIsOpen] = useState(defaultOpen);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const [contentHeight, setContentHeight] = useState<number | undefined>(undefined);
+
+  useEffect(() => {
+    if (contentRef.current) {
+      setContentHeight(contentRef.current.scrollHeight);
+    }
+  }, [children]);
+
+  // Recalculate on resize
+  useEffect(() => {
+    const el = contentRef.current;
+    if (!el) return;
+    const ro = new ResizeObserver(() => {
+      if (isOpen) setContentHeight(el.scrollHeight);
+    });
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [isOpen]);
+
+  return (
+    <div style={{ marginBottom: isLast ? "0" : "var(--space-7)" }} className="last:mb-0">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="cursor-pointer flex items-center w-full"
+        style={{
+          padding: "0 var(--space-3)",
+          marginBottom: isOpen ? "var(--space-2)" : "0",
+          border: "none",
+          backgroundColor: "transparent",
+          transition: "margin-bottom var(--duration-medium-2) var(--ease-emphasized)",
+        }}
+      >
+        <span style={{
+          fontSize: "10px",
+          fontWeight: "var(--font-weight-bold)",
+          letterSpacing: "0.14em",
+          textTransform: "uppercase",
+          color: "var(--muted-foreground)",
+          fontFamily: "var(--font-family-supreme)",
+        }}>
+          {title}
+        </span>
+        <svg
+          width="12"
+          height="12"
+          viewBox="0 0 12 12"
+          fill="none"
+          style={{
+            marginLeft: "auto",
+            color: "var(--muted-foreground)",
+            opacity: 0.5,
+            transform: isOpen ? "rotate(0deg)" : "rotate(-90deg)",
+            transition: "transform var(--duration-medium-2) var(--ease-emphasized)",
+          }}
+        >
+          <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </button>
+      <div
+        ref={contentRef}
+        style={{
+          overflow: "hidden",
+          maxHeight: isOpen ? (contentHeight ?? 1000) : 0,
+          opacity: isOpen ? 1 : 0,
+          transition: `max-height var(--duration-medium-4) ${isOpen ? "var(--ease-emphasized-decelerate)" : "var(--ease-emphasized-accelerate)"}, opacity var(--duration-short-4) ${isOpen ? "var(--ease-standard-decelerate)" : "var(--ease-standard-accelerate)"}`,
+        }}
+      >
+        {children}
+      </div>
+    </div>
+  );
+}
+
 /* ── Sidebar nav link with hover state ─────────── */
-function SidebarLink({ href, label, isActive }: { href: string; label: string; isActive: boolean }) {
+function SidebarLink({ href, label, isActive, staggerIndex = 0, navRef }: { href: string; label: string; isActive: boolean; staggerIndex?: number; navRef: React.RefObject<HTMLElement | null> }) {
   const [hoverItem, setHoverItem] = useState(false);
+  const [wasActive, setWasActive] = useState(isActive);
+  const [animating, setAnimating] = useState(false);
+  const Icon = NAV_ICONS[label];
+
+  useEffect(() => {
+    if (isActive && !wasActive) {
+      setAnimating(true);
+      const timer = setTimeout(() => setAnimating(false), 350);
+      return () => clearTimeout(timer);
+    }
+    setWasActive(isActive);
+  }, [isActive, wasActive]);
 
   return (
     <Link
       to={href}
       className={cn(
-        "relative flex items-center px-2 py-[7px] rounded transition-all duration-100",
+        "relative flex items-center px-2 py-[7px] rounded transition-all duration-[var(--duration-short-2)]",
       )}
+      onClick={() => {
+        /* Preserve sidebar scroll position across navigation */
+        const nav = navRef.current;
+        if (nav) {
+          const scrollTop = nav.scrollTop;
+          requestAnimationFrame(() => {
+            nav.scrollTop = scrollTop;
+          });
+        }
+      }}
       style={{
         fontSize: "var(--text-label)",
+        gap: "var(--space-3)",
         color: isActive
           ? "var(--primary)"
           : hoverItem
@@ -32,6 +264,8 @@ function SidebarLink({ href, label, isActive }: { href: string; label: string; i
           : hoverItem
             ? "var(--secondary)"
             : "transparent",
+        animation: `hx-sidebar-item-in var(--duration-medium-2) var(--ease-emphasized-decelerate) both`,
+        animationDelay: `${staggerIndex * 30}ms`,
       }}
       onMouseEnter={() => setHoverItem(true)}
       onMouseLeave={() => setHoverItem(false)}
@@ -41,7 +275,28 @@ function SidebarLink({ href, label, isActive }: { href: string; label: string; i
           style={{ backgroundColor: "var(--primary)" }}
         />
       )}
-      <span className="pl-2">{label}</span>
+      {Icon && (
+        <span
+          style={{
+            display: "inline-flex",
+            marginLeft: "var(--space-1)",
+            animation: animating
+              ? `hx-icon-pop var(--duration-medium-4) var(--ease-emphasized-decelerate) forwards`
+              : "none",
+          }}
+        >
+          <Icon
+            size={15}
+            className="shrink-0"
+            stroke={isActive ? 2 : 1.5}
+            style={{
+              opacity: isActive ? 1 : 0.7,
+              transition: `opacity var(--duration-short-4) var(--ease-standard), stroke-width var(--duration-short-4) var(--ease-standard)`,
+            }}
+          />
+        </span>
+      )}
+      <span>{label}</span>
     </Link>
   );
 }
@@ -50,28 +305,6 @@ function SidebarLink({ href, label, isActive }: { href: string; label: string; i
 export function DocsSidebar() {
   const { pathname } = useLocation();
   const scrollRef = useScrollbar<HTMLElement>();
-  const [navOverflowing, setNavOverflowing] = useState(false);
-  const [hovered, setHovered] = useState(false);
-
-  useEffect(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-    const check = () => {
-      setNavOverflowing(el.scrollTop + el.clientHeight < el.scrollHeight - 2);
-    };
-    check();
-    el.addEventListener("scroll", check, { passive: true });
-    window.addEventListener("resize", check);
-    return () => {
-      el.removeEventListener("scroll", check);
-      window.removeEventListener("resize", check);
-    };
-  }, [scrollRef]);
-
-  // Split: all sections except the last go in the scrollable area;
-  // the last section ("Patterns") is pinned to the bottom.
-  const scrollableSections = navigation.slice(0, -1);
-  const bottomSection = navigation[navigation.length - 1];
 
   return (
     <aside className="w-64 shrink-0 sticky top-0 h-screen flex flex-col border-r overflow-hidden"
@@ -80,8 +313,6 @@ export function DocsSidebar() {
         backgroundColor: "var(--background)",
         fontFamily: "var(--font-family-supreme)",
       }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
     >
       {/* Logo */}
       <div className="h-[72px] flex items-center border-b shrink-0"
@@ -99,25 +330,23 @@ export function DocsSidebar() {
       <nav ref={scrollRef} className="flex-1 overflow-y-auto min-h-0"
         style={{ padding: "var(--space-6) var(--space-4)" }}
       >
-        {scrollableSections.map((section) => (
-          <div key={section.title} style={{ marginBottom: "var(--space-7)" }} className="last:mb-0">
-            <div style={{ padding: "0 var(--space-3)", marginBottom: "var(--space-2)" }}>
-              <span style={{ fontSize: "10px", fontWeight: "var(--font-weight-bold)", letterSpacing: "0.14em", textTransform: "uppercase", color: "var(--muted-foreground)" }}>
-                {section.title}
-              </span>
-            </div>
-
+        {navigation.map((section, sectionIndex) => (
+          <CollapsibleNavGroup key={section.title} title={section.title} isLast={sectionIndex === navigation.length - 1}>
             <ul style={{ display: "flex", flexDirection: "column", gap: "var(--space-1)" }}>
-              {section.items.map((item) => {
+              {section.items.map((item, index) => {
                 const isActive = pathname === item.href;
 
                 if (item.soon) {
+                  const SoonIcon = NAV_ICONS[item.label];
                   return (
                     <li key={item.href}>
                       <span className="flex items-center justify-between rounded select-none"
                         style={{ fontSize: "var(--text-label)", color: "var(--muted-foreground)", opacity: 0.5, padding: "7px var(--space-3)" }}
                       >
-                        {item.label}
+                        <span className="flex items-center" style={{ gap: "var(--space-3)" }}>
+                          {SoonIcon && <SoonIcon size={15} className="shrink-0" style={{ marginLeft: "var(--space-1)" }} stroke={1.5} />}
+                          {item.label}
+                        </span>
                         <span style={{
                           fontSize: "9px",
                           fontWeight: "var(--font-weight-medium)",
@@ -137,65 +366,31 @@ export function DocsSidebar() {
 
                 return (
                   <li key={item.href}>
-                    <SidebarLink href={item.href} label={item.label} isActive={isActive} />
+                    <SidebarLink href={item.href} label={item.label} isActive={isActive} staggerIndex={index} navRef={scrollRef} />
                   </li>
                 );
               })}
             </ul>
-          </div>
+          </CollapsibleNavGroup>
         ))}
       </nav>
 
-      {/* Sticky bottom section (Patterns) */}
-      <div className="shrink-0 relative z-10 transition-shadow duration-300 ease-out"
-        style={{
-          padding: "var(--space-4) var(--space-4) var(--space-3)",
-          backgroundColor: "var(--background)",
-          boxShadow: navOverflowing && hovered
-            ? "0 -2px 12px -4px rgb(0 0 0 / 0.04), 0 -1px 4px -2px rgb(0 0 0 / 0.03)"
-            : "none",
-        }}
-      >
-        <div style={{ padding: "0 var(--space-3)", marginBottom: "var(--space-2)" }}>
-          <span style={{ fontSize: "10px", fontWeight: "var(--font-weight-bold)", letterSpacing: "0.14em", textTransform: "uppercase", color: "var(--muted-foreground)" }}>
-            {bottomSection.title}
-          </span>
-        </div>
-        <ul style={{ display: "flex", flexDirection: "column", gap: "var(--space-1)" }}>
-          {bottomSection.items.map((item) => {
-            const isActive = pathname === item.href;
-
-            if (item.soon) {
-              return (
-                <li key={item.href}>
-                  <span className="flex items-center justify-between rounded select-none"
-                    style={{ fontSize: "var(--text-label)", color: "var(--muted-foreground)", opacity: 0.5, padding: "7px var(--space-3)" }}
-                  >
-                    {item.label}
-                    <span style={{
-                      fontSize: "9px",
-                      fontWeight: "var(--font-weight-medium)",
-                      letterSpacing: "0.1em",
-                      textTransform: "uppercase",
-                      color: "var(--muted-foreground)",
-                      backgroundColor: "var(--secondary)",
-                      padding: "var(--space-1) var(--space-2)",
-                      borderRadius: "var(--radius)",
-                    }}>
-                      Soon
-                    </span>
-                  </span>
-                </li>
-              );
-            }
-
-            return (
-              <li key={item.href}>
-                <SidebarLink href={item.href} label={item.label} isActive={isActive} />
-              </li>
-            );
-          })}
-        </ul>
+      {/* Pinned bottom sections: Foundation & Patterns */}
+      <div className="shrink-0 border-t" style={{ borderColor: "var(--border-subtle)", padding: "var(--space-4) var(--space-4) var(--space-5)" }}>
+        {pinnedNavSections.map((section, sIdx) => (
+          <CollapsibleNavGroup key={section.title} title={section.title} isLast={sIdx === pinnedNavSections.length - 1}>
+            <ul style={{ display: "flex", flexDirection: "column", gap: "var(--space-1)" }}>
+              {section.items.map((item, index) => {
+                const isActive = pathname === item.href;
+                return (
+                  <li key={item.href}>
+                    <SidebarLink href={item.href} label={item.label} isActive={isActive} staggerIndex={index} navRef={scrollRef} />
+                  </li>
+                );
+              })}
+            </ul>
+          </CollapsibleNavGroup>
+        ))}
       </div>
 
       {/* Footer */}

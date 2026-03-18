@@ -18,36 +18,37 @@ function Dropdown({ style = "gray", size = "lg", state = "default", label = "Lab
   const selectedOpt = options.find(o => o.value === selected);
   const filtered = searchable && search ? options.filter(o => o.label.toLowerCase().includes(search.toLowerCase())) : options;
   return (
-    <div ref={ref} className="relative flex flex-col items-start w-[280px]">
-      <div className="pb-[8px]"><span className={cn("font-sans text-[12px] leading-[16px]", isDisabled ? "text-[#c8c8c8]" : "text-[var(--color-text-secondary)]")}>{label}</span></div>
-      <div className="relative w-full rounded-[8px] overflow-clip">
+    <div ref={ref} className="relative flex flex-col items-start w-[280px]" style={{ fontFamily: "var(--font-family-supreme)" }}>
+      <div className="pb-[8px]"><span className={cn("text-[12px] leading-[16px]", isDisabled ? "text-[#c8c8c8]" : "text-[var(--color-text-secondary)]")}>{label}</span></div>
+      <div className="relative w-full rounded-[8px]">
         <button type="button" disabled={isDisabled} onClick={() => !isDisabled && setOpen(v => !v)}
-          className={cn("flex items-center gap-[8px] w-full px-[16px] cursor-pointer transition-colors", heights[size], bg, isError ? "border-2 border-[var(--danger-default)] rounded-[8px]" : "border-b border-[#e1e1e1]", isDisabled && "cursor-not-allowed opacity-50")}>
+          className={cn("flex items-center gap-[8px] w-full px-[16px] cursor-pointer transition-colors rounded-[8px]", heights[size], bg, isError ? "border-2 border-[var(--danger-default)]" : "border-b border-[#e1e1e1]", isDisabled && "cursor-not-allowed opacity-50")}>
           {open && searchable ? (
-            <><Search size={16} className="shrink-0 text-[#a0a0a0]" /><input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search..." className="flex-1 bg-transparent outline-none font-sans text-[14px]" onClick={e => e.stopPropagation()} autoFocus /></>
+            <><Search size={16} className="shrink-0 text-[#a0a0a0]" /><input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search..." className="flex-1 bg-transparent outline-none text-[14px]" style={{ fontFamily: "var(--font-family-supreme)" }} onClick={e => e.stopPropagation()} autoFocus /></>
           ) : (
-            <span className={cn("flex-1 truncate text-left font-sans text-[14px]", selected ? "text-[var(--color-text-primary)]" : "text-[#a0a0a0]")}>{selectedOpt?.label ?? placeholder}</span>
+            <span className={cn("flex-1 truncate text-left text-[14px]", selected ? "text-[var(--color-text-primary)]" : "text-[#a0a0a0]")}>{selectedOpt?.label ?? placeholder}</span>
           )}
           {open ? <ChevronUp size={16} className="text-[#a0a0a0]" /> : <ChevronDown size={16} className="text-[#a0a0a0]" />}
         </button>
-        <span aria-hidden className={cn("absolute bottom-0 left-0 right-0 h-[2px] origin-left transition-transform duration-300 ease-[cubic-bezier(0.25,0.1,0.25,1)]", open ? "scale-x-100" : "scale-x-0")} style={{ backgroundColor: isError ? "var(--danger-default)" : "var(--brand-default)" }} />
+        <span aria-hidden className={cn("absolute bottom-0 left-0 right-0 h-[2px] origin-left transition-transform duration-[var(--duration-medium-2)] ease-[cubic-bezier(0.25,0.1,0.25,1)]", open ? "scale-x-100" : "scale-x-0")} style={{ backgroundColor: isError ? "var(--danger-default)" : "var(--brand-default)" }} />
       </div>
       {open && (
         <div className="absolute top-full left-0 right-0 z-50 mt-0">
-          <div className={cn("w-full flex flex-col overflow-hidden rounded-b-[8px] shadow-lg", bg)}>
+          <div className={cn("w-full flex flex-col rounded-b-[8px] shadow-lg", bg)}>
             {filtered.length === 0 ? <div className="px-[16px] py-[13px] text-[14px] text-[#a0a0a0]">No options found</div> :
               filtered.map(opt => (
                 <button key={opt.value} type="button" onClick={() => { setSelected(opt.value); setOpen(false); setSearch("") }}
-                  className={cn("flex items-center w-full px-[16px] py-[13px] text-left cursor-pointer hover:bg-[rgba(0,0,0,0.04)] text-[14px] font-sans transition-colors", opt.value === selected ? "font-medium text-[var(--color-text-primary)]" : "text-[var(--color-text-primary)]")}>
+                  className={cn("flex items-center w-full px-[16px] py-[13px] text-left cursor-pointer hover:bg-[rgba(0,0,0,0.04)] text-[14px] transition-colors", opt.value === selected ? "font-medium text-[var(--color-text-primary)]" : "text-[var(--color-text-primary)]")}
+                  style={{ animation: `hx-menu-item-in var(--duration-short-4) var(--ease-emphasized-decelerate) both`, animationDelay: `${filtered.indexOf(opt) * 30}ms` }}>
                   {opt.label}{opt.value === selected && <span className="ml-auto text-[12px]">✓</span>}
                 </button>
               ))}
           </div>
         </div>
       )}
-      {isError && errorText && <span className="font-sans text-[12px] pt-[4px] text-[var(--danger-default)]">{errorText}</span>}
-      {state === "warning" && warningText && <span className="font-sans text-[12px] pt-[4px] text-[#D4A017]">{warningText}</span>}
-      {state === "default" && helperText && <span className="font-sans text-[12px] pt-[4px] text-[var(--color-text-tertiary)]">{helperText}</span>}
+      {isError && errorText && <span className="text-[12px] pt-[4px] text-[var(--danger-default)]">{errorText}</span>}
+      {state === "warning" && warningText && <span className="text-[12px] pt-[4px] text-[#D4A017]">{warningText}</span>}
+      {state === "default" && helperText && <span className="text-[12px] pt-[4px] text-[var(--color-text-tertiary)]">{helperText}</span>}
     </div>
   );
 }

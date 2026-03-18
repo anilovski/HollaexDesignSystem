@@ -57,7 +57,7 @@ function TextLines({ count = 30 }: { count?: number }) {
       <span
         style={{
           fontFamily: "var(--font-family-mono)",
-          fontSize: "11px",
+          fontSize: "var(--text-caption)",
           color: "var(--color-text-tertiary)",
         }}
       >
@@ -123,7 +123,7 @@ function ParagraphContent() {
 
 const codeSt: React.CSSProperties = {
   fontFamily: "var(--font-family-mono)",
-  fontSize: "11px",
+  fontSize: "var(--text-caption)",
   backgroundColor: "var(--secondary)",
   padding: "2px 6px",
   borderRadius: "var(--radius-xs)",
@@ -301,7 +301,7 @@ function CodeBlock({ code }: { code: string }) {
     <pre
       style={{
         fontFamily: "var(--font-family-mono)",
-        fontSize: "12px",
+        fontSize: "var(--text-meta)",
         lineHeight: 1.7,
         backgroundColor: "var(--secondary)",
         borderRadius: "var(--radius-card)",
@@ -342,7 +342,7 @@ function PropRow({
       <code
         style={{
           fontFamily: "var(--font-family-mono)",
-          fontSize: "12px",
+          fontSize: "var(--text-meta)",
           color: "var(--brand-default)",
         }}
       >
@@ -351,7 +351,7 @@ function PropRow({
       <code
         style={{
           fontFamily: "var(--font-family-mono)",
-          fontSize: "11px",
+          fontSize: "var(--text-caption)",
           color: "var(--color-text-secondary)",
         }}
       >
@@ -360,7 +360,7 @@ function PropRow({
       <code
         style={{
           fontFamily: "var(--font-family-mono)",
-          fontSize: "11px",
+          fontSize: "var(--text-caption)",
           color: "var(--color-text-tertiary)",
         }}
       >
@@ -401,7 +401,7 @@ function TokenRow({
       <code
         style={{
           fontFamily: "var(--font-family-mono)",
-          fontSize: "11px",
+          fontSize: "var(--text-caption)",
           color: "var(--brand-default)",
         }}
       >
@@ -547,7 +547,7 @@ function MyComponent() {
           <code
             style={{
               fontFamily: "var(--font-family-mono)",
-              fontSize: "12px",
+              fontSize: "var(--text-meta)",
               color: "var(--foreground)",
               display: "block",
               marginBottom: "20px",
@@ -573,8 +573,8 @@ function MyComponent() {
                 style={{
                   fontFamily: "var(--font-family-supreme)",
                   fontWeight: "var(--font-weight-bold)",
-                  fontSize: "11px",
-                  letterSpacing: "0.08em",
+                  fontSize: "var(--text-caption)",
+                  letterSpacing: "var(--ls-overline)",
                   textTransform: "uppercase",
                   color: "var(--color-text-tertiary)",
                 }}
@@ -628,8 +628,8 @@ function MyComponent() {
                 style={{
                   fontFamily: "var(--font-family-supreme)",
                   fontWeight: "var(--font-weight-bold)",
-                  fontSize: "11px",
-                  letterSpacing: "0.08em",
+                  fontSize: "var(--text-caption)",
+                  letterSpacing: "var(--ls-overline)",
                   textTransform: "uppercase",
                   color: "var(--color-text-tertiary)",
                 }}

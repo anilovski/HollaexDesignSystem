@@ -36,13 +36,13 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(function Che
         <span className={cn("text-[12px] leading-[16px] font-sans font-normal select-none", error ? "text-[var(--danger-default)]" : disabled ? "text-[var(--color-text-disabled)]" : "text-[var(--color-text-secondary)]")}>{label}</span>
       )}
       <div className="flex gap-[8px] items-center">
-        <span aria-hidden className={cn("relative shrink-0 size-4 rounded-[2px] flex items-center justify-center transition-colors duration-100",
+        <span aria-hidden className={cn("relative shrink-0 size-4 rounded-[2px] flex items-center justify-center transition-colors duration-[var(--duration-short-2)]",
           "group-has-[input:focus-visible]:ring-1 group-has-[input:focus-visible]:ring-[var(--focus-ring)] group-has-[input:focus-visible]:ring-offset-1",
           !filled && !disabled && !error && "group-hover:border-[var(--color-text-secondary)]",
           !filled && ["border", error ? "border-[var(--danger-default)]" : disabled ? "border-[var(--color-text-disabled)]" : "border-[var(--color-text-secondary)]"],
           filled && [error ? "bg-[var(--danger-default)]" : disabled ? "bg-[var(--color-text-disabled)]" : "bg-[var(--brand-default)]"])}>
-          {showChecked && <svg viewBox="0 0 8 8" fill="none" className="size-2 shrink-0" aria-hidden><path d="M1.5 4L3.5 6L6.5 2" stroke={disabled ? "#aaa" : "white"} strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" /></svg>}
-          {showIndet && <span aria-hidden className={cn("block h-px w-2 rounded-[0.5px]", disabled ? "bg-[#aaa]" : "bg-white")} />}
+          {showChecked && <svg viewBox="0 0 8 8" fill="none" className="size-2 shrink-0" aria-hidden style={{ animation: "hx-check-pop var(--duration-short-4) var(--ease-emphasized-decelerate)" }}><path d="M1.5 4L3.5 6L6.5 2" stroke={disabled ? "#aaa" : "white"} strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" /></svg>}
+          {showIndet && <span aria-hidden className={cn("block h-px w-2 rounded-[0.5px]", disabled ? "bg-[#aaa]" : "bg-white")} style={{ animation: "hx-check-pop var(--duration-short-4) var(--ease-emphasized-decelerate)" }} />}
         </span>
         {children && <div className="flex items-center justify-center py-px"><span className={cn("text-[14px] leading-[22px] font-sans font-normal whitespace-nowrap select-none", disabled ? "text-[var(--color-text-disabled)]" : "text-[var(--color-text-primary)]")}>{children}</span></div>}
       </div>

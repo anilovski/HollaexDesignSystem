@@ -169,28 +169,32 @@ export function HxSelect({
               animation: "toast-enter 200ms var(--ease-emphasized-decelerate) forwards",
             }}
           >
-            {items.map((item, idx) =>
-              isGroup(item) ? (
-                <div key={`group-${idx}`}>
-                  <div style={{
-                    fontSize: "var(--text-overline)",
-                    fontWeight: "var(--font-weight-bold)",
-                    letterSpacing: "var(--ls-overline)",
-                    textTransform: "uppercase" as const,
-                    color: "var(--color-text-tertiary)",
-                    padding: `var(--space-3) var(--space-3) var(--space-1)`,
-                    fontFamily: "var(--font-family-supreme)",
-                  }}>
-                    {item.label}
+            {(() => {
+              let itemIndex = 0
+              return items.map((item, idx) =>
+                isGroup(item) ? (
+                  <div key={`group-${idx}`}>
+                    <div style={{
+                      fontSize: "var(--text-overline)",
+                      fontWeight: "var(--font-weight-bold)",
+                      letterSpacing: "var(--ls-overline)",
+                      textTransform: "uppercase" as const,
+                      color: "var(--color-text-tertiary)",
+                      padding: `var(--space-3) var(--space-3) var(--space-1)`,
+                      fontFamily: "var(--font-family-supreme)",
+                    }}>
+                      {item.label}
+                    </div>
+                    {item.options.map(opt => {
+                      const i = itemIndex++
+                      return <OptionItem key={opt.value} option={opt} selected={opt.value === value} onSelect={select} size={size} animIndex={i} />
+                    })}
                   </div>
-                  {item.options.map(opt => (
-                    <OptionItem key={opt.value} option={opt} selected={opt.value === value} onSelect={select} size={size} />
-                  ))}
-                </div>
-              ) : (
-                <OptionItem key={item.value} option={item} selected={item.value === value} onSelect={select} size={size} />
+                ) : (
+                  <OptionItem key={item.value} option={item} selected={item.value === value} onSelect={select} size={size} animIndex={itemIndex++} />
+                )
               )
-            )}
+            })()}
           </div>
         )}
       </div>
@@ -208,7 +212,7 @@ export function HxSelect({
   )
 }
 
-function OptionItem({ option, selected, onSelect, size }: { option: SelectOption; selected: boolean; onSelect: (v: string) => void; size: string }) {
+function OptionItem({ option, selected, onSelect, size, animIndex }: { option: SelectOption; selected: boolean; onSelect: (v: string) => void; size: string; animIndex: number }) {
   return (
     <button
       type="button"
@@ -227,12 +231,14 @@ function OptionItem({ option, selected, onSelect, size }: { option: SelectOption
         borderRadius: "var(--radius-xs)",
         fontFamily: "var(--font-family-supreme)",
         transition: "background var(--motion-hover)",
+        animation: `hx-menu-item-in var(--duration-short-4) var(--ease-emphasized-decelerate) both`,
+        animationDelay: `${animIndex * 30}ms`,
       }}
       onMouseEnter={e => { if (!option.disabled) e.currentTarget.style.backgroundColor = "var(--secondary-subtle)" }}
       onMouseLeave={e => { e.currentTarget.style.backgroundColor = "transparent" }}
     >
       <span className="truncate">{option.label}</span>
-      {selected && <Check size={14} style={{ color: "var(--brand-default)" }} />}
+      {selected && <Check size={14} style={{ color: "var(--brand-default)", animation: "hx-check-pop var(--duration-short-4) var(--ease-emphasized-decelerate)" }} />}
     </button>
   )
 }

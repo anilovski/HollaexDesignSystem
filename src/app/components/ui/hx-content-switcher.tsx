@@ -30,7 +30,7 @@ export function ContentSwitcher({ items, value: controlledValue, defaultValue, o
         return (
           <button key={item.value} role="tab" type="button" aria-selected={isActive} disabled={disabled} onClick={() => handleClick(item.value)}
             style={{ borderTopLeftRadius: isFirst ? c.r : undefined, borderBottomLeftRadius: isFirst ? c.r : undefined, borderTopRightRadius: isLast ? c.r : undefined, borderBottomRightRadius: isLast ? c.r : undefined }}
-            className={cn("relative flex items-center justify-center shrink-0 select-none outline-none transition-colors focus-visible:z-10 focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)]", c.h, type === "text" ? c.textPad : c.iconPad,
+            className={cn("relative flex items-center justify-center shrink-0 select-none outline-none transition-all focus-visible:z-10 focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)] active:scale-[0.97]", c.h, type === "text" ? c.textPad : c.iconPad,
               isActive ? (disabled ? "bg-[#c8c8c8] cursor-not-allowed" : "bg-[var(--secondary-default)] cursor-pointer") : cn("border-t border-b", isLast && "border-r", disabled ? "bg-[#f4f4f4] border-[#e1e1e1] cursor-not-allowed" : color === "gray" ? "bg-[#f4f4f4] border-[#e1e1e1] hover:bg-[#ebebeb] cursor-pointer" : "bg-white border-[#e1e1e1] hover:bg-[#f8f8f8] cursor-pointer"))}>
             {type === "icon" ? <span className={cn("flex items-center justify-center", c.iconOnly, textColor)}>{item.icon}</span> :
               <span className={cn("flex items-center", c.gap, c.innerPx)}>

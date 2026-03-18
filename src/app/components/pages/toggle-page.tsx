@@ -148,8 +148,8 @@ export function TogglePage() {
                 <HxToggle defaultChecked size={size} />
                 <span
                   style={{
-                    fontSize: "10px",
-                    letterSpacing: "0.1em",
+                    fontSize: "var(--text-overline)",
+                    letterSpacing: "var(--ls-overline)",
                     textTransform: "uppercase" as const,
                     color: "var(--color-text-tertiary)",
                     fontFamily: "var(--font-family-supreme)",
@@ -169,8 +169,8 @@ export function TogglePage() {
                 <HxThemeToggle size={size} />
                 <span
                   style={{
-                    fontSize: "10px",
-                    letterSpacing: "0.1em",
+                    fontSize: "var(--text-overline)",
+                    letterSpacing: "var(--ls-overline)",
                     textTransform: "uppercase" as const,
                     color: "var(--color-text-tertiary)",
                     fontFamily: "var(--font-family-supreme)",

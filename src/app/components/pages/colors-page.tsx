@@ -3,6 +3,8 @@ import { useOutletContext } from "react-router";
 import { HxThemeToggle } from "../ui/hx-toggle";
 import { SearchTrigger } from "../docs/search-command";
 import { Copy, Check } from "lucide-react";
+import { useTheme } from "../theme-context";
+import { SectionJumpFab } from "../docs/section-jump-fab";
 
 /* ══════════════════════════════════════════════════════════════
    DATA
@@ -1304,10 +1306,10 @@ function ContrastBadge({
     <span
       style={{
         fontFamily: "var(--font-family-supreme)",
-        fontSize: "9px",
+        fontSize: "var(--text-indicator)",
         fontWeight: "var(--font-weight-bold)",
         color: light ? "rgba(0,0,0,0.62)" : "rgba(255,255,255,0.78)",
-        letterSpacing: "0.04em",
+        letterSpacing: "var(--ls-overline)",
         whiteSpace: "nowrap",
         backgroundColor: light ? "rgba(0,0,0,0.06)" : "rgba(255,255,255,0.10)",
         padding: "2px 6px",
@@ -1330,7 +1332,7 @@ function CopyButton({ text }: { text: string }) {
         setCopied(true);
         setTimeout(() => setCopied(false), 1500);
       }}
-      className="inline-flex items-center justify-center rounded-full cursor-pointer transition-all duration-150"
+      className="inline-flex items-center justify-center rounded-full cursor-pointer transition-all duration-[var(--duration-short-3)]"
       style={{
         width: "24px",
         height: "24px",
@@ -1374,7 +1376,7 @@ function SwatchCopyButton({
         setCopied(true);
         setTimeout(() => setCopied(false), 1500);
       }}
-      className="inline-flex items-center justify-center rounded-full cursor-pointer transition-colors duration-150"
+      className="inline-flex items-center justify-center rounded-full cursor-pointer transition-colors duration-[var(--duration-short-3)]"
       style={{
         width: "26px",
         height: "26px",
@@ -1400,10 +1402,10 @@ function SwatchCopyButton({
 
 /* Shared table header style */
 const TH_STYLE: React.CSSProperties = {
-  padding: "10px 16px",
-  fontSize: "10px",
+  padding: "var(--space-3) var(--space-5)",
+  fontSize: "var(--text-overline)",
   fontWeight: "var(--font-weight-bold)" as any,
-  letterSpacing: "0.14em",
+  letterSpacing: "var(--ls-overline)",
   textTransform: "uppercase",
   color: "var(--muted-foreground)",
   fontFamily: "var(--font-family-supreme)",
@@ -1417,17 +1419,17 @@ function PrimitivesTab() {
   return (
     <div className="flex flex-col" style={{ gap: "48px" }}>
       {primitiveScales.map((scale) => (
-        <section key={scale.id} id={scale.id}>
+        <section key={scale.id} id={scale.id} data-section-title={scale.name} className="color-section">
           {/* Section header */}
-          <div style={{ marginBottom: "20px" }}>
+          <div style={{ marginBottom: "var(--space-6)" }}>
             <h3
               style={{
                 fontFamily: "var(--font-family-supreme)",
                 fontWeight: "var(--font-weight-bold)",
-                fontSize: "24px",
+                fontSize: "var(--text-h3)",
                 color: "var(--foreground)",
-                letterSpacing: "-0.01em",
-                marginBottom: "6px",
+                letterSpacing: "var(--ls-h3)",
+                marginBottom: "var(--space-2)",
               }}
             >
               {scale.name}
@@ -1482,17 +1484,17 @@ function PrimitivesTab() {
                   {/* Top area: step number + scale name + copy btn */}
                   <div
                     className="flex-1 flex items-start justify-between"
-                    style={{ padding: "14px 12px 10px 16px" }}
+                    style={{ padding: "var(--space-4) var(--space-4) var(--space-3) var(--space-5)" }}
                   >
                     <div className="flex flex-col justify-center flex-1 min-w-0">
                       <span
                         style={{
                           fontFamily: "var(--font-family-supreme)",
                           fontWeight: "var(--font-weight-bold)",
-                          fontSize: "22px",
+                          fontSize: "var(--text-h4)",
                           color: fg,
-                          lineHeight: 1.1,
-                          letterSpacing: "-0.01em",
+                          lineHeight: "var(--lh-h4)",
+                          letterSpacing: "var(--ls-h4)",
                         }}
                       >
                         {shade.step}
@@ -1501,10 +1503,10 @@ function PrimitivesTab() {
                         style={{
                           fontFamily: "var(--font-family-supreme)",
                           fontWeight: "var(--font-weight-regular)",
-                          fontSize: "11px",
+                          fontSize: "var(--text-caption)",
                           color: fgSub,
-                          marginTop: "4px",
-                          letterSpacing: "0.01em",
+                          marginTop: "var(--space-1)",
+                          letterSpacing: "var(--ls-caption)",
                         }}
                       >
                         {scale.name}
@@ -1517,7 +1519,7 @@ function PrimitivesTab() {
                     className="flex items-center justify-between"
                     style={{
                       backgroundColor: footerBg,
-                      padding: "8px 14px",
+                      padding: "var(--space-3) var(--space-4)",
                       borderTop: `1px solid ${light ? "rgba(0,0,0,0.05)" : "rgba(255,255,255,0.05)"}`,
                     }}
                   >
@@ -1525,10 +1527,10 @@ function PrimitivesTab() {
                       style={{
                         fontFamily: "var(--font-family-supreme)",
                         fontWeight: "var(--font-weight-medium)",
-                        fontSize: "10.5px",
+                        fontSize: "var(--text-caption)",
                         color: fg,
                         textTransform: "uppercase",
-                        letterSpacing: "0.04em",
+                        letterSpacing: "var(--ls-caption)",
                       }}
                     >
                       {shade.hex}
@@ -1566,20 +1568,20 @@ function AliasesTab({
   return (
     <div className="flex flex-col" style={{ gap: "48px" }}>
       {aliasCategories.map((cat) => (
-        <section key={cat.id} id={cat.id}>
+        <section key={cat.id} id={cat.id} data-section-title={cat.label} className="color-section">
           <div
             className="flex items-start justify-between"
-            style={{ marginBottom: "20px" }}
+            style={{ marginBottom: "var(--space-6)" }}
           >
             <div>
               <h3
                 style={{
                   fontFamily: "var(--font-family-supreme)",
                   fontWeight: "var(--font-weight-bold)",
-                  fontSize: "24px",
+                  fontSize: "var(--text-h3)",
                   color: "var(--foreground)",
-                  letterSpacing: "-0.01em",
-                  marginBottom: "6px",
+                  letterSpacing: "var(--ls-h3)",
+                  marginBottom: "var(--space-2)",
                 }}
               >
                 {cat.label}
@@ -1601,10 +1603,10 @@ function AliasesTab({
               className="shrink-0"
               style={{
                 fontFamily: "var(--font-family-supreme)",
-                fontSize: "11px",
+                fontSize: "var(--text-caption)",
                 color: "var(--muted-foreground)",
                 backgroundColor: "var(--secondary)",
-                padding: "4px 10px",
+                padding: "var(--space-1) var(--space-3)",
                 borderRadius: "var(--radius-chip)",
               }}
             >
@@ -1650,14 +1652,14 @@ function AliasesTab({
                   {/* Top area: token name + copy btn */}
                   <div
                     className="flex-1 flex items-start justify-between"
-                    style={{ padding: "14px 12px 10px 16px" }}
+                    style={{ padding: "var(--space-4) var(--space-4) var(--space-3) var(--space-5)" }}
                   >
                     <div className="flex flex-col justify-center flex-1 min-w-0">
                       <span
                         style={{
                           fontFamily: "var(--font-family-supreme)",
                           fontWeight: "var(--font-weight-bold)",
-                          fontSize: "13px",
+                          fontSize: "var(--text-body-sm)",
                           color: fg,
                           lineHeight: 1.25,
                           wordBreak: "break-all",
@@ -1669,9 +1671,9 @@ function AliasesTab({
                         style={{
                           fontFamily: "var(--font-family-supreme)",
                           fontWeight: "var(--font-weight-regular)",
-                          fontSize: "10.5px",
+                          fontSize: "var(--text-caption)",
                           color: fgSub,
-                          marginTop: "3px",
+                          marginTop: "var(--space-1)",
                           wordBreak: "break-all",
                         }}
                       >
@@ -1685,7 +1687,7 @@ function AliasesTab({
                     className="flex items-center justify-between"
                     style={{
                       backgroundColor: footerBg,
-                      padding: "8px 14px",
+                      padding: "var(--space-3) var(--space-4)",
                       borderTop: `1px solid ${light ? "rgba(0,0,0,0.05)" : "rgba(255,255,255,0.05)"}`,
                     }}
                   >
@@ -1693,10 +1695,10 @@ function AliasesTab({
                       style={{
                         fontFamily: "var(--font-family-supreme)",
                         fontWeight: "var(--font-weight-medium)",
-                        fontSize: "10.5px",
+                        fontSize: "var(--text-caption)",
                         color: fg,
                         textTransform: "uppercase",
-                        letterSpacing: "0.04em",
+                        letterSpacing: "var(--ls-caption)",
                       }}
                     >
                       {hex}
@@ -1775,7 +1777,7 @@ function AliasesTab({
                 {cat.tokens.map((t) => (
                   <tr
                     key={t.name}
-                    className="transition-colors duration-100"
+                    className="transition-colors duration-[var(--duration-short-2)]"
                     style={{
                       borderBottom:
                         "1px solid var(--secondary)",
@@ -1832,7 +1834,7 @@ function AliasesTab({
                           />
                           <span
                             style={{
-                              fontSize: "11px",
+                              fontSize: "var(--text-caption)",
                               color: "var(--muted-foreground)",
                               textTransform: "uppercase",
                             }}
@@ -1857,7 +1859,7 @@ function AliasesTab({
                           />
                           <span
                             style={{
-                              fontSize: "11px",
+                              fontSize: "var(--text-caption)",
                               color: "var(--muted-foreground)",
                               textTransform: "uppercase",
                             }}
@@ -1909,21 +1911,21 @@ function TokensTab({
   return (
     <div className="flex flex-col" style={{ gap: "48px" }}>
       {tokenSections.map((section) => (
-        <section key={section.id} id={section.id}>
+        <section key={section.id} id={section.id} data-section-title={section.label} className="color-section">
           <h3
             style={{
               fontFamily: "var(--font-family-supreme)",
               fontWeight: "var(--font-weight-bold)",
-              fontSize: "20px",
+              fontSize: "var(--text-h4)",
               color: "var(--foreground)",
-              letterSpacing: "-0.01em",
-              marginBottom: "16px",
+              letterSpacing: "var(--ls-h4)",
+              marginBottom: "var(--space-5)",
             }}
           >
             {section.label}{" "}
             <span
               style={{
-                fontSize: "13px",
+                fontSize: "var(--text-body-sm)",
                 fontWeight: "var(--font-weight-regular)" as any,
                 color: "var(--muted-foreground)",
               }}
@@ -1994,7 +1996,7 @@ function TokensTab({
                   return (
                     <tr
                       key={t.token}
-                      className="transition-colors duration-100"
+                      className="transition-colors duration-[var(--duration-short-2)]"
                       style={{
                         borderBottom:
                           "1px solid var(--secondary)",
@@ -2014,13 +2016,13 @@ function TokensTab({
                             style={{
                               fontFamily:
                                 "var(--font-family-supreme)",
-                              fontSize: "11px",
+                              fontSize: "var(--text-caption)",
                               fontWeight:
                                 "var(--font-weight-medium)" as any,
                               color: "var(--foreground)",
                               backgroundColor:
                                 "var(--secondary)",
-                              padding: "3px 8px",
+                              padding: "var(--space-1) var(--space-3)",
                               borderRadius: "var(--radius-xs)",
                               border:
                                 "1px solid var(--border-subtle)",
@@ -2049,10 +2051,10 @@ function TokensTab({
                         <td style={{ padding: "12px 16px" }}>
                           <span
                             style={{
-                              fontSize: "11px",
+                              fontSize: "var(--text-caption)",
                               color: "var(--muted-foreground)",
                               textTransform: "uppercase",
-                              letterSpacing: "0.02em",
+                              letterSpacing: "var(--ls-caption)",
                             }}
                           >
                             {t.lightValue}
@@ -2063,10 +2065,10 @@ function TokensTab({
                         <td style={{ padding: "12px 16px" }}>
                           <span
                             style={{
-                              fontSize: "11px",
+                              fontSize: "var(--text-caption)",
                               color: "var(--muted-foreground)",
                               textTransform: "uppercase",
-                              letterSpacing: "0.02em",
+                              letterSpacing: "var(--ls-caption)",
                             }}
                           >
                             {t.darkValue}
@@ -2126,13 +2128,13 @@ function SideNav({
     >
       <span
         style={{
-          fontSize: "10px",
+          fontSize: "var(--text-overline)",
           fontWeight: "var(--font-weight-bold)" as any,
-          letterSpacing: "0.14em",
+          letterSpacing: "var(--ls-overline)",
           textTransform: "uppercase",
           color: "var(--muted-foreground)",
-          padding: "0 8px 8px",
-          marginBottom: "2px",
+          padding: "0 var(--space-3) var(--space-3)",
+          marginBottom: "var(--space-1)",
         }}
       >
         On this page
@@ -2147,16 +2149,16 @@ function SideNav({
               e.preventDefault();
               document.getElementById(item.id)?.scrollIntoView({ behavior: "smooth" });
             }}
-            className="flex items-center gap-2 truncate transition-colors duration-150"
+            className="flex items-center gap-2 truncate transition-colors duration-[var(--duration-short-3)]"
             style={{
-              fontSize: "13px",
+              fontSize: "var(--text-body-sm)",
               fontWeight: isActive
                 ? "var(--font-weight-medium)"
                 : "var(--font-weight-regular)",
               color: isActive
                 ? "var(--foreground)"
                 : "var(--color-text-tertiary)",
-              padding: "6px 8px",
+              padding: "var(--space-2) var(--space-3)",
               borderRadius: "var(--radius-xs)",
               backgroundColor: isActive
                 ? "var(--secondary-subtle)"
@@ -2180,7 +2182,7 @@ function SideNav({
                 style={{
                   width: "16px",
                   height: "16px",
-                  borderRadius: "var(--radius-xs)",
+                  borderRadius: "var(--radius-circle)",
                   backgroundColor: item.color,
                   border: "1px solid var(--border)",
                 }}
@@ -2209,6 +2211,7 @@ export function ColorsPage() {
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("");
   const sentinelRef = useRef<HTMLDivElement>(null);
+  const { theme } = useTheme();
 
   /* Breadcrumb shadow on scroll */
   useEffect(() => {
@@ -2233,14 +2236,14 @@ export function ColorsPage() {
       return aliasCategories.map((c) => ({
         id: c.id,
         label: c.label,
-        color: c.tokens[0]?.lightHex,
+        color: theme === "dark" ? (c.tokens[0]?.darkHex ?? c.tokens[0]?.lightHex) : c.tokens[0]?.lightHex,
       }));
     return tokenSections.map((s) => ({
       id: s.id,
       label: s.label,
-      color: s.tokens[0]?.lightValue,
+      color: theme === "dark" ? (s.tokens[0]?.darkValue ?? s.tokens[0]?.lightValue) : s.tokens[0]?.lightValue,
     }));
-  }, [activeTab]);
+  }, [activeTab, theme]);
 
   /* Intersection observer for active section tracking */
   useEffect(() => {
@@ -2293,7 +2296,7 @@ export function ColorsPage() {
 
   return (
     <div
-      className="min-h-screen"
+      className="min-h-full"
       style={{
         backgroundColor: "var(--secondary-subtle)",
         fontFamily: "var(--font-family-supreme)",
@@ -2307,7 +2310,7 @@ export function ColorsPage() {
 
       {/* ── Sticky header — single row, consistent with other pages ── */}
       <div
-        className="border-b sticky top-0 z-10 h-[72px] transition-shadow duration-200 relative"
+        className="border-b sticky top-0 z-10 h-[72px] transition-shadow duration-[var(--duration-short-4)] relative"
         style={{
           borderColor: "var(--border-subtle)",
           backgroundColor: "var(--background)",
@@ -2317,12 +2320,12 @@ export function ColorsPage() {
         {/* Full-width layer: breadcrumb left, controls right */}
         <div className="h-full flex items-center justify-between relative z-[1]" style={{ padding: "0 var(--space-10)" }}>
           <div className="flex items-center shrink-0" style={{ gap: "var(--space-3)" }}>
-            <span style={{ fontSize: "11px", color: "var(--muted-foreground)", fontFamily: "var(--font-family-supreme)" }}>Foundation</span>
-            <span style={{ fontSize: "11px", color: "var(--border)" }}>&rsaquo;</span>
-            <span style={{ fontSize: "11px", color: "var(--foreground)", fontWeight: "var(--font-weight-bold)" as any, fontFamily: "var(--font-family-supreme)" }}>Colors</span>
+            <span style={{ fontSize: "var(--text-caption)", color: "var(--muted-foreground)", fontFamily: "var(--font-family-supreme)" }}>Foundation</span>
+            <span style={{ fontSize: "var(--text-caption)", color: "var(--border)" }}>&rsaquo;</span>
+            <span style={{ fontSize: "var(--text-caption)", color: "var(--foreground)", fontWeight: "var(--font-weight-bold)" as any, fontFamily: "var(--font-family-supreme)" }}>Colors</span>
           </div>
           <div className="flex items-center shrink-0" style={{ gap: "var(--space-5)" }}>
-            <span style={{ fontSize: "11px", color: "var(--muted-foreground)", fontFamily: "var(--font-family-supreme)" }}>{countLabel}</span>
+            <span style={{ fontSize: "var(--text-caption)", color: "var(--muted-foreground)", fontFamily: "var(--font-family-supreme)" }}>{countLabel}</span>
             <ColorsSearch />
             <HxThemeToggle size="lg" />
           </div>
@@ -2339,11 +2342,11 @@ export function ColorsPage() {
                   role="tab"
                   aria-selected={isActive}
                   onClick={() => setActiveTab(tab.value)}
-                  className="relative flex items-center justify-center cursor-pointer select-none outline-none transition-colors duration-150"
+                  className="relative flex items-center justify-center cursor-pointer select-none outline-none transition-colors duration-[var(--duration-short-3)]"
                   style={{
                     height: "72px",
-                    padding: "0 16px",
-                    fontSize: "14px",
+                    padding: "0 var(--space-5)",
+                    fontSize: "var(--text-body)",
                     fontWeight: isActive ? "var(--font-weight-medium)" : "var(--font-weight-regular)",
                     color: isActive ? "var(--color-text-primary)" : "var(--color-text-tertiary)",
                     fontFamily: "var(--font-family-supreme)",
@@ -2355,7 +2358,7 @@ export function ColorsPage() {
                 >
                   {tab.label}
                   <span
-                    className="absolute bottom-0 left-0 w-full transition-transform duration-300 origin-left"
+                    className="absolute bottom-0 left-0 w-full transition-transform duration-[var(--duration-medium-2)] origin-left"
                     style={{
                       height: "2px",
                       backgroundColor: "var(--brand-default)",
@@ -2396,11 +2399,11 @@ export function ColorsPage() {
           <div style={{ paddingTop: "var(--space-10)", paddingBottom: "var(--space-9)" }}>
             <h1
               style={{
-                fontSize: "48px",
+                fontSize: "var(--text-huge)",
                 fontWeight: "var(--font-weight-bold)" as any,
                 color: "var(--foreground)",
-                lineHeight: 1.1,
-                letterSpacing: "-0.02em",
+                lineHeight: "var(--lh-huge)",
+                letterSpacing: "var(--ls-huge)",
                 marginBottom: "var(--space-5)",
                 fontFamily: "var(--font-family-supreme)",
               }}
@@ -2430,7 +2433,7 @@ export function ColorsPage() {
               <div className="flex items-center" style={{ gap: "var(--space-4)", paddingBottom: "var(--space-7)" }}>
                 <span
                   style={{
-                    fontSize: "12px",
+                    fontSize: "var(--text-meta)",
                     color: "var(--muted-foreground)",
                     fontFamily: "var(--font-family-supreme)",
                   }}
@@ -2448,7 +2451,7 @@ export function ColorsPage() {
                         onClick={() => setMode(m)}
                         className="px-2.5 py-1 rounded transition-all cursor-pointer"
                         style={{
-                          fontSize: "11px",
+                          fontSize: "var(--text-caption)",
                           backgroundColor:
                             mode === m
                               ? "var(--background)"
@@ -2497,7 +2500,7 @@ export function ColorsPage() {
           >
             <p
               style={{
-                fontSize: "12px",
+                fontSize: "var(--text-meta)",
                 color: "var(--muted-foreground)",
                 fontFamily: "var(--font-family-supreme)",
               }}
@@ -2506,7 +2509,7 @@ export function ColorsPage() {
             </p>
             <p
               style={{
-                fontSize: "12px",
+                fontSize: "var(--text-meta)",
                 color: "var(--muted-foreground)",
                 fontFamily: "var(--font-family-supreme)",
               }}
@@ -2517,6 +2520,14 @@ export function ColorsPage() {
           </div>
         </div>
       </div>
+
+      <SectionJumpFab
+        sectionSelector=".color-section[data-section-title]"
+        titleExtractor={(el) => ({
+          id: el.id,
+          title: el.dataset.sectionTitle || "",
+        })}
+      />
     </div>
   );
 }

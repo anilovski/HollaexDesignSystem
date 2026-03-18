@@ -17,6 +17,7 @@ import {
   MoreHorizontal,
 } from "lucide-react";
 import { searchEntries, searchIndex, type SearchEntry } from "./search-index";
+import { NoResultsIllustration } from "../ui/no-results-illustration";
 
 /* ── Search categories ───────────────────────── */
 export interface SearchCategory {
@@ -623,14 +624,36 @@ export function SearchDialog({
             >
               {results.length === 0 ? (
                 <div
+                  className="flex flex-col items-center justify-center"
                   style={{
                     padding: "var(--space-10) var(--space-5)",
                     textAlign: "center",
                     color: "var(--search-fg-tertiary)",
-                    fontSize: "var(--text-base)",
+                    gap: "var(--space-5)",
                   }}
                 >
-                  No results found for &ldquo;{query}&rdquo;
+                  <NoResultsIllustration />
+                  <div className="flex flex-col items-center" style={{ gap: "var(--space-2)" }}>
+                    <span
+                      style={{
+                        fontSize: "var(--text-base)",
+                        fontWeight: "var(--font-weight-medium)" as any,
+                        color: "var(--foreground)",
+                        fontFamily: "var(--font-family-supreme)",
+                      }}
+                    >
+                      No results found
+                    </span>
+                    <span
+                      style={{
+                        fontSize: "13px",
+                        color: "var(--search-fg-tertiary)",
+                        fontFamily: "var(--font-family-supreme)",
+                      }}
+                    >
+                      Nothing matched &ldquo;{query}&rdquo;. Try a different search term.
+                    </span>
+                  </div>
                 </div>
               ) : (
                 grouped.map(([category, entries]) => (
@@ -746,7 +769,7 @@ function groupByCategory(
   entries: SearchEntry[]
 ): [string, SearchEntry[]][] {
   const map = new Map<string, SearchEntry[]>();
-  const order = ["Getting Started", "Foundation", "Components"];
+  const order = ["Getting Started", "Foundation", "Components", "Patterns"];
 
   for (const e of entries) {
     const arr = map.get(e.category) ?? [];

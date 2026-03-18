@@ -6,9 +6,19 @@ import { Badge } from "../ui/hx-badge";
 function ListItem({ icon, label, topSubtext, bottomSubtext, helperIcon, chevron = false, separator = true, active = false, disabled = false, trailing, topBadge, topRightText, variant = "gray", onClick }: {
   icon?: React.ReactNode; label: string; topSubtext?: string; bottomSubtext?: string; helperIcon?: React.ReactNode; chevron?: boolean; separator?: boolean; active?: boolean; disabled?: boolean; trailing?: React.ReactNode; topBadge?: React.ReactNode; topRightText?: string; variant?: "gray" | "white"; onClick?: () => void
 }) {
-  const bg = variant === "gray" ? "bg-[#f4f4f4] hover:bg-[#ebebeb]" : "bg-white hover:bg-[#f8f8f8]";
+  const isClickable = !!onClick && !disabled;
+  const bg = variant === "gray" ? "bg-[var(--muted)] hover:bg-[var(--muted-foreground-hover,#ebebeb)]" : "bg-[var(--input-background)] hover:bg-[var(--muted)]";
   return (
-    <div className={cn("relative flex flex-col gap-2 items-start justify-center pl-4 pr-2 py-4 w-full font-sans transition-colors", bg, active && "bg-[#e9effd]", disabled && "opacity-50 pointer-events-none", onClick && !disabled && "cursor-pointer")} onClick={!disabled ? onClick : undefined}>
+    <div
+      className={cn(
+        "group relative flex flex-col gap-2 items-start justify-center pl-4 pr-2 py-4 w-full font-[var(--font-family-sans)] transition-colors",
+        bg,
+        active && "bg-[var(--brand-muted,#e9effd)]",
+        disabled && "opacity-50 pointer-events-none",
+        isClickable && "cursor-pointer"
+      )}
+      onClick={!disabled ? onClick : undefined}
+    >
       {(topBadge || topRightText) && <div className="flex items-center gap-6 w-full">{topBadge}{topRightText && <p className="flex-1 text-right text-[12px] text-[var(--color-text-tertiary)]">{topRightText}</p>}</div>}
       <div className="flex items-center gap-2 w-full">
         <div className="flex flex-1 items-center justify-between min-w-0">
@@ -22,7 +32,26 @@ function ListItem({ icon, label, topSubtext, bottomSubtext, helperIcon, chevron 
           </div>
           {trailing && <div className="shrink-0 flex items-center justify-end pl-1">{trailing}</div>}
         </div>
-        {chevron && <ChevronRight size={20} className="shrink-0 text-[var(--color-text-tertiary)]" />}
+        {chevron && (
+          <span
+            className="shrink-0 flex items-center justify-center"
+            style={{
+              color: active ? "var(--brand-default)" : "var(--color-text-tertiary)",
+              transition: `transform var(--motion-hover), color var(--motion-hover)`,
+              transform: "translateX(0)",
+            }}
+          >
+            <ChevronRight
+              size={20}
+              className={cn(
+                isClickable && "group-hover:translate-x-0.5 group-active:translate-x-1"
+              )}
+              style={{
+                transition: `transform var(--motion-hover)`,
+              }}
+            />
+          </span>
+        )}
       </div>
       {separator && <span aria-hidden className="absolute bottom-0 left-0 right-0 h-px bg-[#e1e1e1]" />}
     </div>

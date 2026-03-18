@@ -122,7 +122,7 @@ function CollapsedFlyout({
       </div>
 
       {/* Child items */}
-      {item.children?.map((child) => {
+      {item.children?.map((child, idx) => {
         const isChildActive = activeId === child.id;
         return (
           <button
@@ -131,13 +131,15 @@ function CollapsedFlyout({
             role="menuitem"
             disabled={child.disabled}
             className={cn(
-              "flex items-center w-full gap-[8px] px-[12px] py-[8px] text-left transition-colors duration-100 outline-none",
+              "flex items-center w-full gap-[8px] px-[12px] py-[8px] text-left transition-colors duration-[var(--duration-short-2)] outline-none",
               child.disabled && "opacity-40 cursor-not-allowed",
               !child.disabled && "cursor-pointer",
             )}
             style={{
               backgroundColor: isChildActive ? "var(--brand-subtle)" : undefined,
               fontFamily: "var(--font-family-supreme)",
+              animation: `hx-menu-item-in var(--duration-short-4) var(--ease-emphasized-decelerate) both`,
+              animationDelay: `${idx * 35}ms`,
             }}
             onMouseEnter={(e) => {
               if (!isChildActive && !child.disabled)
@@ -274,7 +276,7 @@ function NavItemRow({ item, depth = 0 }: { item: SideNavItem; depth?: number }) 
         aria-haspopup={collapsed && hasChildren ? "menu" : undefined}
         aria-expanded={collapsed && hasChildren ? !!flyoutAnchor : expanded || undefined}
         className={cn(
-          "group relative flex items-center w-full gap-[10px] rounded-[var(--radius)] transition-colors duration-100 outline-none select-none",
+          "group relative flex items-center w-full gap-[10px] rounded-[var(--radius)] transition-colors duration-[var(--duration-short-2)] outline-none select-none",
           collapsed ? "justify-center px-0 py-[10px]" : "px-[10px] py-[10px]",
           item.disabled && "opacity-40 cursor-not-allowed",
           !item.disabled && "cursor-pointer",
@@ -301,7 +303,7 @@ function NavItemRow({ item, depth = 0 }: { item: SideNavItem; depth?: number }) 
         {showHighlight && !collapsed && (
           <span
             className="absolute left-0 top-[6px] bottom-[6px] w-[3px] rounded-full"
-            style={{ backgroundColor: "var(--brand-default)" }}
+            style={{ backgroundColor: "var(--brand-default)", animation: "hx-check-pop var(--duration-short-4) var(--ease-emphasized-decelerate)" }}
           />
         )}
 
@@ -368,7 +370,7 @@ function NavItemRow({ item, depth = 0 }: { item: SideNavItem; depth?: number }) 
           <ChevronDown
             size={14}
             className={cn(
-              "shrink-0 transition-transform duration-200",
+              "shrink-0 transition-transform duration-[var(--duration-short-4)]",
               expanded && "rotate-180",
             )}
             style={{ color: "var(--color-text-tertiary)" }}
@@ -397,11 +399,21 @@ function NavItemRow({ item, depth = 0 }: { item: SideNavItem; depth?: number }) 
       </button>
 
       {/* Children (expanded mode) */}
-      {!collapsed && hasChildren && expanded && (
-        <div className="flex flex-col">
-          {item.children!.map((child) => (
-            <NavItemRow key={child.id} item={child} depth={depth + 1} />
-          ))}
+      {!collapsed && hasChildren && (
+        <div
+          className="grid"
+          style={{
+            gridTemplateRows: expanded ? "1fr" : "0fr",
+            transition: `grid-template-rows var(--duration-medium-4) ${expanded ? "var(--ease-emphasized-decelerate)" : "var(--ease-emphasized-accelerate)"}`,
+          }}
+        >
+          <div className="overflow-hidden">
+            <div className="flex flex-col">
+              {item.children!.map((child) => (
+                <NavItemRow key={child.id} item={child} depth={depth + 1} />
+              ))}
+            </div>
+          </div>
         </div>
       )}
 
@@ -506,7 +518,7 @@ export function SideNav({
         className={cn(
           "flex flex-col h-full border-r overflow-hidden",
           collapsed ? "w-[64px]" : "w-[248px]",
-          "transition-[width] duration-200",
+          "transition-[width] duration-[var(--duration-short-4)]",
           className,
         )}
         style={{
@@ -571,7 +583,7 @@ export function SideNav({
         {/* Sticky bottom sections */}
         {stickyBottomSections && (
           <div
-            className="shrink-0 relative z-10 px-[8px] pt-[12px] pb-[12px] transition-shadow duration-300 ease-out"
+            className="shrink-0 relative z-10 px-[8px] pt-[12px] pb-[12px] transition-shadow duration-[var(--duration-medium-2)] ease-out"
             style={{
               backgroundColor: bg,
               boxShadow: navOverflowing && hovered

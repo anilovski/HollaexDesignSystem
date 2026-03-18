@@ -42,7 +42,7 @@ function DemoBtn({
 }) {
   const h = size === "sm" ? "32px" : "36px";
   const px = size === "sm" ? "12px" : "16px";
-  const fs = size === "sm" ? "12px" : "var(--text-label)";
+  const fs = size === "sm" ? "var(--text-meta)" : "var(--text-label)";
 
   const vars: Record<
     string,
@@ -184,7 +184,7 @@ function FormField({
     <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
       <label
         style={{
-          fontSize: "12px",
+          fontSize: "var(--text-meta)",
           fontWeight: "var(--font-weight-medium)",
           color: "var(--color-text-secondary)",
           fontFamily: "var(--font-family-supreme)",
@@ -232,7 +232,7 @@ function TokenRow({
         style={{
           padding: "10px 16px",
           fontFamily: "var(--font-family-mono)",
-          fontSize: "12px",
+          fontSize: "var(--text-meta)",
           color: "var(--color-text-brand)",
           whiteSpace: "nowrap",
         }}
@@ -452,7 +452,7 @@ export function ModalPage() {
               <Info size={18} style={{ color: "var(--alert-info-icon)", flexShrink: 0 }} />
               <span
                 style={{
-                  fontSize: "13px",
+                  fontSize: "var(--text-body-sm)",
                   fontFamily: "var(--font-family-supreme)",
                   color: "var(--alert-info-title)",
                   lineHeight: 1.4,
@@ -555,7 +555,7 @@ export function ModalPage() {
               <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
                 <label
                   style={{
-                    fontSize: "12px",
+                    fontSize: "var(--text-meta)",
                     fontWeight: "var(--font-weight-medium)",
                     color: "var(--color-text-secondary)",
                     fontFamily: "var(--font-family-supreme)",
@@ -655,7 +655,7 @@ export function ModalPage() {
                   </div>
                   <div
                     style={{
-                      fontSize: "12px",
+                      fontSize: "var(--text-meta)",
                       color: "var(--modal-desc-fg)",
                       fontFamily: "var(--font-family-supreme)",
                     }}
@@ -814,12 +814,12 @@ export function ModalPage() {
                 >
                   <div
                     style={{
-                      fontSize: "11px",
+                      fontSize: "var(--text-caption)",
                       fontWeight: "var(--font-weight-medium)",
                       color: "var(--modal-desc-fg)",
                       fontFamily: "var(--font-family-supreme)",
                       textTransform: "uppercase",
-                      letterSpacing: "0.06em",
+                      letterSpacing: "var(--ls-overline)",
                       marginBottom: "8px",
                     }}
                   >
@@ -827,7 +827,7 @@ export function ModalPage() {
                   </div>
                   <div
                     style={{
-                      fontSize: "20px",
+                      fontSize: "var(--text-h4)",
                       fontWeight: "var(--font-weight-bold)",
                       color: "var(--modal-title-fg)",
                       fontFamily: "var(--font-family-supreme)",
@@ -837,7 +837,7 @@ export function ModalPage() {
                   </div>
                   <div
                     style={{
-                      fontSize: "12px",
+                      fontSize: "var(--text-meta)",
                       color: "var(--alert-success-icon)",
                       fontFamily: "var(--font-family-supreme)",
                       marginTop: "4px",
@@ -933,12 +933,12 @@ export function ModalPage() {
             <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
               <span
                 style={{
-                  fontSize: "11px",
+                  fontSize: "var(--text-caption)",
                   fontWeight: "var(--font-weight-bold)",
                   color: "var(--color-text-secondary)",
                   fontFamily: "var(--font-family-supreme)",
                   textTransform: "uppercase",
-                  letterSpacing: "0.1em",
+                  letterSpacing: "var(--ls-overline)",
                 }}
               >
                 Size
@@ -950,7 +950,7 @@ export function ModalPage() {
                     onClick={() => setPgSize(s)}
                     style={{
                       padding: "4px 10px",
-                      fontSize: "12px",
+                      fontSize: "var(--text-meta)",
                       fontFamily: "var(--font-family-supreme)",
                       fontWeight: "var(--font-weight-medium)",
                       borderRadius: "var(--radius)",
@@ -979,7 +979,7 @@ export function ModalPage() {
                 display: "flex",
                 alignItems: "center",
                 gap: "8px",
-                fontSize: "12px",
+                fontSize: "var(--text-meta)",
                 fontFamily: "var(--font-family-supreme)",
                 color: "var(--color-text-primary)",
                 cursor: "pointer",
@@ -999,7 +999,7 @@ export function ModalPage() {
                 display: "flex",
                 alignItems: "center",
                 gap: "8px",
-                fontSize: "12px",
+                fontSize: "var(--text-meta)",
                 fontFamily: "var(--font-family-supreme)",
                 color: "var(--color-text-primary)",
                 cursor: "pointer",
@@ -1019,7 +1019,7 @@ export function ModalPage() {
                 display: "flex",
                 alignItems: "center",
                 gap: "8px",
-                fontSize: "12px",
+                fontSize: "var(--text-meta)",
                 fontFamily: "var(--font-family-supreme)",
                 color: "var(--color-text-primary)",
                 cursor: "pointer",
@@ -1100,9 +1100,9 @@ export function ModalPage() {
                     style={{
                       padding: "10px 16px",
                       textAlign: "left",
-                      fontSize: "11px",
+                      fontSize: "var(--text-caption)",
                       fontWeight: "var(--font-weight-bold)",
-                      letterSpacing: "0.08em",
+                      letterSpacing: "var(--ls-overline)",
                       textTransform: "uppercase",
                       color: "var(--table-header-fg)",
                     }}
@@ -1134,7 +1134,7 @@ export function ModalPage() {
                     style={{
                       padding: "10px 16px",
                       fontFamily: "var(--font-family-mono)",
-                      fontSize: "12px",
+                      fontSize: "var(--text-meta)",
                       color: "var(--color-text-brand)",
                       whiteSpace: "nowrap",
                     }}
@@ -1145,7 +1145,7 @@ export function ModalPage() {
                     style={{
                       padding: "10px 16px",
                       fontFamily: "var(--font-family-mono)",
-                      fontSize: "12px",
+                      fontSize: "var(--text-meta)",
                       color: "var(--color-text-primary)",
                     }}
                   >
@@ -1155,7 +1155,7 @@ export function ModalPage() {
                     style={{
                       padding: "10px 16px",
                       fontFamily: "var(--font-family-mono)",
-                      fontSize: "12px",
+                      fontSize: "var(--text-meta)",
                       color: "var(--color-text-tertiary)",
                     }}
                   >
@@ -1203,9 +1203,9 @@ export function ModalPage() {
                     style={{
                       padding: "10px 16px",
                       textAlign: "left",
-                      fontSize: "11px",
+                      fontSize: "var(--text-caption)",
                       fontWeight: "var(--font-weight-bold)",
-                      letterSpacing: "0.08em",
+                      letterSpacing: "var(--ls-overline)",
                       textTransform: "uppercase",
                       color: "var(--table-header-fg)",
                     }}
@@ -1234,7 +1234,7 @@ export function ModalPage() {
                     style={{
                       padding: "10px 16px",
                       fontFamily: "var(--font-family-mono)",
-                      fontSize: "12px",
+                      fontSize: "var(--text-meta)",
                       color: "var(--color-text-brand)",
                       whiteSpace: "nowrap",
                     }}
@@ -1286,9 +1286,9 @@ export function ModalPage() {
                     style={{
                       padding: "10px 16px",
                       textAlign: "left",
-                      fontSize: "11px",
+                      fontSize: "var(--text-caption)",
                       fontWeight: "var(--font-weight-bold)",
-                      letterSpacing: "0.08em",
+                      letterSpacing: "var(--ls-overline)",
                       textTransform: "uppercase",
                       color: "var(--table-header-fg)",
                     }}
@@ -1335,9 +1335,9 @@ export function ModalPage() {
           >
             <span
               style={{
-                fontSize: "10px",
+                fontSize: "var(--text-overline)",
                 fontWeight: "var(--font-weight-bold)",
-                letterSpacing: "0.14em",
+                letterSpacing: "var(--ls-overline)",
                 textTransform: "uppercase",
                 color: "var(--muted-foreground)",
                 fontFamily: "var(--font-family-supreme)",
@@ -1350,7 +1350,7 @@ export function ModalPage() {
             style={{
               padding: "20px 24px",
               margin: 0,
-              fontSize: "13px",
+              fontSize: "var(--text-body-sm)",
               lineHeight: 1.6,
               fontFamily: "var(--font-family-mono)",
               color: "var(--color-text-primary)",

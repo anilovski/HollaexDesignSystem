@@ -34,11 +34,11 @@ export const RadioButton = forwardRef<HTMLInputElement, RadioButtonProps>(functi
       <input ref={ref} type="radio" id={id} name={name} value={value} disabled={disabled} checked={isChecked} onChange={handleChange} className="sr-only peer" aria-invalid={error || undefined} {...props} />
       {label !== undefined && label !== null && <span className={cn("text-[12px] leading-[16px] font-normal select-none", error ? "text-[var(--danger-default)]" : disabled ? "text-[var(--color-text-disabled)]" : "text-[var(--color-text-secondary)]")}>{label}</span>}
       <div className="flex items-center gap-2 py-px">
-        <span aria-hidden className={cn("relative shrink-0 size-4 rounded-full flex items-center justify-center transition-colors duration-100",
+        <span aria-hidden className={cn("relative shrink-0 size-4 rounded-full flex items-center justify-center transition-colors duration-[var(--duration-short-2)]",
           "group-has-[input:focus-visible]:ring-1 group-has-[input:focus-visible]:ring-[var(--focus-ring)] group-has-[input:focus-visible]:ring-offset-1",
           !isChecked && ["border", error ? "border-[var(--danger-default)]" : disabled ? "border-[var(--color-text-disabled)]" : "border-[var(--color-text-secondary)]"],
           isChecked && ["border", error ? "bg-[var(--danger-default)] border-[var(--danger-default)]" : disabled ? "bg-[var(--color-text-disabled)] border-[var(--color-text-disabled)]" : "bg-[var(--brand-default)] border-[var(--brand-default)]"])}>
-          {isChecked && <span aria-hidden className={cn("block rounded-full size-2", disabled ? "bg-[#aaa]" : "bg-white")} />}
+          {isChecked && <span aria-hidden className={cn("block rounded-full size-2", disabled ? "bg-[#aaa]" : "bg-white")} style={{ animation: "hx-check-pop var(--duration-short-4) var(--ease-emphasized-decelerate)" }} />}
         </span>
         {children && <span className={cn("text-[14px] leading-[22px] font-normal whitespace-nowrap select-none", disabled ? "text-[var(--color-text-disabled)]" : "text-[var(--color-text-primary)]")}>{children}</span>}
       </div>

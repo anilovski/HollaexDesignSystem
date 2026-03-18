@@ -2,7 +2,7 @@ export interface SearchEntry {
   name: string;
   href: string;
   description: string;
-  category: "Getting Started" | "Foundation" | "Components";
+  category: "Getting Started" | "Foundation" | "Components" | "Patterns";
   keywords?: string[];
 }
 
@@ -54,9 +54,9 @@ export const searchIndex: SearchEntry[] = [
     name: "Motion",
     href: "/foundation/motion",
     description:
-      "Easing curves, duration tokens, and semantic motion presets inspired by Material Design 3. CSS variable tokens for hover, press, expand, enter/exit, and focus-line animations.",
+      "Easing curves, duration tokens, and semantic motion presets guided by IBM's Design Language. CSS variable tokens for hover, press, expand, enter/exit, and focus-line animations.",
     category: "Foundation",
-    keywords: ["motion", "animation", "easing", "duration", "transition", "curve", "bezier", "timing", "hover", "enter", "exit", "expand", "collapse", "fade"],
+    keywords: ["motion", "animation", "easing", "duration", "transition", "curve", "bezier", "timing", "hover", "enter", "exit", "expand", "collapse", "fade", "ibm", "productive", "expressive"],
   },
 
   // ── Components ──────────────────────────────────
@@ -77,6 +77,14 @@ export const searchIndex: SearchEntry[] = [
     keywords: ["notification", "banner", "message", "info", "warning", "success", "error", "status", "toast"],
   },
   {
+    name: "Alert Dialog",
+    href: "/components/alert-dialog",
+    description:
+      "A modal dialog that interrupts the user with important content and expects a response. Used for destructive confirmations and critical decisions.",
+    category: "Components",
+    keywords: ["modal", "confirm", "dialog", "destructive", "delete", "warning", "prompt"],
+  },
+  {
     name: "Avatar",
     href: "/components/avatar",
     description:
@@ -93,6 +101,14 @@ export const searchIndex: SearchEntry[] = [
     keywords: ["label", "tag", "pill", "counter", "indicator", "status", "dot"],
   },
   {
+    name: "Breadcrumb",
+    href: "/components/breadcrumb",
+    description:
+      "A navigational aid showing the user's current location within a hierarchy. Supports custom separators, truncation, and dropdown overflow for deep paths.",
+    category: "Components",
+    keywords: ["breadcrumb", "navigation", "path", "hierarchy", "trail", "location", "crumb"],
+  },
+  {
     name: "Button",
     href: "/components/button",
     description:
@@ -107,6 +123,14 @@ export const searchIndex: SearchEntry[] = [
       "Horizontally joined buttons with a shared border container. Uses context for consistent sizing. Ideal for view toggles and segmented controls.",
     category: "Components",
     keywords: ["segmented", "group", "toggle", "toolbar", "joined"],
+  },
+  {
+    name: "Carousel",
+    href: "/components/carousel",
+    description:
+      "A slideshow component for cycling through content panels. Built on Embla Carousel with navigation controls and flexible sizing.",
+    category: "Components",
+    keywords: ["slideshow", "slider", "swipe", "gallery", "embla", "cards"],
   },
   {
     name: "Checkbox",
@@ -133,12 +157,28 @@ export const searchIndex: SearchEntry[] = [
     keywords: ["crypto", "coin", "price", "trend", "sparkline", "watchlist", "card", "bitcoin", "ethereum"],
   },
   {
+    name: "Collapsible",
+    href: "/components/collapsible",
+    description:
+      "An interactive component that expands and collapses a panel. Built on Radix UI Collapsible with accessible open/close state management.",
+    category: "Components",
+    keywords: ["expand", "collapse", "toggle", "disclosure", "panel", "radix"],
+  },
+  {
     name: "Content Switcher",
     href: "/components/content-switcher",
     description:
       "Tab-like control for switching between content sections. Supports text and icon-only modes, white and gray backgrounds, and 4 sizes.",
     category: "Components",
     keywords: ["switch", "toggle", "segment", "tab", "selector"],
+  },
+  {
+    name: "Context Menu",
+    href: "/components/context-menu",
+    description:
+      "A menu activated by right-clicking an element. Supports submenus, checkbox items, radio groups, and keyboard navigation.",
+    category: "Components",
+    keywords: ["right-click", "menu", "context", "submenu", "checkbox", "radio", "radix"],
   },
   {
     name: "Date Picker",
@@ -165,6 +205,14 @@ export const searchIndex: SearchEntry[] = [
     keywords: ["nav", "navigation", "topbar", "appbar", "toolbar", "menu"],
   },
   {
+    name: "Hover Card",
+    href: "/components/hover-card",
+    description:
+      "A floating card that appears when hovering over a trigger. Ideal for previewing user profiles, link details, or asset summaries.",
+    category: "Components",
+    keywords: ["hover", "preview", "card", "floating", "popup", "profile", "asset"],
+  },
+  {
     name: "Input",
     href: "/components/input",
     description:
@@ -179,6 +227,14 @@ export const searchIndex: SearchEntry[] = [
       "Hybrid amount input with a coin/token dropdown selector. Combines a numeric input field with a coin picker in a single control.",
     category: "Components",
     keywords: ["amount", "coin", "token", "hybrid", "number", "picker", "crypto"],
+  },
+  {
+    name: "Input OTP",
+    href: "/components/input-otp",
+    description:
+      "A one-time password input with individual character slots. Used for 2FA verification, email confirmation codes, and phone verification.",
+    category: "Components",
+    keywords: ["otp", "verification", "2fa", "code", "pin", "authentication", "one-time"],
   },
   {
     name: "Link",
@@ -197,12 +253,52 @@ export const searchIndex: SearchEntry[] = [
     keywords: ["item", "menu", "settings", "data", "row", "scannable"],
   },
   {
+    name: "Menubar",
+    href: "/components/menubar",
+    description:
+      "A horizontal menu bar with dropdown menus, keyboard navigation, submenus, and checkbox/radio items. Desktop-style application menus.",
+    category: "Components",
+    keywords: ["menu", "bar", "desktop", "dropdown", "keyboard", "application", "file", "edit"],
+  },
+  {
+    name: "Page Loader",
+    href: "/components/page-loader",
+    description:
+      "Centered loading animation with bouncing dots and rotating status messages. Three size presets, customizable messages, and a FadeInContent wrapper for smooth page transitions.",
+    category: "Components",
+    keywords: ["loading", "spinner", "skeleton", "suspense", "lazy", "animation", "dots", "progress", "wait"],
+  },
+  {
     name: "Modal",
     href: "/components/modal",
     description:
       "Dialog overlay that captures focus and blocks page interaction. Supports scrollable bodies, five size presets, header/body/footer composition, nested stacking, and full dark mode via CSS tokens.",
     category: "Components",
     keywords: ["dialog", "overlay", "popup", "lightbox", "confirm", "form", "scroll", "focus trap"],
+  },
+  {
+    name: "Navigation Menu",
+    href: "/components/navigation-menu",
+    description:
+      "A horizontal navigation with dropdown content panels, keyboard navigation, and accessible labeling. Built on Radix UI Navigation Menu.",
+    category: "Components",
+    keywords: ["nav", "navigation", "dropdown", "links", "header", "radix", "horizontal"],
+  },
+  {
+    name: "Pagination",
+    href: "/components/pagination",
+    description:
+      "Navigation controls for moving between pages of data. Supports numbered pages, previous/next buttons, and ellipsis for large page counts.",
+    category: "Components",
+    keywords: ["pagination", "page", "next", "previous", "table", "list", "numbered"],
+  },
+  {
+    name: "Popover",
+    href: "/components/popover",
+    description:
+      "A floating panel anchored to a trigger element. Used for inline editing, filter controls, and contextual actions without leaving the page.",
+    category: "Components",
+    keywords: ["popover", "floating", "panel", "trigger", "dropdown", "contextual", "inline"],
   },
   {
     name: "Progress",
@@ -221,6 +317,14 @@ export const searchIndex: SearchEntry[] = [
     keywords: ["radio", "option", "form", "single", "select", "group", "exclusive"],
   },
   {
+    name: "Resizable",
+    href: "/components/resizable",
+    description:
+      "Resizable panel groups that let users adjust layout proportions by dragging handles. Built on react-resizable-panels.",
+    category: "Components",
+    keywords: ["resize", "panel", "split", "drag", "handle", "layout", "proportion"],
+  },
+  {
     name: "Search",
     href: "/components/search",
     description:
@@ -237,12 +341,44 @@ export const searchIndex: SearchEntry[] = [
     keywords: ["scroll", "scrollbar", "overflow", "custom", "hook", "drag", "auto-hide", "thumb", "macOS"],
   },
   {
+    name: "Select",
+    href: "/components/select",
+    description:
+      "A native-like dropdown select for picking a single value from a list. Supports placeholder text, groups, labels, and keyboard navigation.",
+    category: "Components",
+    keywords: ["select", "dropdown", "option", "picker", "form", "single", "native"],
+  },
+  {
+    name: "Sheet",
+    href: "/components/sheet",
+    description:
+      "A panel that slides in from any edge of the screen. Used for filters, settings, navigation drawers, and secondary content that doesn't warrant a full modal.",
+    category: "Components",
+    keywords: ["drawer", "slide", "panel", "sidebar", "overlay", "filter", "settings", "bottom sheet"],
+  },
+  {
     name: "Side Navigation",
     href: "/components/side-nav",
     description:
       "Persistent vertical navigation for applications. Supports sections, nested items, badges, collapsible mode, and white/gray variants — all driven by CSS variables.",
     category: "Components",
     keywords: ["sidebar", "nav", "navigation", "menu", "vertical", "collapsible", "nested"],
+  },
+  {
+    name: "Skeleton",
+    href: "/components/skeleton",
+    description:
+      "Placeholder loading shapes that mirror the layout of content before it loads. Use to reduce perceived latency and prevent layout shift.",
+    category: "Components",
+    keywords: ["loading", "placeholder", "shimmer", "skeleton", "lazy", "suspense", "content"],
+  },
+  {
+    name: "Slider",
+    href: "/components/slider",
+    description:
+      "An input for selecting a value or range within a min/max. Built on Radix UI Slider with keyboard navigation and ARIA attributes.",
+    category: "Components",
+    keywords: ["range", "slider", "input", "thumb", "track", "radix", "value", "percentage"],
   },
   {
     name: "Stepper",
@@ -269,6 +405,22 @@ export const searchIndex: SearchEntry[] = [
     keywords: ["tab", "navigation", "switch", "panel", "line", "contained", "enclosed"],
   },
   {
+    name: "Textarea",
+    href: "/components/textarea",
+    description:
+      "A multi-line text input for longer form content like messages, descriptions, and notes. Supports auto-resize, character count, validation states, and labels.",
+    category: "Components",
+    keywords: ["textarea", "multiline", "text", "form", "input", "message", "description", "notes"],
+  },
+  {
+    name: "Toast",
+    href: "/components/toast",
+    description:
+      "Lightweight, auto-dismissing notifications for quick feedback. Supports info, success, warning, error, and neutral status types with action buttons and configurable position.",
+    category: "Components",
+    keywords: ["toast", "notification", "snackbar", "feedback", "alert", "auto-dismiss", "status"],
+  },
+  {
     name: "Toggle",
     href: "/components/toggle",
     description:
@@ -284,27 +436,31 @@ export const searchIndex: SearchEntry[] = [
     category: "Components",
     keywords: ["hover", "hint", "info", "popover", "help", "context", "label"],
   },
+
+  // ── Patterns ──────────────────────────────────
+  {
+    name: "Data Display",
+    href: "/patterns/data-display",
+    description:
+      "Chart patterns and data visualization components for crypto exchange dashboards. Includes area charts, stacked area charts, heatmaps, donut charts, bar charts, sparklines, data tables, and stat cards — all themed with coin-specific and extended chart color tokens.",
+    category: "Patterns",
+    keywords: ["chart", "graph", "area", "stacked", "heatmap", "donut", "pie", "sparkline", "bar", "table", "stats", "crypto", "portfolio", "bitcoin", "ethereum", "data", "visualization", "color", "palette", "copy"],
+  },
+  {
+    name: "Email Templates",
+    href: "/patterns/email-templates",
+    description:
+      "Standardized, on-brand email templates for transactional and security communications. Includes confirmation, passcode, password reset, welcome, suspicious login, and deposit notification templates.",
+    category: "Patterns",
+    keywords: ["email", "template", "confirmation", "passcode", "otp", "password", "reset", "welcome", "security", "deposit", "notification", "transactional", "html"],
+  },
 ];
 
-/**
- * Fuzzy-ish search: matches if every word in the query appears
- * somewhere in the entry's name, description, category, or keywords.
- */
 export function searchEntries(query: string): SearchEntry[] {
   const q = query.toLowerCase().trim();
-  if (!q) return [];
-  const words = q.split(/\s+/);
-
+  if (!q) return searchIndex;
   return searchIndex.filter((entry) => {
-    const haystack = [
-      entry.name,
-      entry.description,
-      entry.category,
-      ...(entry.keywords ?? []),
-    ]
-      .join(" ")
-      .toLowerCase();
-
-    return words.every((w) => haystack.includes(w));
+    const hay = `${entry.name} ${entry.description} ${(entry.keywords ?? []).join(" ")}`.toLowerCase();
+    return q.split(/\s+/).every((word) => hay.includes(word));
   });
 }

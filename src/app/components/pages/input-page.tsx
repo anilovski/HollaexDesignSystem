@@ -37,11 +37,11 @@ function TextInput({ style = "gray", corners = "sharp", size = "md", state = "de
         {clearable && value.length > 0 && !isDisabled && <button type="button" onClick={() => setValue("")} className="shrink-0 cursor-pointer text-[#a0a0a0] hover:text-[#1a1a1a]"><XCircle size={16} /></button>}
         {rightText && <span className="shrink-0 font-sans text-[14px] text-[#a0a0a0]">{rightText}</span>}
         {type === "password" && <button type="button" onClick={() => setShowPassword(v => !v)} className="shrink-0 cursor-pointer text-[#a0a0a0] hover:text-[#1a1a1a]">{showPassword ? <EyeOff size={16} /> : <Eye size={16} />}</button>}
-        <span aria-hidden className="absolute bottom-0 left-0 right-0 h-[2px] origin-left scale-x-0 group-focus-within:scale-x-100" style={{ backgroundColor: focusLineColor, transition: "transform var(--motion-focus-line)" }} />
+        <span aria-hidden className={cn("absolute bottom-0 left-0 right-0 h-[2px] origin-left transition-transform duration-[var(--duration-medium-2)] ease-[cubic-bezier(0.25,0.1,0.25,1)]", focused ? "scale-x-100" : "scale-x-0")} style={{ backgroundColor: focusLineColor }} />
       </div>
-      {state === "error" && errorText && <span className="font-sans text-[12px] pt-[4px] text-[var(--danger-default)]">{errorText}</span>}
-      {state === "warning" && warningText && <span className="font-sans text-[12px] pt-[4px] text-[#D4A017]">{warningText}</span>}
-      {state === "default" && helperText && <span className="font-sans text-[12px] pt-[4px] text-[var(--color-text-tertiary)]">{helperText}</span>}
+      {state === "error" && errorText && <span className="text-[12px] pt-[4px] text-[var(--danger-default)]">{errorText}</span>}
+      {state === "warning" && warningText && <span className="text-[12px] pt-[4px] text-[#D4A017]">{warningText}</span>}
+      {state === "default" && helperText && <span className="text-[12px] pt-[4px] text-[var(--color-text-tertiary)]">{helperText}</span>}
     </div>
   );
 }
@@ -78,11 +78,11 @@ function NumberInput({ style = "gray", corners = "sharp", size = "md", state = "
         <button type="button" onClick={decrement} disabled={isDisabled} className="flex items-center justify-center self-stretch px-[12px] cursor-pointer text-[#a0a0a0] hover:text-[#1a1a1a]"><Minus size={16} /></button>
         <div className="w-px self-stretch bg-[#e1e1e1]" />
         <button type="button" onClick={increment} disabled={isDisabled} className="flex items-center justify-center self-stretch px-[12px] cursor-pointer text-[#a0a0a0] hover:text-[#1a1a1a]"><Plus size={16} /></button>
-        <span aria-hidden className="absolute bottom-0 left-0 right-0 h-[2px] origin-left scale-x-0 group-focus-within:scale-x-100" style={{ backgroundColor: focusLineColor, transition: "transform var(--motion-focus-line)" }} />
+        <span aria-hidden className={cn("absolute bottom-0 left-0 right-0 h-[2px] origin-left transition-transform duration-[var(--duration-medium-2)] ease-[cubic-bezier(0.25,0.1,0.25,1)] scale-x-0 group-focus-within:scale-x-100")} style={{ backgroundColor: focusLineColor }} />
       </div>
-      {state === "error" && errorText && <span className="font-sans text-[12px] pt-[4px] text-[var(--danger-default)]">{errorText}</span>}
-      {state === "warning" && warningText && <span className="font-sans text-[12px] pt-[4px] text-[#D4A017]">{warningText}</span>}
-      {state === "default" && helperText && <span className="font-sans text-[12px] pt-[4px] text-[var(--color-text-tertiary)]">{helperText}</span>}
+      {state === "error" && errorText && <span className="text-[12px] pt-[4px] text-[var(--danger-default)]">{errorText}</span>}
+      {state === "warning" && warningText && <span className="text-[12px] pt-[4px] text-[#D4A017]">{warningText}</span>}
+      {state === "default" && helperText && <span className="text-[12px] pt-[4px] text-[var(--color-text-tertiary)]">{helperText}</span>}
     </div>
   );
 }

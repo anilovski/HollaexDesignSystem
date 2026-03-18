@@ -30,7 +30,7 @@ export function ButtonGroupItem({ active = false, disabled = false, icon, childr
   if (skeleton) return <div aria-hidden className={cn("relative flex items-center justify-center bg-[var(--btn-group-layer-zero,#fff)]", itemCls)}><span className="h-3 w-10 rounded-[2px] hx-shimmer block" /></div>
   return (
     <button type="button" disabled={disabled}
-      className={cn("group relative flex items-center justify-center font-medium font-sans select-none transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)]", itemCls,
+      className={cn("group relative flex items-center justify-center font-medium font-sans select-none transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)] active:scale-[0.97]", itemCls,
         active && "bg-[var(--btn-group-layer-default,#f4f4f4)] text-[var(--btn-group-text-active,#1a1a1a)]",
         !active && ["bg-[var(--btn-group-layer-zero,#fff)] text-[var(--btn-group-text-enabled,#525252)]", !disabled && ["hover:bg-[var(--btn-group-layer-subtle,#f8f8f8)]", "hover:text-[var(--btn-group-text-hover,#1a1a1a)]"]],
         disabled && "opacity-50 pointer-events-none", className)} {...props}>

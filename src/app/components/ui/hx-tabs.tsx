@@ -150,7 +150,7 @@ export function HxTabs({
               disabled={isDisabled}
               onClick={() => !isDisabled && handleClick(item.value)}
               className={cn(
-                "group relative flex items-center justify-center shrink-0 select-none outline-none transition-colors duration-150",
+                "group relative flex items-center justify-center shrink-0 select-none outline-none transition-colors duration-[var(--duration-short-3)]",
                 s.height,
                 s.px,
                 fullWidth && "flex-1",
@@ -163,7 +163,7 @@ export function HxTabs({
               <span className={cn("flex items-center", s.gap)}>
                 {item.icon && (
                   <span
-                    className={cn("flex items-center justify-center shrink-0", s.iconSize)}
+                    className={cn("flex items-center justify-center shrink-0 transition-transform duration-[var(--duration-short-3)]", s.iconSize, !isDisabled && !isActive && "group-hover:-translate-y-px")}
                     style={{
                       color: isDisabled
                         ? "var(--tab-line-disabled-fg)"
@@ -210,7 +210,7 @@ export function HxTabs({
               {/* Active underline — always present, animated via scale */}
               <span
                 className={cn(
-                  "absolute bottom-0 left-0 w-full origin-left transition-transform duration-300",
+                  "absolute bottom-0 left-0 w-full origin-left transition-transform duration-[var(--duration-medium-2)]",
                   isActive ? "scale-x-100" : "scale-x-0",
                 )}
                 style={{
@@ -223,7 +223,7 @@ export function HxTabs({
               {/* Hover underline (only when not active and not disabled) */}
               {!isActive && !isDisabled && (
                 <span
-                  className="absolute bottom-0 left-0 w-full origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300"
+                  className="absolute bottom-0 left-0 w-full origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-[var(--duration-medium-2)]"
                   style={{
                     height: "var(--tab-line-thickness)",
                     backgroundColor: "var(--tab-line-border)",
@@ -267,7 +267,7 @@ export function HxTabs({
               disabled={isDisabled}
               onClick={() => !isDisabled && handleClick(item.value)}
               className={cn(
-                "relative flex items-center justify-center shrink-0 select-none outline-none transition-all duration-200 rounded-[var(--radius-xs)]",
+                "relative flex items-center justify-center shrink-0 select-none outline-none transition-all duration-[var(--duration-short-4)] rounded-[var(--radius-xs)]",
                 s.height,
                 s.px,
                 fullWidth && "flex-1",
@@ -360,7 +360,7 @@ export function HxTabs({
             disabled={isDisabled}
             onClick={() => !isDisabled && handleClick(item.value)}
             className={cn(
-              "relative flex items-center justify-center shrink-0 select-none outline-none transition-colors duration-150",
+              "relative flex items-center justify-center shrink-0 select-none outline-none transition-colors duration-[var(--duration-short-3)]",
               s.height,
               s.px,
               fullWidth && "flex-1",
