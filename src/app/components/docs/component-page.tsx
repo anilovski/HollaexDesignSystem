@@ -1,10 +1,11 @@
-import { ReactNode, useState, useEffect, useRef } from "react";
+import { ReactNode, useState, useEffect, useRef, Children, cloneElement, isValidElement } from "react";
 import type { ComponentType } from "react";
-import { useOutletContext } from "react-router";
+import { useOutletContext, Link } from "react-router";
 import { HxThemeToggle } from "../ui/hx-toggle";
 import { SearchTrigger } from "./search-command";
 import { SectionJumpFab } from "./section-jump-fab";
 import { FadeInContent } from "../ui/page-loader";
+import { Bot, ArrowRight } from "lucide-react";
 
 export function slugify(text: string) {
   return text.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
@@ -47,7 +48,7 @@ export function ComponentPage({
   const [sentinelRef, scrolled] = useScrolledPast();
 
   return (
-    <div className="min-h-full" style={{ backgroundColor: "var(--secondary-subtle)" }}>
+    <div className="min-h-full" style={{ backgroundColor: "var(--background)" }}>
       {/* Scroll sentinel – sits at the very top; when it's gone the breadcrumb gets a shadow */}
       <div ref={sentinelRef} className="h-0 w-full" aria-hidden="true" />
 
@@ -62,11 +63,20 @@ export function ComponentPage({
         <div className="h-full flex items-center justify-between"
           style={{ padding: "0 var(--space-10)" }}
         >
-          <div className="flex items-center" style={{ gap: "var(--space-3)" }}>
-            <span style={{ fontSize: "11px", color: "var(--muted-foreground)", fontFamily: "var(--font-family-supreme)" }}>{breadcrumbPrefix}</span>
-            <span style={{ fontSize: "11px", color: "var(--border)" }}>&rsaquo;</span>
-            <span style={{ fontSize: "11px", color: "var(--foreground)", fontWeight: "var(--font-weight-bold)", fontFamily: "var(--font-family-supreme)" }}>{name}</span>
-          </div>
+          {/* WCAG 1.3.1: Semantic breadcrumb navigation */}
+          <nav aria-label="Breadcrumb">
+            <ol className="flex items-center" style={{ gap: "var(--space-3)", listStyle: "none", margin: 0, padding: 0 }}>
+              <li>
+                <span style={{ fontSize: "11px", color: "var(--muted-foreground)", fontFamily: "var(--font-family-supreme)" }}>{breadcrumbPrefix}</span>
+              </li>
+              <li aria-hidden="true">
+                <span style={{ fontSize: "11px", color: "var(--border)" }}>&rsaquo;</span>
+              </li>
+              <li aria-current="page">
+                <span style={{ fontSize: "11px", color: "var(--foreground)", fontWeight: "var(--font-weight-bold)", fontFamily: "var(--font-family-supreme)" }}>{name}</span>
+              </li>
+            </ol>
+          </nav>
           <div className="flex items-center" style={{ gap: "var(--space-4)" }}>
             <BreadcrumbSearch />
             <HxThemeToggle size="lg" />
@@ -116,7 +126,9 @@ export function ComponentPage({
             </div>
           )}
           <div className="flex-1 min-w-0 flex flex-col" style={{ padding: "var(--space-10) 0", gap: "var(--space-12)", overflow: "hidden" }}>
-            {children}
+            {Children.map(children, (child, i) =>
+              isValidElement(child) ? cloneElement(child as React.ReactElement<any>, { _sectionIndex: i }) : child
+            )}
           </div>
         </div>
 
@@ -127,6 +139,25 @@ export function ComponentPage({
           <p style={{ fontSize: "12px", color: "var(--muted-foreground)", fontFamily: "var(--font-family-supreme)" }}>
             HollaEx Design System · {name}
           </p>
+          <Link
+            to="/foundation/agent-legibility#component-authoring-checklist"
+            className="flex items-center transition-all"
+            style={{
+              gap: "var(--space-2)",
+              fontSize: "11px",
+              color: "var(--muted-foreground)",
+              fontFamily: "var(--font-family-supreme)",
+              textDecoration: "none",
+              transitionDuration: "var(--duration-short-3)",
+              opacity: 0.7,
+            }}
+            onMouseEnter={(e) => { e.currentTarget.style.color = "var(--brand-default)"; e.currentTarget.style.opacity = "1"; }}
+            onMouseLeave={(e) => { e.currentTarget.style.color = "var(--muted-foreground)"; e.currentTarget.style.opacity = "0.7"; }}
+          >
+            <Bot size={12} />
+            Agent checklist
+            <ArrowRight size={10} />
+          </Link>
         </div>
         </FadeInContent>
       </div>
@@ -141,10 +172,12 @@ export function Section({
   title,
   description,
   children,
+  _sectionIndex = 0,
 }: {
   title: string;
   description?: string;
   children: ReactNode;
+  _sectionIndex?: number;
 }) {
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
@@ -175,6 +208,7 @@ export function Section({
         opacity: isVisible ? 1 : 0,
         transform: isVisible ? "translateY(0)" : "translateY(12px)",
         transition: `opacity var(--duration-medium-2) var(--ease-emphasized-decelerate), transform var(--duration-medium-4) var(--ease-emphasized-decelerate)`,
+        transitionDelay: isVisible ? `${_sectionIndex * 120}ms` : "0ms",
         position: "relative",
         minWidth: 0,
       }}

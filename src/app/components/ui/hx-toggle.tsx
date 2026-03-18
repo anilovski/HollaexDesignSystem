@@ -188,6 +188,7 @@ export function HxToggle({
       aria-checked={isOn}
       disabled={disabled}
       onClick={handleClick}
+      data-focus-custom
       className={cn(
         "relative shrink-0 inline-flex items-center outline-none transition-colors duration-[var(--duration-short-4)]",
         "focus-visible:ring-2 focus-visible:ring-offset-2",
@@ -300,6 +301,7 @@ export function HxThemeToggle({
       aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
       disabled={disabled}
       onClick={toggleTheme}
+      data-focus-custom
       className={cn(
         "relative shrink-0 inline-flex items-center outline-none transition-colors duration-[var(--duration-medium-2)]",
         "focus-visible:ring-2 focus-visible:ring-offset-2",

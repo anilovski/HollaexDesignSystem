@@ -4,8 +4,9 @@ import { SearchTrigger } from "../docs/search-command";
 import { CryptoIcon, CRYPTO_COINS } from "../ui/crypto-icon";
 import { TablerIcon, ALL_TABLER_ICONS, TABLER_ICON_CATEGORIES } from "../ui/tabler-icon";
 import type { TablerIconVariant } from "../ui/tabler-icon";
-import { Copy, Check, Search, X } from "lucide-react";
+import { Search, X } from "lucide-react";
 import { SectionJumpFab } from "../docs/section-jump-fab";
+import { Button } from "../ui/hollaex-button";
 
 /* ══════════════════════════════════════════════════════════════
    SHARED HELPERS
@@ -35,32 +36,16 @@ function toTitle(s: string) {
    ══════════════════════════════════════════════════════════════ */
 
 function CopyButton({ text }: { text: string }) {
-  const [copied, setCopied] = useState(false);
-  const copy = useCallback(() => {
-    navigator.clipboard.writeText(text).then(() => {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 1500);
-    });
-  }, [text]);
-
   return (
-    <button
-      type="button"
-      onClick={(e) => { e.stopPropagation(); copy(); }}
-      className="flex items-center justify-center transition-all duration-[var(--duration-short-3)] cursor-pointer"
-      style={{
-        width: 28, height: 28,
-        borderRadius: "var(--radius-circle)",
-        backgroundColor: "transparent",
-        color: "var(--muted-foreground)",
-        border: "none",
-      }}
-      onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "var(--secondary)"; e.currentTarget.style.color = "var(--foreground)"; }}
-      onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; e.currentTarget.style.color = "var(--muted-foreground)"; }}
+    <Button
+      variant="ghost-secondary"
+      size="xs"
+      iconOnly
+      copyText={text}
       title={`Copy "${text}"`}
-    >
-      {copied ? <Check size={14} /> : <Copy size={14} />}
-    </button>
+      onClick={(e) => e.stopPropagation()}
+      style={{ borderRadius: "var(--radius-circle)", width: 28, height: 28 }}
+    />
   );
 }
 

@@ -3,7 +3,8 @@ import { useOutletContext } from "react-router";
 import { HxThemeToggle } from "../ui/hx-toggle";
 import { SearchTrigger } from "../docs/search-command";
 import { SectionJumpFab } from "../docs/section-jump-fab";
-import { Copy, Check, X, Clock, Play, Pause, RotateCcw, ChevronRight, Bell, Zap, Eye, MousePointer, ArrowRight, ArrowDown, Activity, CheckCircle, XCircle } from "lucide-react";
+import { Button } from "../ui/hollaex-button";
+import { X, Clock, Play, Pause, RotateCcw, ChevronRight, Bell, Zap, Eye, MousePointer, ArrowRight, ArrowDown, Activity, CheckCircle, XCircle } from "lucide-react";
 
 /* ═══════════════════════════════════════════════════════════
    DATA
@@ -112,27 +113,15 @@ type TabValue = (typeof TAB_ITEMS)[number]["value"];
    ═══════════════════════════════════════════════════════════ */
 
 function CopyButton({ text }: { text: string }) {
-  const [copied, setCopied] = useState(false);
-  const copy = () => {
-    navigator.clipboard.writeText(text);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 1500);
-  };
   return (
-    <button
-      onClick={copy}
-      className="cursor-pointer flex items-center justify-center rounded-full"
-      style={{
-        width: 28, height: 28, backgroundColor: "transparent", border: "none",
-        color: copied ? "var(--brand-default)" : "var(--color-text-tertiary)",
-        transition: "color var(--duration-short-2) var(--ease-standard), background-color var(--duration-short-2) var(--ease-standard)",
-      }}
-      onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "var(--secondary)"; }}
-      onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
+    <Button
+      variant="ghost-secondary"
+      size="xs"
+      iconOnly
+      copyText={text}
       title="Copy token"
-    >
-      {copied ? <Check size={14} /> : <Copy size={14} />}
-    </button>
+      style={{ borderRadius: "var(--radius-circle)", width: 28, height: 28 }}
+    />
   );
 }
 

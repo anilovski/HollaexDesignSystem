@@ -2810,8 +2810,8 @@ function MarketCapTreemap() {
               >
                 {/* Top area — ticker + full name */}
                 <div
-                  className="flex-1 flex flex-col justify-center"
-                  style={{ padding: "var(--space-4) var(--space-5)" }}
+                  className="flex-1 flex flex-col justify-start"
+                  style={{ padding: "var(--space-5)" }}
                 >
                   <span
                     style={{

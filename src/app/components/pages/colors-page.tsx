@@ -5,6 +5,7 @@ import { SearchTrigger } from "../docs/search-command";
 import { Copy, Check } from "lucide-react";
 import { useTheme } from "../theme-context";
 import { SectionJumpFab } from "../docs/section-jump-fab";
+import { Button } from "../ui/hollaex-button";
 
 /* ══════════════════════════════════════════════════════════════
    DATA
@@ -1323,38 +1324,16 @@ function ContrastBadge({
 }
 
 function CopyButton({ text }: { text: string }) {
-  const [copied, setCopied] = useState(false);
   return (
-    <button
-      onClick={(e) => {
-        e.stopPropagation();
-        navigator.clipboard.writeText(text);
-        setCopied(true);
-        setTimeout(() => setCopied(false), 1500);
-      }}
-      className="inline-flex items-center justify-center rounded-full cursor-pointer transition-all duration-[var(--duration-short-3)]"
-      style={{
-        width: "24px",
-        height: "24px",
-        backgroundColor: "transparent",
-        color: "var(--color-text-tertiary)",
-        border: "none",
-      }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.backgroundColor =
-          "var(--secondary-subtle-hover)";
-        e.currentTarget.style.color =
-          "var(--color-text-primary)";
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.backgroundColor = "transparent";
-        e.currentTarget.style.color =
-          "var(--color-text-tertiary)";
-      }}
+    <Button
+      variant="ghost-secondary"
+      size="xs"
+      iconOnly
+      copyText={text}
+      onClick={(e) => e.stopPropagation()}
       title={`Copy ${text}`}
-    >
-      {copied ? <Check size={12} /> : <Copy size={12} />}
-    </button>
+      style={{ borderRadius: "var(--radius-circle)", width: 24, height: 24 }}
+    />
   );
 }
 

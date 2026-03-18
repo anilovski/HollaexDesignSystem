@@ -1,7 +1,8 @@
 import * as React from "react"
-import { useState, useRef, useEffect } from "react"
+import { useState, useRef, useEffect, useCallback } from "react"
 import { ChevronLeft, ChevronRight, ChevronDown } from "lucide-react"
 import { cn } from "./utils"
+import { useScrollbar } from "./use-scrollbar"
 
 /* ── Types ──────────────────────────────────────────── */
 
@@ -252,7 +253,7 @@ function PageButton({
         minWidth: s.minWidth,
         height: s.height,
         fontSize: s.fontSize,
-        fontWeight: active ? "var(--font-weight-semibold)" : "var(--font-weight-regular)",
+        fontWeight: "var(--font-weight-semibold)",
         color: active ? "var(--table-pagination-active-fg)" : "var(--table-pagination-fg)",
         backgroundColor: active ? "var(--table-pagination-active-bg)" : "transparent",
         border: "none",
@@ -286,6 +287,7 @@ function PageSelectDropdown({
 }) {
   const [open, setOpen] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
+  const triggerRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
     const handle = (e: MouseEvent) => {
@@ -295,19 +297,14 @@ function PageSelectDropdown({
     return () => document.removeEventListener("mousedown", handle)
   }, [])
 
-  const listRef = useRef<HTMLDivElement>(null)
-  useEffect(() => {
-    if (open && listRef.current) {
-      const activeEl = listRef.current.querySelector("[data-active='true']")
-      if (activeEl) activeEl.scrollIntoView({ block: "center" })
-    }
-  }, [open])
-
   return (
     <div ref={ref} className="relative">
       <button
+        ref={triggerRef}
         type="button"
         onClick={() => setOpen(o => !o)}
+        aria-haspopup="listbox"
+        aria-expanded={open}
         className="inline-flex items-center cursor-pointer"
         style={{
           height: s.height,
@@ -340,53 +337,171 @@ function PageSelectDropdown({
       </button>
 
       {open && (
-        <div
-          ref={listRef}
-          className="absolute z-50 border overflow-y-auto"
-          style={{
-            bottom: "calc(100% + 4px)",
-            right: 0,
-            minWidth: 64,
-            maxHeight: 200,
-            backgroundColor: "var(--card)",
-            borderColor: "var(--border-subtle)",
-            borderRadius: "var(--radius-sm2)",
-            boxShadow: "var(--modal-shadow)",
-            padding: "var(--space-1)",
-            animation: "toast-enter 180ms var(--ease-emphasized-decelerate) forwards",
+        <PageSelectList
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={onPageChange}
+          s={s}
+          onClose={() => {
+            setOpen(false)
+            // Return focus to the trigger button after closing
+            requestAnimationFrame(() => triggerRef.current?.focus())
           }}
-        >
-          {range(1, totalPages).map((p, idx) => (
-            <button
-              key={p}
-              type="button"
-              data-active={p === currentPage}
-              onClick={() => { onPageChange(p); setOpen(false) }}
-              className="w-full flex items-center justify-center cursor-pointer"
-              style={{
-                height: s.height,
-                minWidth: 48,
-                fontSize: s.fontSize,
-                fontFamily: "var(--font-family-mono)",
-                fontVariantNumeric: "tabular-nums",
-                fontWeight: p === currentPage ? "var(--font-weight-semibold)" : "var(--font-weight-regular)",
-                color: p === currentPage ? "var(--table-pagination-active-fg)" : "var(--table-pagination-fg)",
-                backgroundColor: p === currentPage ? "var(--table-pagination-active-bg)" : "transparent",
-                border: "none",
-                borderRadius: "var(--radius-xs)",
-                transition: "background var(--motion-hover)",
-                padding: `0 var(--space-2)`,
-                animation: `hx-menu-item-in var(--duration-short-4) var(--ease-emphasized-decelerate) both`,
-                animationDelay: `${Math.min(idx, 8) * 20}ms`,
-              }}
-              onMouseEnter={e => { if (p !== currentPage) e.currentTarget.style.backgroundColor = "var(--table-pagination-hover-bg)" }}
-              onMouseLeave={e => { if (p !== currentPage) e.currentTarget.style.backgroundColor = "transparent" }}
-            >
-              {p}
-            </button>
-          ))}
-        </div>
+        />
       )}
+    </div>
+  )
+}
+
+/* ── Dropdown list (separate component so useScrollbar mounts with it) ── */
+
+function PageSelectList({
+  currentPage,
+  totalPages,
+  onPageChange,
+  s,
+  onClose,
+}: {
+  currentPage: number
+  totalPages: number
+  onPageChange: (page: number) => void
+  s: typeof SIZES["md"]
+  onClose: () => void
+}) {
+  const scrollRef = useScrollbar<HTMLDivElement>(1200)
+  const [focusedPage, setFocusedPage] = useState(currentPage)
+  const optionRefs = useRef<Map<number, HTMLDivElement>>(new Map())
+
+  /* Scroll the focused option into view */
+  const scrollToOption = useCallback((page: number) => {
+    const el = optionRefs.current.get(page)
+    if (el) el.scrollIntoView({ block: "nearest" })
+  }, [])
+
+  /* On mount: focus the listbox and scroll the active option into view */
+  useEffect(() => {
+    // Small delay so the entry animation has started and scrollRef is laid out
+    requestAnimationFrame(() => {
+      scrollRef.current?.focus({ preventScroll: true })
+      scrollToOption(currentPage)
+    })
+  }, [])
+
+  /* Keyboard handler on the listbox container */
+  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
+    switch (e.key) {
+      case "ArrowDown": {
+        e.preventDefault()
+        setFocusedPage(prev => {
+          const next = Math.min(prev + 1, totalPages)
+          scrollToOption(next)
+          return next
+        })
+        break
+      }
+      case "ArrowUp": {
+        e.preventDefault()
+        setFocusedPage(prev => {
+          const next = Math.max(prev - 1, 1)
+          scrollToOption(next)
+          return next
+        })
+        break
+      }
+      case "Home": {
+        e.preventDefault()
+        setFocusedPage(1)
+        scrollToOption(1)
+        break
+      }
+      case "End": {
+        e.preventDefault()
+        setFocusedPage(totalPages)
+        scrollToOption(totalPages)
+        break
+      }
+      case "Enter":
+      case " ": {
+        e.preventDefault()
+        onPageChange(focusedPage)
+        onClose()
+        break
+      }
+      case "Escape":
+      case "Tab": {
+        e.preventDefault()
+        onClose()
+        break
+      }
+    }
+  }, [focusedPage, totalPages, onPageChange, onClose, scrollToOption])
+
+  return (
+    <div
+      ref={scrollRef}
+      role="listbox"
+      aria-label="Go to page"
+      aria-activedescendant={`page-option-${focusedPage}`}
+      tabIndex={0}
+      onKeyDown={handleKeyDown}
+      className="absolute z-50 border overflow-y-auto outline-none"
+      style={{
+        bottom: "calc(100% + 4px)",
+        right: 0,
+        minWidth: 64,
+        maxHeight: 200,
+        backgroundColor: "var(--card)",
+        borderColor: "var(--border-subtle)",
+        borderRadius: "var(--radius-sm2)",
+        boxShadow: "var(--modal-shadow)",
+        padding: "var(--space-1)",
+        animation: "toast-enter 180ms var(--ease-emphasized-decelerate) forwards",
+      }}
+    >
+      {range(1, totalPages).map((p, idx) => {
+        const isFocused = p === focusedPage
+        const isActive = p === currentPage
+        return (
+          <div
+            key={p}
+            id={`page-option-${p}`}
+            ref={(node) => {
+              if (node) optionRefs.current.set(p, node)
+              else optionRefs.current.delete(p)
+            }}
+            role="option"
+            aria-selected={isActive}
+            onClick={() => { onPageChange(p); onClose() }}
+            onMouseEnter={() => setFocusedPage(p)}
+            className="w-full flex items-center justify-center cursor-pointer"
+            style={{
+              height: s.height,
+              minWidth: 48,
+              fontSize: s.fontSize,
+              fontFamily: "var(--font-family-mono)",
+              fontVariantNumeric: "tabular-nums",
+              fontWeight: isActive ? "var(--font-weight-semibold)" : "var(--font-weight-regular)",
+              color: isActive ? "var(--table-pagination-active-fg)" : "var(--table-pagination-fg)",
+              backgroundColor: isActive
+                ? "var(--table-pagination-active-bg)"
+                : isFocused
+                  ? "var(--table-pagination-hover-bg)"
+                  : "transparent",
+              border: "none",
+              borderRadius: "var(--radius-xs)",
+              transition: "background var(--motion-hover)",
+              padding: `0 var(--space-2)`,
+              animation: `hx-menu-item-in var(--duration-short-4) var(--ease-emphasized-decelerate) both`,
+              animationDelay: `${Math.min(idx, 8) * 20}ms`,
+              /* Keyboard focus ring */
+              outline: isFocused && !isActive ? "2px solid var(--ring)" : "none",
+              outlineOffset: "-2px",
+            }}
+          >
+            {p}
+          </div>
+        )
+      })}
     </div>
   )
 }

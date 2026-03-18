@@ -22,6 +22,7 @@ import {
   IconArrowsExchange,
   IconBell,
 } from "@tabler/icons-react";
+import { Button } from "../ui/hollaex-button";
 import exampleImage from "figma:asset/51cafdda4325661157e7f9effef80e1612171c6a.png";
 
 /* ═══════════════════════════════════════════════════
@@ -1350,14 +1351,6 @@ function EmailFrame({
    ═══════════════════════════════════════════════════ */
 
 function CodeBlock({ code }: { code: string }) {
-  const [copied, setCopied] = useState(false);
-
-  const handleCopy = () => {
-    navigator.clipboard.writeText(code);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
   return (
     <div style={{
       position: "relative",
@@ -1382,25 +1375,14 @@ function CodeBlock({ code }: { code: string }) {
         }}>
           HTML
         </span>
-        <button
-          onClick={handleCopy}
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: "var(--space-2)",
-            padding: "var(--space-2) var(--space-3)",
-            borderRadius: "var(--radius)",
-            border: "1px solid var(--border)",
-            backgroundColor: "var(--background)",
-            color: "var(--muted-foreground)",
-            fontSize: "var(--text-caption)",
-            cursor: "pointer",
-            fontFamily: "var(--font-family-supreme)",
-          }}
+        <Button
+          variant="outline-secondary"
+          size="xs"
+          copyText={code}
+          style={{ borderRadius: "var(--radius)", fontSize: "var(--text-caption)" }}
         >
-          {copied ? <IconCheck size={12} stroke={2} /> : <IconCopy size={12} stroke={1.5} />}
-          {copied ? "Copied" : "Copy"}
-        </button>
+          Copy
+        </Button>
       </div>
       <pre style={{
         margin: 0,

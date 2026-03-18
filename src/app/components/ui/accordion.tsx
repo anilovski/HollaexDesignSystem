@@ -6,11 +6,11 @@ type AccordionSize = "xs" | "sm" | "md" | "lg" | "xl"
 type AccordionStyle = "white" | "gray"
 
 const SIZE_CONFIG: Record<AccordionSize, { py: string; text: string; lh: string; iconSlot: number }> = {
-  xs: { py: "py-[4px]", text: "text-[12px]", lh: "leading-[16px]", iconSlot: 16 },
-  sm: { py: "py-[8px]", text: "text-[12px]", lh: "leading-[16px]", iconSlot: 16 },
-  md: { py: "py-[9px]", text: "text-[14px]", lh: "leading-[22px]", iconSlot: 20 },
-  lg: { py: "py-[13px]", text: "text-[14px]", lh: "leading-[22px]", iconSlot: 20 },
-  xl: { py: "py-[21px]", text: "text-[14px]", lh: "leading-[22px]", iconSlot: 20 },
+  xs: { py: "py-[var(--space-2)]", text: "text-[var(--text-meta)]", lh: "leading-[var(--lh-label)]", iconSlot: 16 },
+  sm: { py: "py-[var(--space-3)]", text: "text-[var(--text-meta)]", lh: "leading-[var(--lh-label)]", iconSlot: 16 },
+  md: { py: "py-[9px]", text: "text-[var(--text-body)]", lh: "leading-[var(--lh-body)]", iconSlot: 20 },
+  lg: { py: "py-[13px]", text: "text-[var(--text-body)]", lh: "leading-[var(--lh-body)]", iconSlot: 20 },
+  xl: { py: "py-[21px]", text: "text-[var(--text-body)]", lh: "leading-[var(--lh-body)]", iconSlot: 20 },
 }
 
 const STYLE_CONFIG: Record<AccordionStyle, { bg: string; hoverBg: string; border: string }> = {
@@ -69,10 +69,12 @@ const AccordionItem = React.forwardRef<HTMLDivElement, AccordionItemProps>(
     return (
       <div ref={ref} className={cn("w-full flex flex-col", stc.bg, !flush && stc.border, disabled && "opacity-50", className)} {...props}>
         <button type="button" onClick={toggle} disabled={disabled} aria-expanded={isOpen}
-          className={cn("w-full flex items-center gap-[8px] px-[16px] text-left", sc.py, "cursor-pointer transition-colors duration-[var(--duration-short-3)]", !disabled && stc.hoverBg, "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-inset", "disabled:cursor-not-allowed disabled:pointer-events-none")}>
+          className={cn("w-full flex items-center px-[var(--space-5)] text-left", sc.py, "cursor-pointer transition-colors duration-[var(--duration-short-3)]", !disabled && stc.hoverBg, "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-inset", "disabled:cursor-not-allowed disabled:pointer-events-none")}
+          style={{ gap: "var(--space-3)", fontFamily: "var(--font-family-supreme)" }}
+        >
           {leftSlot && <span className="shrink-0 flex items-center justify-center" style={{ width: sc.iconSlot, height: sc.iconSlot }}>{leftSlot}</span>}
           {alignment === "left" && <span className="shrink-0 flex items-center justify-center size-[16px]"><Plus size={12} className="text-[var(--color-text-primary)] transition-transform duration-[var(--duration-short-4)] ease-in-out" style={{ transform: isOpen ? "rotate(45deg)" : "rotate(0deg)" }} /></span>}
-          <span className={cn("flex-1 font-bold font-sans text-[var(--color-text-primary)]", sc.text, sc.lh)}>{title}</span>
+          <span className={cn("flex-1 text-[var(--color-text-primary)]", sc.text, sc.lh)} style={{ fontWeight: "var(--font-weight-bold)", fontFamily: "var(--font-family-supreme)" }}>{title}</span>
           {alignment === "right" && <span className="shrink-0 flex items-center justify-center size-[16px]"><Plus size={12} className="text-[var(--color-text-primary)] transition-transform duration-[var(--duration-short-4)] ease-in-out" style={{ transform: isOpen ? "rotate(45deg)" : "rotate(0deg)" }} /></span>}
         </button>
         <div
@@ -84,7 +86,7 @@ const AccordionItem = React.forwardRef<HTMLDivElement, AccordionItemProps>(
             transition: `max-height var(--duration-medium-4) ${isOpen ? "var(--ease-emphasized-decelerate)" : "var(--ease-emphasized-accelerate)"}, opacity var(--duration-short-4) ${isOpen ? "var(--ease-standard-decelerate)" : "var(--ease-standard-accelerate)"}`,
           }}
         >
-          <div className="px-[16px] pb-[24px] pt-[8px] flex flex-col gap-[16px] items-start">{children}</div>
+          <div className="flex flex-col items-start" style={{ padding: "var(--space-3) var(--space-5) var(--space-7)", gap: "var(--space-5)" }}>{children}</div>
         </div>
       </div>
     )

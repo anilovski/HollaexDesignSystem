@@ -1,5 +1,6 @@
 import * as React from "react"
 import { cva, type VariantProps } from "class-variance-authority"
+import { Check, Copy } from "lucide-react"
 import { cn } from "./utils"
 
 const ICON_SIZE: Record<string, number> = { xs: 12, sm: 14, md: 16, lg: 16, xl: 20 }
@@ -52,6 +53,10 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   loading?: boolean
   leftIcon?: React.ReactNode
   rightIcon?: React.ReactNode
+  /** When set, clicking the button copies this text to the clipboard and shows a ✓ animation. */
+  copyText?: string
+  /** Duration in ms the ✓ stays visible after copy (default 1500). */
+  copyResetMs?: number
 }
 
 function LoadingSpinner({ size = 16 }: { size?: number }) {
@@ -59,18 +64,59 @@ function LoadingSpinner({ size = 16 }: { size?: number }) {
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size = "md", corners, iconOnly, loading, leftIcon, rightIcon, disabled, children, ...props }, ref) => {
+  ({ className, variant, size = "md", corners, iconOnly, loading, leftIcon, rightIcon, disabled, children, copyText, copyResetMs = 1500, onClick, ...props }, ref) => {
     const iconPx = ICON_SIZE[size ?? "md"]
+    const [copied, setCopied] = React.useState(false)
+
+    const handleClick = React.useCallback(
+      (e: React.MouseEvent<HTMLButtonElement>) => {
+        if (copyText) {
+          navigator.clipboard.writeText(copyText).then(() => {
+            setCopied(true)
+            setTimeout(() => setCopied(false), copyResetMs)
+          })
+        }
+        onClick?.(e)
+      },
+      [copyText, copyResetMs, onClick]
+    )
+
+    // Resolve icons — when copyText is set and no explicit icons, use Copy/Check as right icon
+    const resolvedRightIcon = copyText
+      ? copied
+        ? <Check />
+        : (rightIcon ?? <Copy />)
+      : rightIcon
+
     return (
-      <button ref={ref} disabled={disabled || loading} className={cn(buttonVariants({ variant, size, corners, iconOnly }), className)} {...props}>
+      <button ref={ref} disabled={disabled || loading} className={cn(buttonVariants({ variant, size, corners, iconOnly }), className)} onClick={handleClick} {...props}>
         {loading ? (
           <LoadingSpinner key="spinner" size={iconPx} />
         ) : leftIcon ? (
           <span key="left-icon" className="inline-flex shrink-0">{sizeIcon(leftIcon, iconPx)}</span>
         ) : null}
-        {children != null && <span key="label">{children}</span>}
-        {!loading && rightIcon ? (
-          <span key="right-icon" className="inline-flex shrink-0">{sizeIcon(rightIcon, iconPx)}</span>
+        {children != null && (
+          <span
+            key="label"
+            style={{
+              transition: `opacity var(--duration-short-2, 150ms) var(--ease-standard, ease)`,
+              opacity: copyText && copied ? 0.6 : 1,
+            }}
+          >
+            {copyText && copied ? "Copied" : children}
+          </span>
+        )}
+        {!loading && resolvedRightIcon ? (
+          <span
+            key="right-icon"
+            className="inline-flex shrink-0"
+            style={{
+              transition: `transform var(--duration-short-2, 150ms) var(--ease-standard, ease), opacity var(--duration-short-2, 150ms) var(--ease-standard, ease)`,
+              transform: copyText && copied ? "scale(1.15)" : "scale(1)",
+            }}
+          >
+            {sizeIcon(resolvedRightIcon, iconPx)}
+          </span>
         ) : null}
       </button>
     )

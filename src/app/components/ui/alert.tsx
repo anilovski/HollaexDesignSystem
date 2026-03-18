@@ -3,6 +3,76 @@ import { Info, TriangleAlert, CircleCheck, CircleX, X } from "lucide-react"
 import { cn } from "./utils"
 import { Button } from "./hollaex-button"
 
+/* ── Filled icon variants for high-contrast alerts ────────────────────── */
+
+type FilledIconProps = { size?: number; fillColor: string; markColor: string }
+
+function FilledInfoIcon({ size = 24, fillColor, markColor }: FilledIconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <circle cx="12" cy="12" r="10" fill={fillColor} />
+      {/* dot */}
+      <circle cx="12" cy="8" r="1.25" fill={markColor} />
+      {/* stem */}
+      <rect x="10.75" y="10.5" width="2.5" height="6" rx="1.25" fill={markColor} />
+    </svg>
+  )
+}
+
+function FilledWarningIcon({ size = 24, fillColor, markColor }: FilledIconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      {/* Rounded triangle */}
+      <path
+        d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"
+        fill={fillColor}
+      />
+      {/* stem */}
+      <rect x="10.75" y="9" width="2.5" height="5" rx="1.25" fill={markColor} />
+      {/* dot */}
+      <circle cx="12" cy="16.5" r="1.25" fill={markColor} />
+    </svg>
+  )
+}
+
+function FilledSuccessIcon({ size = 24, fillColor, markColor }: FilledIconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <circle cx="12" cy="12" r="10" fill={fillColor} />
+      <path
+        d="M8 12.5l2.5 2.5 5.5-5.5"
+        stroke={markColor}
+        strokeWidth="2.25"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        fill="none"
+      />
+    </svg>
+  )
+}
+
+function FilledErrorIcon({ size = 24, fillColor, markColor }: FilledIconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <circle cx="12" cy="12" r="10" fill={fillColor} />
+      <path
+        d="M15 9l-6 6M9 9l6 6"
+        stroke={markColor}
+        strokeWidth="2.25"
+        strokeLinecap="round"
+        fill="none"
+      />
+    </svg>
+  )
+}
+
+const FILLED_ICONS = {
+  info: FilledInfoIcon,
+  warning: FilledWarningIcon,
+  success: FilledSuccessIcon,
+  error: FilledErrorIcon,
+} as const
+
 const STATUS_CONFIG = {
   info: {
     Icon: Info,
@@ -48,7 +118,6 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
     const titleColor = highContrast ? cfg.hcTitleVar : cfg.titleVar
     const descColor = highContrast ? cfg.hcDescVar : cfg.descVar
     const iconColor = highContrast ? cfg.hcIconVar : cfg.iconVar
-    const iconFill = highContrast ? iconColor : "none"
 
     const closeBtnColor = highContrast ? cfg.hcTitleVar : "var(--color-text-secondary)"
     const closeBtnHoverColor = highContrast ? cfg.hcTitleVar : "var(--color-text-primary)"
@@ -73,13 +142,14 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
         <div className={cn("flex gap-[8px] pb-[11px] pt-[13px] px-[8px]", expanded ? "items-start" : "items-center")}>
           {showIcon && (
             <div className="shrink-0 flex items-center justify-center size-[32px]">
-              <Icon
-                size={24}
-                fill={iconFill}
-                style={{ color: iconColor }}
-                strokeWidth={highContrast ? 2 : 2}
-                aria-hidden="true"
-              />
+              {(() => {
+                const FilledIcon = FILLED_ICONS[status]
+                if (highContrast) {
+                  return <FilledIcon size={24} fillColor={iconColor} markColor={bg} />
+                }
+                // Soft translucent bubble with status-colored inner marks
+                return <FilledIcon size={24} fillColor="var(--alert-icon-bubble, rgba(0,0,0,0.06))" markColor={iconColor} />
+              })()}
             </div>
           )}
           {!expanded && (

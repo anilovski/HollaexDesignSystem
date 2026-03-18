@@ -161,6 +161,43 @@
   animation: hx-shimmer 1.4s linear infinite;
 }
 
+/* ── Skip-to-content link ─────────────────────────
+   Hidden by default, becomes visible on focus.
+   WCAG 2.4.1 Bypass Blocks */
+.hx-skip-link {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  padding: 12px 24px;
+  font-family: var(--font-family-supreme);
+  font-size: var(--text-body-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--primary-foreground);
+  background-color: var(--primary);
+  border-radius: 0 0 var(--radius-card) 0;
+  text-decoration: none;
+  transform: translateY(-100%);
+  transition: transform var(--duration-short-4, 200ms) var(--ease-standard-decelerate, ease-out);
+  outline: none;
+}
+.hx-skip-link:focus {
+  transform: translateY(0);
+}
+
+/* ── Global focus-visible ring ────────────────────
+   Consistent focus ring for all interactive elements.
+   WCAG 2.4.7 Focus Visible
+   Uses :focus-visible so mouse clicks don't show the ring. */
+:focus-visible {
+  outline: 2px solid var(--focus-ring, var(--primary));
+  outline-offset: 2px;
+}
+/* Components that manage their own focus ring (e.g. toggles with ring-2) */
+[data-focus-custom]:focus-visible {
+  outline: none;
+}
+
 :root {
   --font-size: 16px;
   /* The default background color for the application. */
@@ -201,6 +238,8 @@
   --border-layout: #E6E6E6;
   /* Softer border for component wrappers, cards, and section dividers */
   --border-subtle: #EBEBEB;
+  /* Sidebar pinned section background — between background and secondary-subtle */
+  --sidebar-pinned-bg: #FAFAFA;
   /* The default background color for input fields once the text has been filled. Should be either transparent or match the input-background. */
   --input: rgba(255, 255, 255, 1.00);
   /* The default background color for input fields, text areas, and other input elements. */
@@ -947,6 +986,7 @@
   --border: #343A41;
   --border-layout: #2A2F35;
   --border-subtle: #2A2F35;
+  --sidebar-pinned-bg: #161A1E;
   --input: #1C1F23;
   --input-background: #1C1F23;
   --ring: #4D8EFF;

@@ -404,6 +404,13 @@ export function SearchDialog({
                 onChange={(e) => setQuery(e.target.value)}
                 onKeyDown={handleKeyDown}
                 placeholder="Search for coins, functions & more"
+                aria-label="Search the design system"
+                aria-autocomplete="list"
+                aria-controls="hx-search-results"
+                aria-activedescendant={results[activeIndex] ? `hx-search-result-${activeIndex}` : undefined}
+                role="combobox"
+                aria-expanded={results.length > 0}
+                data-focus-custom
                 className="hx-search-input"
                 style={{
                   flex: 1,
@@ -614,6 +621,9 @@ export function SearchDialog({
             {/* Right: Results */}
             <div
               ref={resultsRef}
+              id="hx-search-results"
+              role="listbox"
+              aria-label="Search results"
               style={{
                 flex: 1,
                 overflowY: "auto",
@@ -679,6 +689,9 @@ export function SearchDialog({
                       return (
                         <button
                           key={entry.href}
+                          id={`hx-search-result-${idx}`}
+                          role="option"
+                          aria-selected={isActive}
                           data-active={isActive}
                           onClick={() => goTo(entry)}
                           onMouseEnter={() => setActiveIndex(idx)}

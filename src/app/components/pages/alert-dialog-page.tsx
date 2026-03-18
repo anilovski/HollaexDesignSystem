@@ -1,4 +1,16 @@
 import { useState, forwardRef } from "react";
+import { ComponentPage, Section, ExampleRow } from "../docs/component-page";
+import {
+  AlertDialog,
+  AlertDialogTrigger,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogCancel,
+  AlertDialogAction,
+} from "../ui/alert-dialog";
 
 const DemoButton = forwardRef<HTMLButtonElement, { children: React.ReactNode; onClick?: () => void }>(
   ({ children, onClick, ...props }, ref) => {

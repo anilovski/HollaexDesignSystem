@@ -79,6 +79,7 @@ export const pinnedNavSections: NavSection[] = [
       { label: "Spacing", href: "/foundation/spacing" },
       { label: "Icons", href: "/foundation/icons" },
       { label: "Motion", href: "/foundation/motion" },
+      { label: "Agent Legibility", href: "/foundation/agent-legibility" },
     ],
   },
   {
@@ -86,6 +87,7 @@ export const pinnedNavSections: NavSection[] = [
     items: [
       { label: "Data Display", href: "/patterns/data-display" },
       { label: "Email Templates", href: "/patterns/email-templates" },
+      { label: "Testing with Agents", href: "/patterns/testing-with-agents" },
     ],
   },
 ];

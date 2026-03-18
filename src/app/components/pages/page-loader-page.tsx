@@ -2,6 +2,7 @@ import { useState } from "react";
 import { ComponentPage, Section, ExampleRow } from "../docs/component-page";
 import { PageLoader, FadeInContent } from "../ui/page-loader";
 import { LoadingIllustration } from "../ui/loading-illustration";
+import { PageLoadingIllustration, type IllustrationVariant } from "../ui/loading-illustrations";
 
 export function PageLoaderPage() {
   return (
@@ -28,7 +29,7 @@ export function PageLoaderPage() {
       >
         <ExampleRow label="Default (medium)">
           <div style={{ width: "100%", minHeight: 320, position: "relative" }}>
-            <PageLoader />
+            <PageLoader delay={0} />
           </div>
         </ExampleRow>
       </Section>
@@ -40,17 +41,17 @@ export function PageLoaderPage() {
       >
         <ExampleRow label="Small">
           <div style={{ width: "100%", minHeight: 180, position: "relative" }}>
-            <PageLoader size="sm" />
+            <PageLoader size="sm" delay={0} />
           </div>
         </ExampleRow>
         <ExampleRow label="Medium (default)">
           <div style={{ width: "100%", minHeight: 280, position: "relative" }}>
-            <PageLoader size="md" />
+            <PageLoader size="md" delay={0} />
           </div>
         </ExampleRow>
         <ExampleRow label="Large">
           <div style={{ width: "100%", minHeight: 360, position: "relative" }}>
-            <PageLoader size="lg" />
+            <PageLoader size="lg" delay={0} />
           </div>
         </ExampleRow>
       </Section>
@@ -63,6 +64,7 @@ export function PageLoaderPage() {
         <ExampleRow label="Exchange context">
           <div style={{ width: "100%", minHeight: 280, position: "relative" }}>
             <PageLoader
+              delay={0}
               messages={[
                 "Fetching market data…",
                 "Loading order book…",
@@ -83,12 +85,12 @@ export function PageLoaderPage() {
         <div className="flex flex-col" style={{ gap: "var(--space-5)" }}>
           <ExampleRow label="2 dots">
             <div style={{ width: "100%", minHeight: 200, position: "relative" }}>
-              <PageLoader dotCount={2} messages={["Loading…"]} />
+              <PageLoader dotCount={2} messages={["Loading…"]} delay={0} />
             </div>
           </ExampleRow>
           <ExampleRow label="5 dots">
             <div style={{ width: "100%", minHeight: 200, position: "relative" }}>
-              <PageLoader dotCount={5} messages={["Processing…"]} />
+              <PageLoader dotCount={5} messages={["Processing…"]} delay={0} />
             </div>
           </ExampleRow>
         </div>
@@ -100,6 +102,14 @@ export function PageLoaderPage() {
         description="Wrap any content in FadeInContent to give it a subtle enter animation after the loader resolves. Prevents a hard jump from loader to content."
       >
         <FadeInDemo />
+      </Section>
+
+      {/* ── Page-Specific Illustrations ────────────────── */}
+      <Section
+        title="Page-Specific Variants"
+        description="Each page category gets a unique loading illustration that hints at the content being loaded. 22 variants cover all foundation, component, and pattern pages."
+      >
+        <IllustrationGallery />
       </Section>
 
       {/* ── Usage / code snippet ──────────────────────── */}
@@ -329,8 +339,8 @@ export function MyPage() {
                 {
                   prop: "messages",
                   type: "string[]",
-                  def: '["Loading…", "Preparing…", "Almost ready…"]',
-                  desc: "Array of status strings that rotate below the dots.",
+                  def: '[\"Loading…\", \"Preparing…\", \"Almost ready…\"]',
+                  desc: "Array of status strings that rotate below the dots. If omitted, auto-resolves contextual messages from the variant (e.g. 'Loading color tokens…' for the colors variant).",
                 },
                 {
                   prop: "messageInterval",
@@ -344,12 +354,24 @@ export function MyPage() {
                   def: "3",
                   desc: "Number of bouncing dots rendered.",
                 },
+                {
+                  prop: "variant",
+                  type: "IllustrationVariant",
+                  def: '"default"',
+                  desc: "Page-specific illustration variant. 22 options that hint at the loading content.",
+                },
+                {
+                  prop: "delay",
+                  type: "number",
+                  def: "180",
+                  desc: "Milliseconds to wait before showing the loader. Prevents flash on fast-loading pages. Set to 0 to disable.",
+                },
               ].map((row, i) => (
                 <tr
                   key={row.prop}
                   style={{
                     borderBottom:
-                      i < 3 ? "1px solid var(--border-subtle)" : undefined,
+                      i < 5 ? "1px solid var(--border-subtle)" : undefined,
                     backgroundColor: "var(--background)",
                   }}
                 >
@@ -474,6 +496,82 @@ function FadeInDemo() {
           </FadeInContent>
         </div>
       </ExampleRow>
+    </div>
+  );
+}
+
+/* ── Illustration Gallery ────────────────────────────────────── */
+function IllustrationGallery() {
+  const variants: { variant: IllustrationVariant; label: string; pages: string }[] = [
+    { variant: "default", label: "Default", pages: "Generic fallback" },
+    { variant: "colors", label: "Colors", pages: "Colors" },
+    { variant: "typography", label: "Typography", pages: "Typography" },
+    { variant: "spacing", label: "Spacing", pages: "Spacing" },
+    { variant: "icons", label: "Icons", pages: "Icons" },
+    { variant: "motion", label: "Motion", pages: "Motion" },
+    { variant: "agent", label: "Agent", pages: "Agent Legibility" },
+    { variant: "button", label: "Button", pages: "Button, FAB, Link" },
+    { variant: "input", label: "Input", pages: "Input, Textarea, Search" },
+    { variant: "control", label: "Control", pages: "Checkbox, Radio, Toggle" },
+    { variant: "slider", label: "Slider", pages: "Slider" },
+    { variant: "select", label: "Select", pages: "Select, Dropdown, Context Menu" },
+    { variant: "picker", label: "Picker", pages: "Date Picker" },
+    { variant: "panels", label: "Panels", pages: "Accordion, Tab, Collapsible" },
+    { variant: "overlay", label: "Overlay", pages: "Modal, Sheet, Popover, Tooltip" },
+    { variant: "nav", label: "Navigation", pages: "Header, Sidebar, Breadcrumb" },
+    { variant: "data", label: "Data", pages: "Table, List, Pagination" },
+    { variant: "tags", label: "Tags", pages: "Badge, Chip, Avatar" },
+    { variant: "progress", label: "Progress", pages: "Progress, Stepper, Skeleton" },
+    { variant: "feedback", label: "Feedback", pages: "Alert, Toast" },
+    { variant: "layout", label: "Layout", pages: "Carousel, Resizable" },
+    { variant: "card", label: "Card", pages: "Coin Card" },
+    { variant: "patterns", label: "Patterns", pages: "Data Display, Email, Testing" },
+  ];
+
+  return (
+    <div
+      className="grid"
+      style={{
+        gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
+        gap: "var(--space-4)",
+      }}
+    >
+      {variants.map(({ variant, label, pages }) => (
+        <div
+          key={variant}
+          className="flex flex-col items-center rounded-xl border"
+          style={{
+            borderColor: "var(--border-subtle)",
+            padding: "var(--space-5) var(--space-3)",
+            backgroundColor: "var(--background)",
+            gap: "var(--space-2)",
+          }}
+        >
+          <div style={{ transform: "scale(0.65)", transformOrigin: "center center", margin: "-20px 0" }}>
+            <PageLoadingIllustration variant={variant} />
+          </div>
+          <span
+            style={{
+              fontFamily: "var(--font-family-mono)",
+              fontSize: "var(--text-body-sm)",
+              fontWeight: "var(--font-weight-semibold)",
+              color: "var(--foreground)",
+            }}
+          >
+            {label}
+          </span>
+          <span
+            style={{
+              fontFamily: "var(--font-family-supreme)",
+              fontSize: "var(--text-caption)",
+              color: "var(--muted-foreground)",
+              textAlign: "center",
+            }}
+          >
+            {pages}
+          </span>
+        </div>
+      ))}
     </div>
   );
 }

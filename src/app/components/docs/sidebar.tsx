@@ -3,7 +3,7 @@ import { navigation, pinnedNavSections } from "./nav-config";
 import hollaExLogoFull from "../../../imports/HollaEx_Logo-1.svg";
 import { HxThemeToggle } from "../ui/hx-toggle";
 import { useScrollbar } from "../ui/use-scrollbar";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useId } from "react";
 
 /* ── Tabler Icons ─────────── */
 import {
@@ -61,6 +61,8 @@ import {
   IconInfoCircle,
   IconChartBar,
   IconMail,
+  IconRobot,
+  IconFlask,
 } from "@tabler/icons-react";
 import type { TablerIcon } from "@tabler/icons-react";
 
@@ -123,6 +125,8 @@ const NAV_ICONS: Record<string, TablerIcon> = {
   "Toggle": IconToggleRight,
   "Tooltip": IconInfoCircle,
   // Patterns
+  "Agent Legibility": IconRobot,
+  "Testing with Agents": IconFlask,
   "Data Display": IconChartBar,
   "Email Templates": IconMail,
 };
@@ -137,15 +141,26 @@ function CollapsibleNavGroup({
   children,
   defaultOpen = true,
   isLast = false,
+  containsActive = false,
 }: {
   title: string;
   children: React.ReactNode;
   defaultOpen?: boolean;
   isLast?: boolean;
+  /** When true, forces the group open (e.g. active route lives inside) */
+  containsActive?: boolean;
 }) {
   const [isOpen, setIsOpen] = useState(defaultOpen);
   const contentRef = useRef<HTMLDivElement>(null);
   const [contentHeight, setContentHeight] = useState<number | undefined>(undefined);
+  const panelId = useId();
+
+  /* Auto-expand when the active route is inside this group */
+  useEffect(() => {
+    if (containsActive && !isOpen) {
+      setIsOpen(true);
+    }
+  }, [containsActive]);
 
   useEffect(() => {
     if (contentRef.current) {
@@ -168,6 +183,8 @@ function CollapsibleNavGroup({
     <div style={{ marginBottom: isLast ? "0" : "var(--space-7)" }} className="last:mb-0">
       <button
         onClick={() => setIsOpen(!isOpen)}
+        aria-expanded={isOpen}
+        aria-controls={panelId}
         className="cursor-pointer flex items-center w-full"
         style={{
           padding: "0 var(--space-3)",
@@ -205,6 +222,9 @@ function CollapsibleNavGroup({
       </button>
       <div
         ref={contentRef}
+        id={panelId}
+        role="region"
+        aria-label={title}
         style={{
           overflow: "hidden",
           maxHeight: isOpen ? (contentHeight ?? 1000) : 0,
@@ -223,6 +243,7 @@ function SidebarLink({ href, label, isActive, staggerIndex = 0, navRef }: { href
   const [hoverItem, setHoverItem] = useState(false);
   const [wasActive, setWasActive] = useState(isActive);
   const [animating, setAnimating] = useState(false);
+  const linkRef = useRef<HTMLAnchorElement>(null);
   const Icon = NAV_ICONS[label];
 
   useEffect(() => {
@@ -234,22 +255,24 @@ function SidebarLink({ href, label, isActive, staggerIndex = 0, navRef }: { href
     setWasActive(isActive);
   }, [isActive, wasActive]);
 
+  /* Auto-scroll the active link into view within the sidebar */
+  useEffect(() => {
+    if (!isActive || !linkRef.current) return;
+    // Small delay so any collapsible group expand animation settles first
+    const timer = setTimeout(() => {
+      linkRef.current?.scrollIntoView({ block: "nearest", behavior: "smooth" });
+    }, 120);
+    return () => clearTimeout(timer);
+  }, [isActive]);
+
   return (
     <Link
+      ref={linkRef}
       to={href}
+      aria-current={isActive ? "page" : undefined}
       className={cn(
         "relative flex items-center px-2 py-[7px] rounded transition-all duration-[var(--duration-short-2)]",
       )}
-      onClick={() => {
-        /* Preserve sidebar scroll position across navigation */
-        const nav = navRef.current;
-        if (nav) {
-          const scrollTop = nav.scrollTop;
-          requestAnimationFrame(() => {
-            nav.scrollTop = scrollTop;
-          });
-        }
-      }}
       style={{
         fontSize: "var(--text-label)",
         gap: "var(--space-3)",
@@ -328,10 +351,13 @@ export function DocsSidebar() {
 
       {/* Scrollable navigation */}
       <nav ref={scrollRef} className="flex-1 overflow-y-auto min-h-0"
+        aria-label="Design system navigation"
         style={{ padding: "var(--space-6) var(--space-4)" }}
       >
-        {navigation.map((section, sectionIndex) => (
-          <CollapsibleNavGroup key={section.title} title={section.title} isLast={sectionIndex === navigation.length - 1}>
+        {navigation.map((section, sectionIndex) => {
+          const sectionHasActive = section.items.some((item) => pathname === item.href);
+          return (
+          <CollapsibleNavGroup key={section.title} title={section.title} isLast={sectionIndex === navigation.length - 1} containsActive={sectionHasActive}>
             <ul style={{ display: "flex", flexDirection: "column", gap: "var(--space-1)" }}>
               {section.items.map((item, index) => {
                 const isActive = pathname === item.href;
@@ -372,13 +398,23 @@ export function DocsSidebar() {
               })}
             </ul>
           </CollapsibleNavGroup>
-        ))}
+          );
+        })}
       </nav>
 
       {/* Pinned bottom sections: Foundation & Patterns */}
-      <div className="shrink-0 border-t" style={{ borderColor: "var(--border-subtle)", padding: "var(--space-4) var(--space-4) var(--space-5)" }}>
-        {pinnedNavSections.map((section, sIdx) => (
-          <CollapsibleNavGroup key={section.title} title={section.title} isLast={sIdx === pinnedNavSections.length - 1}>
+      <div
+        className="shrink-0 relative"
+        style={{
+          backgroundColor: "var(--sidebar-pinned-bg)",
+          padding: "var(--space-5) var(--space-4) var(--space-5)",
+          borderTop: "1px solid var(--border-subtle)",
+        }}
+      >
+        {pinnedNavSections.map((section, sIdx) => {
+          const sectionHasActive = section.items.some((item) => pathname === item.href);
+          return (
+          <CollapsibleNavGroup key={section.title} title={section.title} isLast={sIdx === pinnedNavSections.length - 1} containsActive={sectionHasActive}>
             <ul style={{ display: "flex", flexDirection: "column", gap: "var(--space-1)" }}>
               {section.items.map((item, index) => {
                 const isActive = pathname === item.href;
@@ -390,7 +426,8 @@ export function DocsSidebar() {
               })}
             </ul>
           </CollapsibleNavGroup>
-        ))}
+          );
+        })}
       </div>
 
       {/* Footer */}

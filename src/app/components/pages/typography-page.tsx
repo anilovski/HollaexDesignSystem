@@ -2,7 +2,7 @@ import { HxThemeToggle } from "../ui/hx-toggle";
 import { useOutletContext } from "react-router";
 import { SearchTrigger } from "../docs/search-command";
 import { useState, useEffect, useRef, useCallback } from "react";
-import { Copy, Check } from "lucide-react";
+import { Button } from "../ui/hollaex-button";
 import { SectionJumpFab } from "../docs/section-jump-fab";
 
 /* ══════════════════════════════════════════════════════════════
@@ -10,39 +10,15 @@ import { SectionJumpFab } from "../docs/section-jump-fab";
    ══════════════════════════════════════════════════════════════ */
 
 function CopyButton({ text }: { text: string }) {
-  const [copied, setCopied] = useState(false);
-  const copy = useCallback(() => {
-    navigator.clipboard.writeText(text).then(() => {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 1500);
-    });
-  }, [text]);
-
   return (
-    <button
-      type="button"
-      onClick={copy}
-      className="flex items-center justify-center transition-all duration-[var(--duration-short-3)] cursor-pointer"
-      style={{
-        width: 28,
-        height: 28,
-        borderRadius: "var(--radius-circle)",
-        backgroundColor: "transparent",
-        color: "var(--muted-foreground)",
-        border: "none",
-      }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.backgroundColor = "var(--secondary)";
-        e.currentTarget.style.color = "var(--foreground)";
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.backgroundColor = "transparent";
-        e.currentTarget.style.color = "var(--muted-foreground)";
-      }}
-      title={`Copy`}
-    >
-      {copied ? <Check size={14} /> : <Copy size={14} />}
-    </button>
+    <Button
+      variant="ghost-secondary"
+      size="xs"
+      iconOnly
+      copyText={text}
+      title="Copy"
+      style={{ borderRadius: "var(--radius-circle)", width: 28, height: 28 }}
+    />
   );
 }
 

@@ -466,6 +466,12 @@ export function SectionJumpFab({
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                   placeholder="Jump to section…"
+                  aria-label="Jump to section"
+                  aria-controls="hx-fab-section-list"
+                  aria-activedescendant={filtered[selectedIndex] ? `hx-fab-item-${selectedIndex}` : undefined}
+                  role="combobox"
+                  aria-expanded={filtered.length > 0}
+                  data-focus-custom
                   style={{
                     flex: 1,
                     backgroundColor: "transparent",
@@ -496,6 +502,9 @@ export function SectionJumpFab({
               {filtered.length > 0 && (
                 <div
                   ref={listRef}
+                  id="hx-fab-section-list"
+                  role="listbox"
+                  aria-label="Page sections"
                   style={{
                     maxHeight: 260,
                     overflowY: "auto",
@@ -509,6 +518,9 @@ export function SectionJumpFab({
                     return (
                       <button
                         key={section.id}
+                        id={`hx-fab-item-${i}`}
+                        role="option"
+                        aria-selected={isSelected}
                         data-fab-item
                         onClick={() => jumpTo(section.id)}
                         onMouseEnter={() => setSelectedIndex(i)}
