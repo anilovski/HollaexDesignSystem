@@ -582,7 +582,7 @@ export function AgentLegibilityPage() {
   const search = useOutletContext<{ open: boolean; setOpen: (v: boolean) => void } | undefined>();
 
   return (
-    <div className="min-h-full" style={{ backgroundColor: "var(--secondary-subtle)" }}>
+    <div className="min-h-full shrink-0" style={{ backgroundColor: "var(--secondary-subtle)" }}>
       <div ref={sentinelRef} className="h-0 w-full" aria-hidden="true" />
 
       {/* Breadcrumb */}

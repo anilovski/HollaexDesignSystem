@@ -3,6 +3,7 @@ import { useOutletContext } from "react-router";
 import { HxThemeToggle } from "../ui/hx-toggle";
 import { SearchTrigger } from "../docs/search-command";
 import { SectionJumpFab } from "../docs/section-jump-fab";
+import { PageTabs } from "../docs/component-page";
 import { IconBulb, IconWaveSine, IconClock, IconTag } from "@tabler/icons-react";
 import type { ComponentType } from "react";
 
@@ -2060,68 +2061,27 @@ export function MotionPage() {
   const tokenCount = EASING_TOKENS.length + DURATION_TOKENS.length + SEMANTIC_TOKENS.length;
 
   return (
-    <div className="min-h-full" style={{ backgroundColor: "var(--secondary-subtle)", fontFamily: "var(--font-family-supreme)" }}>
+    <div className="min-h-full shrink-0" style={{ backgroundColor: "var(--secondary-subtle)", fontFamily: "var(--font-family-supreme)" }}>
       <div ref={sentinelRef} className="h-0 w-full" aria-hidden="true" />
 
       {/* ── Sticky header ─────────────────────���────────── */}
       <div
-        className="border-b sticky top-0 z-10 h-[72px] transition-shadow duration-[var(--duration-short-4)] relative"
+        className="border-b sticky top-0 z-10 h-[72px] transition-shadow duration-[var(--duration-short-4)]"
         style={{ borderColor: "var(--border-subtle)", backgroundColor: "var(--background)", boxShadow: scrolled ? "var(--elevation-sm)" : "none" }}
       >
-        {/* Full-width layer: breadcrumb left, controls right */}
-        <div className="h-full flex items-center justify-between relative z-[2] pointer-events-none" style={{ padding: "0 var(--space-10)" }}>
-          <div className="flex items-center shrink-0 pointer-events-auto" style={{ gap: "var(--space-3)" }}>
+        <div className="h-full flex items-center justify-between" style={{ padding: "0 var(--space-10)" }}>
+          <div className="flex items-center shrink-0" style={{ gap: "var(--space-3)" }}>
             <span style={{ fontSize: "var(--text-caption)", color: "var(--muted-foreground)", fontFamily: "var(--font-family-supreme)" }}>Foundation</span>
             <span style={{ fontSize: "var(--text-caption)", color: "var(--border)" }}>&rsaquo;</span>
             <span style={{ fontSize: "var(--text-caption)", color: "var(--foreground)", fontWeight: "var(--font-weight-bold)" as any, fontFamily: "var(--font-family-supreme)" }}>Motion</span>
           </div>
-          <div className="flex items-center shrink-0 pointer-events-auto" style={{ gap: "var(--space-5)" }}>
+          <div className="flex items-center shrink-0" style={{ gap: "var(--space-5)" }}>
             <span style={{ fontSize: "var(--text-caption)", color: "var(--muted-foreground)", fontFamily: "var(--font-family-supreme)" }}>{tokenCount} tokens</span>
             <BreadcrumbSearch />
             <HxThemeToggle size="lg" />
           </div>
         </div>
 
-        {/* Centered tab layer — aligned with content container below */}
-        <div className="absolute inset-0 h-full flex items-center pointer-events-none z-[3]" style={{ maxWidth: "1120px", margin: "0 auto", padding: "0 var(--space-8)" }}>
-          <div className="flex pointer-events-auto" role="tablist" style={{ fontFamily: "var(--font-family-supreme)" }}>
-            {TAB_ITEMS.map((tab) => {
-              const isActive = tab.value === activeTab;
-              return (
-                <button
-                  key={tab.value}
-                  role="tab"
-                  aria-selected={isActive}
-                  onClick={() => setActiveTab(tab.value)}
-                  className="relative flex items-center justify-center cursor-pointer select-none outline-none transition-colors duration-[var(--duration-short-3)]"
-                  style={{
-                    height: "72px",
-                    padding: "0 var(--space-5)",
-                    fontSize: "var(--text-body)",
-                    fontWeight: isActive ? "var(--font-weight-medium)" : "var(--font-weight-regular)",
-                    color: isActive ? "var(--color-text-primary)" : "var(--color-text-tertiary)",
-                    fontFamily: "var(--font-family-supreme)",
-                    backgroundColor: "transparent",
-                    border: "none",
-                  }}
-                  onMouseEnter={(e) => { if (!isActive) e.currentTarget.style.color = "var(--color-text-secondary)"; }}
-                  onMouseLeave={(e) => { if (!isActive) e.currentTarget.style.color = "var(--color-text-tertiary)"; }}
-                >
-                  {tab.label}
-                  <span
-                    className="absolute bottom-0 left-0 w-full transition-transform duration-[var(--duration-medium-2)] origin-left"
-                    style={{
-                      height: "2px",
-                      backgroundColor: "var(--brand-default)",
-                      transform: isActive ? "scaleX(1)" : "scaleX(0)",
-                      transitionTimingFunction: "cubic-bezier(0.25, 0.1, 0.25, 1)",
-                    }}
-                  />
-                </button>
-              );
-            })}
-          </div>
-        </div>
       </div>
 
       {/* ── Page content ──────────────────────────────── */}
@@ -2138,6 +2098,9 @@ export function MotionPage() {
             Productive and expressive easing curves, duration tokens, and semantic motion presets — guided by IBM's Design Language — that bring the HollaEx interface to life with purposeful, choreographed animation.
           </p>
         </div>
+
+        {/* Tab bar */}
+        <PageTabs items={TAB_ITEMS} activeTab={activeTab} onTabChange={setActiveTab} />
 
         {/* Tab content */}
         <div style={{ padding: "var(--space-10) 0 var(--space-12)" }}>

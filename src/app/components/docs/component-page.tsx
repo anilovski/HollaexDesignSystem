@@ -50,7 +50,7 @@ export function ComponentPage({
   const [sentinelRef, scrolled] = useScrolledPast();
 
   return (
-    <div className="min-h-full">
+    <div className="min-h-full shrink-0">
       {/* Scroll sentinel – sits at the very top; when it's gone the breadcrumb gets a shadow */}
       <div ref={sentinelRef} className="h-0 w-full" aria-hidden="true" />
 
@@ -314,6 +314,66 @@ export function ExampleGrid({
       )}
       <div className="flex flex-col rounded-b-xl" style={{ padding: "var(--space-8) var(--space-7)", gap: "var(--space-7)", backgroundColor: "var(--background)", overflow: "visible", minWidth: 0 }}>
         {children}
+      </div>
+    </div>
+  );
+}
+
+/** Sticky tab bar – sits below the page header, pins at top: 72px (below the breadcrumb) */
+export function PageTabs<T extends string>({
+  items,
+  activeTab,
+  onTabChange,
+}: {
+  items: readonly { value: T; label: string }[];
+  activeTab: T;
+  onTabChange: (value: T) => void;
+}) {
+  return (
+    <div
+      className="sticky z-[9] border-b"
+      style={{
+        top: 72,
+        backgroundColor: "var(--secondary-subtle)",
+        borderColor: "var(--border-subtle)",
+      }}
+    >
+      <div className="flex" role="tablist" style={{ fontFamily: "var(--font-family-supreme)" }}>
+        {items.map((tab) => {
+          const isActive = tab.value === activeTab;
+          return (
+            <button
+              key={tab.value}
+              role="tab"
+              aria-selected={isActive}
+              onClick={() => onTabChange(tab.value as T)}
+              className="relative flex items-center justify-center cursor-pointer select-none outline-none transition-colors duration-[var(--duration-short-3)]"
+              style={{
+                height: 44,
+                padding: "0 var(--space-5)",
+                fontSize: "var(--text-body)",
+                fontWeight: isActive ? ("var(--font-weight-medium)" as any) : ("var(--font-weight-regular)" as any),
+                color: isActive ? "var(--color-text-primary)" : "var(--color-text-tertiary)",
+                fontFamily: "var(--font-family-supreme)",
+                backgroundColor: "transparent",
+                border: "none",
+              }}
+              onMouseEnter={(e) => { if (!isActive) e.currentTarget.style.color = "var(--color-text-secondary)"; }}
+              onMouseLeave={(e) => { if (!isActive) e.currentTarget.style.color = "var(--color-text-tertiary)"; }}
+            >
+              {tab.label}
+              <span
+                className="absolute bottom-0 left-0 w-full transition-transform duration-[var(--duration-medium-2)] origin-left"
+                style={{
+                  height: "2px",
+                  backgroundColor: "var(--brand-default)",
+                  transform: isActive ? "scaleX(1)" : "scaleX(0)",
+                  transitionTimingFunction: "cubic-bezier(0.25, 0.1, 0.25, 1)",
+                }}
+              />
+            </button>
+          );
+        })}
       </div>
     </div>
   );
