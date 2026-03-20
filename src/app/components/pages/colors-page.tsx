@@ -2506,6 +2506,7 @@ export function ColorsPage() {
           id: el.id,
           title: el.dataset.sectionTitle || "",
         })}
+        showColorDots
       />
     </div>
   );

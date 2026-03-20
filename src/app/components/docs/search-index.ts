@@ -58,6 +58,22 @@ export const searchIndex: SearchEntry[] = [
     category: "Foundation",
     keywords: ["motion", "animation", "easing", "duration", "transition", "curve", "bezier", "timing", "hover", "enter", "exit", "expand", "collapse", "fade", "ibm", "productive", "expressive"],
   },
+  {
+    name: "Layout & Grid",
+    href: "/foundation/layout-grid",
+    description:
+      "Grid systems, breakpoints, and responsive layout patterns. Column, modular, and hierarchical grids across 5 breakpoints (360px–1560px). Includes page layout templates for sidebar, two-panel, dashboard, and centered layouts.",
+    category: "Foundation",
+    keywords: ["grid", "layout", "responsive", "breakpoint", "column", "gutter", "margin", "sidebar", "dashboard", "mobile", "tablet", "desktop", "template", "pattern", "two-panel", "hierarchical", "modular"],
+  },
+  {
+    name: "Agent Legibility",
+    href: "/foundation/agent-legibility",
+    description:
+      "Guidelines for making UI components readable and operable by AI agents. Covers semantic markup, ARIA attributes, and structured data patterns that improve AI-assisted interactions.",
+    category: "Foundation",
+    keywords: ["agent", "ai", "legibility", "accessibility", "semantic", "aria", "markup", "structured", "machine", "readable", "automation"],
+  },
 
   // ── Components ──────────────────────────────────
   {
@@ -203,6 +219,14 @@ export const searchIndex: SearchEntry[] = [
       "Searchable select menu with gray, white, and midTone styling variants. Supports validation states, coin icons, and helper text.",
     category: "Components",
     keywords: ["select", "menu", "options", "combobox", "picker", "searchable"],
+  },
+  {
+    name: "FAB",
+    href: "/components/fab",
+    description:
+      "Floating Action Button for primary screen actions. A circular button that floats above content, typically used for the most common or important action on a page.",
+    category: "Components",
+    keywords: ["fab", "floating", "action", "button", "circular", "primary", "fixed", "overlay"],
   },
   {
     name: "Header",
@@ -463,8 +487,8 @@ export const searchIndex: SearchEntry[] = [
     keywords: ["email", "template", "confirmation", "passcode", "otp", "password", "reset", "welcome", "security", "deposit", "notification", "transactional", "html"],
   },
   {
-    name: "Testing",
-    href: "/patterns/testing",
+    name: "Testing with Agents",
+    href: "/patterns/testing-with-agents",
     description:
       "Testing patterns and guidelines for ensuring accessibility and quality assurance. Includes testing agents, AI automation, QA practices, accessibility checks, and ARIA attributes.",
     category: "Patterns",

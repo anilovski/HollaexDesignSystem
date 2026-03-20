@@ -3,6 +3,15 @@ import { useOutletContext } from "react-router";
 import { HxThemeToggle } from "../ui/hx-toggle";
 import { SearchTrigger } from "../docs/search-command";
 import { SectionJumpFab } from "../docs/section-jump-fab";
+import { IconBulb, IconWaveSine, IconClock, IconTag } from "@tabler/icons-react";
+import type { ComponentType } from "react";
+
+const FAB_ICONS: Record<string, ComponentType<{ size?: number; stroke?: number }>> = {
+  "Principles": IconBulb,
+  "Easing Curves": IconWaveSine,
+  "Duration Scale": IconClock,
+  "Semantic Tokens": IconTag,
+};
 import { Button } from "../ui/hollaex-button";
 import { X, Clock, Play, Pause, RotateCcw, ChevronRight, Bell, Zap, Eye, MousePointer, ArrowRight, ArrowDown, Activity, CheckCircle, XCircle } from "lucide-react";
 
@@ -2145,7 +2154,7 @@ export function MotionPage() {
           </p>
         </div>
       </div>
-      <SectionJumpFab />
+      <SectionJumpFab iconMap={FAB_ICONS} />
     </div>
   );
 }

@@ -76,6 +76,7 @@ const NAV_ICONS: Record<string, TablerIcon> = {
   "Spacing": IconRuler,
   "Icons": IconHexagon,
   "Motion": IconPlayerPlay,
+  "Layout & Grid": IconColumns,
   // Components
   "Accordion": IconSelector,
   "Alert": IconAlertTriangle,

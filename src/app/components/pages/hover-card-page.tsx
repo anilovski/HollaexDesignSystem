@@ -4,7 +4,7 @@ import { CalendarDays } from "lucide-react";
 
 export function HoverCardPage() {
   return (
-    <ComponentPage name="Hover Card" description="A floating card that appears when hovering over a trigger element. Ideal for previewing content like user profiles, link details, or asset summaries.">
+    <ComponentPage name="Hover Card" description="A floating card that appears when hovering over a trigger element. Ideal for previewing content like user profiles, link details, or asset summaries." hideFab>
       <Section title="Basic" description="Hover over the trigger to reveal a content card.">
         <ExampleRow label="User preview">
           <HoverCard>

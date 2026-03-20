@@ -40,7 +40,7 @@ export function ContextMenuPage() {
   const [person, setPerson] = useState("pedro");
 
   return (
-    <ComponentPage name="Context Menu" description="A menu activated by right-clicking an element. Built on Radix UI Context Menu with keyboard navigation, submenus, and checkbox/radio items.">
+    <ComponentPage name="Context Menu" description="A menu activated by right-clicking an element. Built on Radix UI Context Menu with keyboard navigation, submenus, and checkbox/radio items." hideFab>
       <Section title="Basic" description="Right-click the target area to open the context menu.">
         <ExampleRow label="Right-click here">
           <ContextMenu>

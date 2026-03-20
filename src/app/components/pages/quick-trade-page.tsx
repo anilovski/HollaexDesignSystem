@@ -960,6 +960,7 @@ export function QuickTradePage() {
       name="Quick Trade"
       description="A complete conversion flow composing CoinAmountField, ButtonGroup, Button, and a coin-selector Sheet into a full Quick Trade module. Click the coin pill on any field to open the asset picker."
       breadcrumbPrefix="Patterns"
+      hideFab
     >
       <Section
         title="Complete Module"

@@ -37,6 +37,7 @@ export function ComponentPage({
   children,
   sideNav,
   fabIconMap,
+  hideFab = false,
 }: {
   name: string;
   description: string;
@@ -44,6 +45,7 @@ export function ComponentPage({
   children: ReactNode;
   sideNav?: ReactNode;
   fabIconMap?: Record<string, ComponentType<{ size?: number; stroke?: number }>>;
+  hideFab?: boolean;
 }) {
   const [sentinelRef, scrolled] = useScrolledPast();
 
@@ -163,7 +165,7 @@ export function ComponentPage({
       </div>
 
       {/* Section jump FAB */}
-      <SectionJumpFab iconMap={fabIconMap} />
+      {!hideFab && <SectionJumpFab iconMap={fabIconMap} />}
     </div>
   );
 }

@@ -4,6 +4,14 @@ import { SearchTrigger } from "../docs/search-command";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { Button } from "../ui/hollaex-button";
 import { SectionJumpFab } from "../docs/section-jump-fab";
+import { IconTypography, IconTextSize, IconBold, IconBook } from "@tabler/icons-react";
+import type { ComponentType } from "react";
+
+const FAB_ICONS: Record<string, ComponentType<{ size?: number; stroke?: number }>> = {
+  "Type Scale": IconTextSize,
+  "Font Weights": IconBold,
+  "Usage": IconBook,
+};
 
 /* ══════════════════════════════════════════════════════════════
    COPY BUTTON
@@ -933,7 +941,7 @@ export function TypographyPage() {
           </p>
         </div>
       </div>
-      <SectionJumpFab />
+      <SectionJumpFab iconMap={FAB_ICONS} />
     </div>
   );
 }

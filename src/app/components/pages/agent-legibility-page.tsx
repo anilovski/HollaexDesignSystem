@@ -3,6 +3,21 @@ import { useOutletContext, Link } from "react-router";
 import { HxThemeToggle } from "../ui/hx-toggle";
 import { SearchTrigger } from "../docs/search-command";
 import { SectionJumpFab } from "../docs/section-jump-fab";
+import { IconBulb, IconEye, IconSection, IconDatabase, IconAccessible, IconArrowsSplit, IconChecklist, IconTerminal2, IconReportAnalytics, IconExternalLink } from "@tabler/icons-react";
+import type { ComponentType } from "react";
+
+const FAB_ICONS: Record<string, ComponentType<{ size?: number; stroke?: number }>> = {
+  "Core Principles": IconBulb,
+  "Agent View": IconEye,
+  "Semantic HTML Landmarks": IconSection,
+  "Data Attribute Contracts": IconDatabase,
+  "ARIA Patterns": IconAccessible,
+  "Before & After": IconArrowsSplit,
+  "Component Authoring Checklist": IconChecklist,
+  "Agent Query Patterns": IconTerminal2,
+  "Score Card": IconReportAnalytics,
+  "Related Resources": IconExternalLink,
+};
 import { FadeInContent } from "../ui/page-loader";
 import { Bot, Eye, EyeOff, Code, ArrowRight, CheckCircle2, XCircle, Lightbulb, FlaskConical, ShieldCheck, CircleAlert, CircleDot, Tag, Scan } from "lucide-react";
 import { Button } from "../ui/hollaex-button";
@@ -900,7 +915,7 @@ document.querySelector('[data-testid="pair-selector"]')?.getAttribute('data-valu
         </FadeInContent>
       </div>
 
-      <SectionJumpFab />
+      <SectionJumpFab iconMap={FAB_ICONS} />
     </div>
   );
 }

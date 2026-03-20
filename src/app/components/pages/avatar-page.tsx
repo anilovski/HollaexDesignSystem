@@ -3,7 +3,7 @@ import { Avatar } from "../ui/hx-avatar";
 
 export function AvatarPage() {
   return (
-    <ComponentPage name="Avatar" description="User profile pictures with a double-ring design. Falls back to initials when no image is available. Supports 6 sizes.">
+    <ComponentPage name="Avatar" description="User profile pictures with a double-ring design. Falls back to initials when no image is available. Supports 6 sizes." hideFab>
       <Section title="Sizes" description="Six sizes from xs (24px) to 2xl (80px).">
         <ExampleRow label="All sizes with initials">
           <Avatar size="xs" name="John Doe" />

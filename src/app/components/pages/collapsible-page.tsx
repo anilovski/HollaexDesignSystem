@@ -41,7 +41,7 @@ function CollapsibleDemo({ defaultOpen = false }: { defaultOpen?: boolean }) {
 
 export function CollapsiblePage() {
   return (
-    <ComponentPage name="Collapsible" description="An interactive component that expands and collapses a panel. Built on Radix UI Collapsible with accessible open/close state management.">
+    <ComponentPage name="Collapsible" description="An interactive component that expands and collapses a panel. Built on Radix UI Collapsible with accessible open/close state management." hideFab>
       <Section title="Basic" description="Click the toggle to reveal additional content.">
         <ExampleRow label="Default (collapsed)">
           <CollapsibleDemo />
