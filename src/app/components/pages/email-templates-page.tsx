@@ -23,7 +23,7 @@ import {
   IconBell,
 } from "@tabler/icons-react";
 import { Button } from "../ui/hollaex-button";
-import exampleImage from "figma:asset/51cafdda4325661157e7f9effef80e1612171c6a.png";
+import exampleImage from "../../../assets/51cafdda4325661157e7f9effef80e1612171c6a.png";
 
 /* ═══════════════════════════════════════════════════
    DARK MODE CSS SNIPPET (shared across all templates)
