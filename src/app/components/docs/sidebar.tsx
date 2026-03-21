@@ -326,6 +326,117 @@ function SidebarLink({ href, label, isActive, staggerIndex = 0, navRef, onNaviga
   );
 }
 
+/* ── Helpers ──────────────────────────────────── */
+
+/** Renders a list of nav items (reused across sections) */
+function NavList({ items, pathname, scrollRef, onNavigate }: {
+  items: import("./nav-config").NavItem[];
+  pathname: string;
+  scrollRef: React.RefObject<HTMLElement | null>;
+  onNavigate?: () => void;
+}) {
+  return (
+    <ul style={{ display: "flex", flexDirection: "column", gap: "var(--space-1)" }}>
+      {items.map((item, index) => {
+        const isActive = pathname === item.href;
+
+        if (item.soon) {
+          const SoonIcon = NAV_ICONS[item.label];
+          return (
+            <li key={item.href}>
+              <span className="flex items-center justify-between rounded select-none"
+                style={{ fontSize: "var(--text-label)", color: "var(--muted-foreground)", opacity: 0.5, padding: "7px var(--space-3)" }}
+              >
+                <span className="flex items-center" style={{ gap: "var(--space-3)" }}>
+                  {SoonIcon && <SoonIcon size={15} className="shrink-0" style={{ marginLeft: "var(--space-1)" }} stroke={1.5} />}
+                  {item.label}
+                </span>
+                <span style={{
+                  fontSize: "9px",
+                  fontWeight: "var(--font-weight-medium)",
+                  letterSpacing: "0.1em",
+                  textTransform: "uppercase",
+                  color: "var(--muted-foreground)",
+                  backgroundColor: "var(--secondary)",
+                  padding: "var(--space-1) var(--space-2)",
+                  borderRadius: "var(--radius)",
+                }}>
+                  Soon
+                </span>
+              </span>
+            </li>
+          );
+        }
+
+        return (
+          <li key={item.href}>
+            <SidebarLink href={item.href} label={item.label} isActive={isActive} staggerIndex={index} navRef={scrollRef} onNavigate={onNavigate} />
+          </li>
+        );
+      })}
+    </ul>
+  );
+}
+
+/**
+ * Sticky Foundation section — stays pinned at the top of the nav scroll area
+ * so foundation items are always one click away while scrolling through components.
+ */
+function StickyFoundation({ pathname, scrollRef, onNavigate }: {
+  pathname: string;
+  scrollRef: React.RefObject<HTMLElement | null>;
+  onNavigate?: () => void;
+}) {
+  const foundationSection = pinnedNavSections.find(s => s.title === "Foundation");
+  const [isStuck, setIsStuck] = useState(false);
+  const sentinelRef = useRef<HTMLDivElement>(null);
+
+  // Detect when the section becomes stuck using an IntersectionObserver on a sentinel
+  useEffect(() => {
+    const el = sentinelRef.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => setIsStuck(!entry.isIntersecting),
+      { threshold: 0, root: el.closest("nav") },
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
+  if (!foundationSection) return null;
+
+  const sectionHasActive = foundationSection.items.some((item) => pathname === item.href);
+
+  return (
+    <>
+      {/* Sentinel: sits right above the sticky section. When it scrolls out of the nav viewport, we know Foundation is stuck */}
+      <div ref={sentinelRef} className="h-0 w-full" aria-hidden="true" />
+
+      <div
+        style={{
+          position: "sticky",
+          top: 0,
+          zIndex: 2,
+          backgroundColor: "var(--background)",
+          marginLeft: "calc(-1 * var(--space-4))",
+          marginRight: "calc(-1 * var(--space-4))",
+          paddingLeft: "var(--space-4)",
+          paddingRight: "var(--space-4)",
+          paddingTop: "var(--space-2)",
+          paddingBottom: "var(--space-3)",
+          borderBottom: isStuck ? "1px solid var(--border-subtle)" : "1px solid transparent",
+          boxShadow: isStuck ? "0 4px 12px -4px rgba(0,0,0,0.08)" : "none",
+          transition: "box-shadow var(--duration-short-4) ease, border-color var(--duration-short-4) ease",
+        }}
+      >
+        <CollapsibleNavGroup title={foundationSection.title} isLast={false} containsActive={sectionHasActive}>
+          <NavList items={foundationSection.items} pathname={pathname} scrollRef={scrollRef} onNavigate={onNavigate} />
+        </CollapsibleNavGroup>
+      </div>
+    </>
+  );
+}
+
 /** @refresh reset */
 /** Reusable sidebar content — used in both the desktop aside and the mobile drawer */
 export function SidebarContent({ onNavigate }: { onNavigate?: () => void } = {}) {
@@ -351,93 +462,45 @@ export function SidebarContent({ onNavigate }: { onNavigate?: () => void } = {})
         />
       </div>
 
-      {/* Single scrollable navigation — all sections scroll together so no section steals space */}
+      {/* Scrollable navigation */}
       <nav ref={scrollRef} className="flex-1 overflow-y-auto min-h-0"
         aria-label="Design system navigation"
         style={{ padding: "var(--space-6) var(--space-4) 0" }}
       >
-        {/* Getting Started + Components */}
-        {navigation.map((section, sectionIndex) => {
+        {/* Getting Started */}
+        {navigation.filter(s => s.title === "Getting Started").map((section) => {
           const sectionHasActive = section.items.some((item) => pathname === item.href);
           return (
-          <CollapsibleNavGroup key={section.title} title={section.title} isLast={false} containsActive={sectionHasActive}>
-            <ul style={{ display: "flex", flexDirection: "column", gap: "var(--space-1)" }}>
-              {section.items.map((item, index) => {
-                const isActive = pathname === item.href;
-
-                if (item.soon) {
-                  const SoonIcon = NAV_ICONS[item.label];
-                  return (
-                    <li key={item.href}>
-                      <span className="flex items-center justify-between rounded select-none"
-                        style={{ fontSize: "var(--text-label)", color: "var(--muted-foreground)", opacity: 0.5, padding: "7px var(--space-3)" }}
-                      >
-                        <span className="flex items-center" style={{ gap: "var(--space-3)" }}>
-                          {SoonIcon && <SoonIcon size={15} className="shrink-0" style={{ marginLeft: "var(--space-1)" }} stroke={1.5} />}
-                          {item.label}
-                        </span>
-                        <span style={{
-                          fontSize: "9px",
-                          fontWeight: "var(--font-weight-medium)",
-                          letterSpacing: "0.1em",
-                          textTransform: "uppercase",
-                          color: "var(--muted-foreground)",
-                          backgroundColor: "var(--secondary)",
-                          padding: "var(--space-1) var(--space-2)",
-                          borderRadius: "var(--radius)",
-                        }}>
-                          Soon
-                        </span>
-                      </span>
-                    </li>
-                  );
-                }
-
-                return (
-                  <li key={item.href}>
-                    <SidebarLink href={item.href} label={item.label} isActive={isActive} staggerIndex={index} navRef={scrollRef} onNavigate={onNavigate} />
-                  </li>
-                );
-              })}
-            </ul>
-          </CollapsibleNavGroup>
+            <CollapsibleNavGroup key={section.title} title={section.title} isLast={false} containsActive={sectionHasActive}>
+              <NavList items={section.items} pathname={pathname} scrollRef={scrollRef} onNavigate={onNavigate} />
+            </CollapsibleNavGroup>
           );
         })}
 
-        {/* Foundation & Patterns — visually separated, scrollable with the rest */}
-        <div
-          style={{
-            marginTop: "var(--space-4)",
-            paddingTop: "var(--space-5)",
-            paddingBottom: "var(--space-5)",
-            borderTop: "1px solid var(--border-subtle)",
-            backgroundColor: "var(--sidebar-pinned-bg)",
-            marginLeft: "calc(-1 * var(--space-4))",
-            marginRight: "calc(-1 * var(--space-4))",
-            paddingLeft: "var(--space-4)",
-            paddingRight: "var(--space-4)",
-          }}
-        >
-          {pinnedNavSections.map((section, sIdx) => {
-            const sectionHasActive = section.items.some((item) => pathname === item.href);
-            return (
-            <CollapsibleNavGroup key={section.title} title={section.title} isLast={sIdx === pinnedNavSections.length - 1} containsActive={sectionHasActive}>
-              <ul style={{ display: "flex", flexDirection: "column", gap: "var(--space-1)" }}>
-                {section.items.map((item, index) => {
-                  const isActive = pathname === item.href;
-                  return (
-                    <li key={item.href}>
-                      <SidebarLink href={item.href} label={item.label} isActive={isActive} staggerIndex={index} navRef={scrollRef} onNavigate={onNavigate} />
-                    </li>
-                  );
-                })}
-              </ul>
-            </CollapsibleNavGroup>
-            );
-          })}
-        </div>
+        {/* Foundation — sticky: always visible as you scroll through Components */}
+        <StickyFoundation pathname={pathname} scrollRef={scrollRef} onNavigate={onNavigate} />
 
-        {/* Scroll padding so last items aren't flush against the footer */}
+        {/* Components */}
+        {navigation.filter(s => s.title === "Components").map((section) => {
+          const sectionHasActive = section.items.some((item) => pathname === item.href);
+          return (
+            <CollapsibleNavGroup key={section.title} title={section.title} isLast={false} containsActive={sectionHasActive}>
+              <NavList items={section.items} pathname={pathname} scrollRef={scrollRef} onNavigate={onNavigate} />
+            </CollapsibleNavGroup>
+          );
+        })}
+
+        {/* Patterns */}
+        {pinnedNavSections.filter(s => s.title === "Patterns").map((section) => {
+          const sectionHasActive = section.items.some((item) => pathname === item.href);
+          return (
+            <CollapsibleNavGroup key={section.title} title={section.title} isLast={true} containsActive={sectionHasActive}>
+              <NavList items={section.items} pathname={pathname} scrollRef={scrollRef} onNavigate={onNavigate} />
+            </CollapsibleNavGroup>
+          );
+        })}
+
+        {/* Scroll padding */}
         <div style={{ height: "var(--space-4)" }} aria-hidden="true" />
       </nav>
 
