@@ -34,12 +34,13 @@ function AlertDialogOverlay({
   return (
     <AlertDialogPrimitive.Overlay
       data-slot="alert-dialog-overlay"
-      className={cn("data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0", className)}
+      className={className}
       style={{
         position: "fixed",
         inset: 0,
         zIndex: 50,
         backgroundColor: "rgba(0, 0, 0, 0.6)",
+        transition: "opacity var(--duration-short-4, 200ms) var(--ease-standard, ease)",
       }}
       {...props}
     />
@@ -55,16 +56,16 @@ function AlertDialogContent({
       <AlertDialogOverlay />
       <AlertDialogPrimitive.Content
         data-slot="alert-dialog-content"
-        className={cn(
-          "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
-          className,
-        )}
+        className={className}
         style={{
           position: "fixed",
           top: "50%",
           left: "50%",
-          transform: "translate(-50%, -50%)",
           zIndex: 50,
+          transform: "translate(-50%, -50%) scale(1)",
+          opacity: 1,
+          transition: "opacity var(--duration-medium-2, 300ms) var(--ease-emphasized-decelerate, ease-out), transform var(--duration-medium-2, 300ms) var(--ease-emphasized-decelerate, ease-out)",
+          animation: "hx-dialog-enter var(--duration-medium-2, 300ms) var(--ease-emphasized-decelerate, ease-out) both",
           display: "grid",
           width: "100%",
           maxWidth: "min(512px, calc(100vw - 2rem))",
