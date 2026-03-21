@@ -5,7 +5,9 @@ import { HxThemeToggle } from "../ui/hx-toggle";
 import { SearchTrigger } from "./search-command";
 import { SectionJumpFab } from "./section-jump-fab";
 import { FadeInContent } from "../ui/page-loader";
-import { Bot, ArrowRight } from "lucide-react";
+import { Bot, ArrowRight, Menu } from "lucide-react";
+import { CodeBlock } from "./code-block";
+import hollaExLogoFull from "../../../imports/HollaEx_Logo-1.svg";
 
 export function slugify(text: string) {
   return text.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
@@ -48,6 +50,8 @@ export function ComponentPage({
   hideFab?: boolean;
 }) {
   const [sentinelRef, scrolled] = useScrolledPast();
+  const ctx = useOutletContext<{ isMobile?: boolean; openMobileNav?: () => void } | undefined>();
+  const isMobile = ctx?.isMobile ?? false;
 
   return (
     <div className="min-h-full shrink-0">
@@ -63,30 +67,51 @@ export function ComponentPage({
         }}
       >
         <div className="h-full flex items-center justify-between"
-          style={{ padding: "0 var(--space-10)" }}
+          style={{ padding: isMobile ? "0 var(--space-5)" : "0 var(--space-10)" }}
         >
-          {/* WCAG 1.3.1: Semantic breadcrumb navigation */}
-          <nav aria-label="Breadcrumb">
-            <ol className="flex items-center" style={{ gap: "var(--space-3)", listStyle: "none", margin: 0, padding: 0 }}>
-              <li>
-                <span style={{ fontSize: "12px", color: "var(--muted-foreground)", fontFamily: "var(--font-family-supreme)" }}>{breadcrumbPrefix}</span>
-              </li>
-              <li aria-hidden="true">
-                <span style={{ fontSize: "12px", color: "var(--border)" }}>&rsaquo;</span>
-              </li>
-              <li aria-current="page">
-                <span style={{ fontSize: "12px", color: "var(--foreground)", fontWeight: "var(--font-weight-bold)", fontFamily: "var(--font-family-supreme)" }}>{name}</span>
-              </li>
-            </ol>
-          </nav>
+          <div className="flex items-center" style={{ gap: "var(--space-3)" }}>
+            {/* Mobile: hamburger + logo */}
+            {isMobile && (
+              <>
+                <button
+                  onClick={ctx?.openMobileNav}
+                  className="inline-flex items-center justify-center cursor-pointer"
+                  style={{
+                    width: 36, height: 36, borderRadius: "var(--radius)",
+                    border: "none", backgroundColor: "transparent",
+                    color: "var(--foreground)",
+                  }}
+                  aria-label="Open navigation"
+                >
+                  <Menu size={20} />
+                </button>
+                <img src={hollaExLogoFull} alt="" className="hx-logo-adaptive" style={{ height: "28px" }} />
+                <span style={{ color: "var(--border)", fontSize: "16px", fontWeight: 200 }}>|</span>
+              </>
+            )}
+            {/* WCAG 1.3.1: Semantic breadcrumb navigation */}
+            <nav aria-label="Breadcrumb">
+              <ol className="flex items-center" style={{ gap: "var(--space-3)", listStyle: "none", margin: 0, padding: 0 }}>
+                <li>
+                  <span style={{ fontSize: "12px", color: "var(--muted-foreground)", fontFamily: "var(--font-family-supreme)" }}>{breadcrumbPrefix}</span>
+                </li>
+                <li aria-hidden="true">
+                  <span style={{ fontSize: "12px", color: "var(--border)" }}>&rsaquo;</span>
+                </li>
+                <li aria-current="page">
+                  <span style={{ fontSize: "12px", color: "var(--foreground)", fontWeight: "var(--font-weight-bold)", fontFamily: "var(--font-family-supreme)" }}>{name}</span>
+                </li>
+              </ol>
+            </nav>
+          </div>
           <div className="flex items-center" style={{ gap: "var(--space-4)" }}>
-            <BreadcrumbSearch />
-            <HxThemeToggle size="lg" />
+            {!isMobile && <BreadcrumbSearch />}
+            <HxThemeToggle size={isMobile ? "md" : "lg"} />
           </div>
         </div>
       </div>
 
-      <div className="mx-auto" style={{ maxWidth: sideNav ? 1120 : 860, padding: "0 var(--space-10)" }}>
+      <div className="mx-auto" style={{ maxWidth: sideNav ? 1120 : 860, padding: isMobile ? "0 var(--space-5)" : "0 var(--space-10)" }}>
         <FadeInContent>
         {/* Page header */}
         <div className="border-b" style={{
@@ -96,7 +121,7 @@ export function ComponentPage({
           animation: "hx-expand-in var(--duration-medium-2) var(--ease-emphasized-decelerate) both",
         }}>
           <h1 style={{
-            fontSize: "52px",
+            fontSize: isMobile ? "36px" : "52px",
             fontWeight: "var(--font-weight-bold)",
             color: "var(--foreground)",
             lineHeight: 1.1,
@@ -250,9 +275,11 @@ export function Section({
 export function ExampleRow({
   label,
   children,
+  code,
 }: {
   label?: string;
   children: ReactNode;
+  code?: string;
 }) {
   return (
     <div className="rounded-xl border" style={{
@@ -277,9 +304,14 @@ export function ExampleRow({
           </span>
         </div>
       )}
-      <div className="flex flex-wrap items-center rounded-b-xl" style={{ padding: "var(--space-8) var(--space-7)", gap: "var(--space-5)", backgroundColor: "var(--background)", overflow: "visible" }}>
+      <div className="flex flex-wrap items-center" style={{ padding: "var(--space-8) var(--space-7)", gap: "var(--space-5)", backgroundColor: "var(--background)", overflow: "visible", borderRadius: code ? undefined : "0 0 12px 12px" }}>
         {children}
       </div>
+      {code && (
+        <div style={{ borderTop: "1px solid var(--border-subtle)" }}>
+          <CodeBlock code={code} embedded />
+        </div>
+      )}
     </div>
   );
 }
@@ -287,9 +319,11 @@ export function ExampleRow({
 export function ExampleGrid({
   label,
   children,
+  code,
 }: {
   label?: string;
   children: ReactNode;
+  code?: string;
 }) {
   return (
     <div className="rounded-xl border" style={{
@@ -314,9 +348,14 @@ export function ExampleGrid({
           </span>
         </div>
       )}
-      <div className="flex flex-col rounded-b-xl" style={{ padding: "var(--space-8) var(--space-7)", gap: "var(--space-7)", backgroundColor: "var(--background)", overflow: "visible", minWidth: 0 }}>
+      <div className="flex flex-col" style={{ padding: "var(--space-8) var(--space-7)", gap: "var(--space-7)", backgroundColor: "var(--background)", overflow: "visible", minWidth: 0, borderRadius: code ? undefined : "0 0 12px 12px" }}>
         {children}
       </div>
+      {code && (
+        <div style={{ borderTop: "1px solid var(--border-subtle)" }}>
+          <CodeBlock code={code} embedded />
+        </div>
+      )}
     </div>
   );
 }

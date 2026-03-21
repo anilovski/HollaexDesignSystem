@@ -1,13 +1,38 @@
 import { ComponentPage, Section, ExampleRow } from "../docs/component-page";
 import { Button } from "../ui/hollaex-button";
 import { ArrowRight, Download, Trash2, Plus, Search } from "lucide-react";
+import { PropsTable, type PropDef } from "../docs/props-table";
+
+const BUTTON_PROPS: PropDef[] = [
+  { name: "variant", type: '"primary" | "secondary" | "outline-primary" | "outline-secondary" | "ghost-primary" | "ghost-secondary" | "danger-primary" | "danger-outline" | "danger-ghost"', default: '"primary"', description: "Visual style of the button" },
+  { name: "size", type: '"xs" | "sm" | "md" | "lg" | "xl"', default: '"md"', description: "Button height preset" },
+  { name: "corners", type: '"rounded" | "sharp"', default: '"rounded"', description: "Border radius style" },
+  { name: "loading", type: "boolean", default: "false", description: "Shows a spinner and disables interaction" },
+  { name: "leftIcon", type: "ReactNode", description: "Icon rendered before the label" },
+  { name: "rightIcon", type: "ReactNode", description: "Icon rendered after the label" },
+  { name: "iconOnly", type: "boolean", default: "false", description: "Square aspect ratio for icon-only buttons" },
+  { name: "disabled", type: "boolean", default: "false", description: "Disables the button" },
+  { name: "copyText", type: "string", description: "Text copied to clipboard on click. Button label temporarily changes to 'Copied!'" },
+];
+
+const CODE_VARIANTS = `import { Button } from "@hollaex/ui"
+
+<Button variant="primary">Primary</Button>
+<Button variant="secondary">Secondary</Button>
+<Button variant="danger-primary">Danger</Button>`;
+
+const CODE_ICONS = `<Button leftIcon={<Download size={16} />}>Download</Button>
+<Button rightIcon={<ArrowRight size={16} />}>Continue</Button>
+<Button leftIcon={<Plus size={16} />} rightIcon={<ArrowRight size={16} />}>
+  Create
+</Button>`;
 
 export function ButtonPage() {
   return (
     <ComponentPage name="Button" description="Primary interactive element with 9 style variants, 5 sizes, loading states, and icon support.">
       <Section title="Variants" description="Nine visual styles for different levels of emphasis and intent.">
         <div className="flex flex-col" style={{ gap: "var(--space-4)" }}>
-          <ExampleRow label="Filled">
+          <ExampleRow label="Filled" code={CODE_VARIANTS}>
             <Button variant="primary">Primary</Button>
             <Button variant="secondary">Secondary</Button>
             <Button variant="danger-primary">Danger</Button>
@@ -34,7 +59,7 @@ export function ButtonPage() {
         </ExampleRow>
       </Section>
       <Section title="With Icons" description="Buttons support left and right icon slots that auto-size.">
-        <ExampleRow label="Icons">
+        <ExampleRow label="Icons" code={CODE_ICONS}>
           <Button leftIcon={<Download />}>Download</Button>
           <Button rightIcon={<ArrowRight />}>Continue</Button>
           <Button leftIcon={<Plus />} rightIcon={<ArrowRight />}>Create</Button>
@@ -94,6 +119,9 @@ export function ButtonPage() {
           <Button corners="rounded">Rounded</Button>
           <Button corners="sharp">Sharp</Button>
         </ExampleRow>
+      </Section>
+      <Section title="API Reference" description="All available props for the Button component.">
+        <PropsTable props={BUTTON_PROPS} componentName="Button" />
       </Section>
     </ComponentPage>
   );

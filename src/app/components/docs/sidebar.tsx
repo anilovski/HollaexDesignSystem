@@ -240,7 +240,7 @@ function CollapsibleNavGroup({
 }
 
 /* ── Sidebar nav link with hover state ─────────── */
-function SidebarLink({ href, label, isActive, staggerIndex = 0, navRef }: { href: string; label: string; isActive: boolean; staggerIndex?: number; navRef: React.RefObject<HTMLElement | null> }) {
+function SidebarLink({ href, label, isActive, staggerIndex = 0, navRef, onNavigate }: { href: string; label: string; isActive: boolean; staggerIndex?: number; navRef: React.RefObject<HTMLElement | null>; onNavigate?: () => void }) {
   const [hoverItem, setHoverItem] = useState(false);
   const [wasActive, setWasActive] = useState(isActive);
   const [animating, setAnimating] = useState(false);
@@ -291,6 +291,7 @@ function SidebarLink({ href, label, isActive, staggerIndex = 0, navRef }: { href
         animation: `hx-sidebar-item-in var(--duration-medium-2) var(--ease-emphasized-decelerate) both`,
         animationDelay: `${staggerIndex * 30}ms`,
       }}
+      onClick={() => onNavigate?.()}
       onMouseEnter={() => setHoverItem(true)}
       onMouseLeave={() => setHoverItem(false)}
     >
@@ -326,14 +327,14 @@ function SidebarLink({ href, label, isActive, staggerIndex = 0, navRef }: { href
 }
 
 /** @refresh reset */
-export function DocsSidebar() {
+/** Reusable sidebar content — used in both the desktop aside and the mobile drawer */
+export function SidebarContent({ onNavigate }: { onNavigate?: () => void } = {}) {
   const { pathname } = useLocation();
   const scrollRef = useScrollbar<HTMLElement>();
 
   return (
-    <aside className="w-64 shrink-0 sticky top-0 h-screen flex flex-col border-r overflow-hidden"
+    <div className="flex flex-col h-full"
       style={{
-        borderColor: "var(--border-layout)",
         backgroundColor: "var(--background)",
         fontFamily: "var(--font-family-supreme)",
       }}
@@ -394,7 +395,7 @@ export function DocsSidebar() {
 
                 return (
                   <li key={item.href}>
-                    <SidebarLink href={item.href} label={item.label} isActive={isActive} staggerIndex={index} navRef={scrollRef} />
+                    <SidebarLink href={item.href} label={item.label} isActive={isActive} staggerIndex={index} navRef={scrollRef} onNavigate={onNavigate} />
                   </li>
                 );
               })}
@@ -426,7 +427,7 @@ export function DocsSidebar() {
                   const isActive = pathname === item.href;
                   return (
                     <li key={item.href}>
-                      <SidebarLink href={item.href} label={item.label} isActive={isActive} staggerIndex={index} navRef={scrollRef} />
+                      <SidebarLink href={item.href} label={item.label} isActive={isActive} staggerIndex={index} navRef={scrollRef} onNavigate={onNavigate} />
                     </li>
                   );
                 })}
@@ -456,6 +457,19 @@ export function DocsSidebar() {
           </a>
         </div>
       </div>
+    </div>
+  );
+}
+
+/** Desktop sidebar — hidden below md (768px) */
+export function DocsSidebar() {
+  return (
+    <aside className="w-64 shrink-0 sticky top-0 h-screen flex-col border-r overflow-hidden hidden md:flex"
+      style={{
+        borderColor: "var(--border-layout)",
+      }}
+    >
+      <SidebarContent />
     </aside>
   );
 }

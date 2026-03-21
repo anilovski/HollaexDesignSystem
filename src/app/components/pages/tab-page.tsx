@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { ComponentPage, Section, ExampleRow, ExampleGrid } from "../docs/component-page";
+import { PropsTable, type PropDef } from "../docs/props-table";
 import { HxTabs, HxTabPanel } from "../ui/hx-tabs";
 import { Home, Settings, User, Bell, BarChart3, FileText, Shield, Mail, Star, Zap } from "lucide-react";
 
@@ -61,6 +62,16 @@ function PanelContent({ label }: { label: string }) {
     </div>
   );
 }
+
+const TAB_PROPS: PropDef[] = [
+  { name: "items", type: "HxTabItem[]", required: true, description: "Array of tab definitions with value, label, and optional icon" },
+  { name: "value", type: "string", description: "Controlled active tab value" },
+  { name: "defaultValue", type: "string", description: "Initial active tab for uncontrolled usage" },
+  { name: "onChange", type: "(value: string) => void", description: "Callback when the active tab changes" },
+  { name: "variant", type: '"underline" | "pill" | "enclosed"', default: '"underline"', description: "Visual tab style" },
+  { name: "size", type: '"sm" | "md" | "lg"', default: '"md"', description: "Tab size preset" },
+  { name: "fullWidth", type: "boolean", default: "false", description: "Tabs stretch to fill container width" },
+];
 
 /* ── Page ──────────────────────────────────────── */
 
@@ -197,6 +208,8 @@ export function TabPage() {
           )}
         </div>
       </Section>
+
+      <Section title="API Reference"><PropsTable props={TAB_PROPS} componentName="HxTabs" /></Section>
     </ComponentPage>
   );
 }

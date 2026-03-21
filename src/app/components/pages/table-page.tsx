@@ -12,6 +12,32 @@ import {
 } from "../ui/hx-table";
 import { Badge } from "../ui/hx-badge";
 import { ArrowUpRight, ArrowDownRight } from "lucide-react";
+import { PropsTable, type PropDef } from "../docs/props-table";
+
+const TABLE_PROPS: PropDef[] = [
+  { name: "columns", type: "HxColumnDef<T>[]", required: true, description: "Column definitions array" },
+  { name: "data", type: "T[]", required: true, description: "Row data array" },
+  { name: "rowKey", type: "(row: T, i: number) => string", description: "Unique key extractor per row" },
+  { name: "striped", type: "boolean", default: "false", description: "Alternating row background colors" },
+  { name: "hoverable", type: "boolean", default: "false", description: "Highlight rows on hover" },
+  { name: "dense", type: "boolean", default: "false", description: "Compact row height" },
+  { name: "bordered", type: "boolean", default: "false", description: "Visible cell borders" },
+  { name: "sortColumn", type: "string | null", description: "Currently sorted column ID" },
+  { name: "sortDirection", type: '"asc" | "desc" | null', description: "Current sort direction" },
+  { name: "onSort", type: "(columnId: string, direction: SortDirection) => void", description: "Callback when a sortable column header is clicked" },
+  { name: "loading", type: "boolean", default: "false", description: "Shows skeleton rows" },
+  { name: "maxHeight", type: "string", description: "Max table height with sticky header" },
+];
+
+const CODE_BASIC = `import { HxTable } from "@hollaex/ui"
+
+const columns = [
+  { id: "name", header: "Name", sortable: true },
+  { id: "role", header: "Role" },
+  { id: "status", header: "Status" },
+]
+
+<HxTable columns={columns} data={users} hoverable />`;
 
 /* ═══════════════════════════════════════════════════════
    Mock data
@@ -386,7 +412,7 @@ export function TablePage() {
         title="Basic"
         description="A simple table with hover highlighting and default styling."
       >
-        <ExampleGrid label="Default">
+        <ExampleGrid label="Default" code={CODE_BASIC}>
           <HxTable columns={teamColumns} data={teamData} rowKey={(r) => r.id} />
         </ExampleGrid>
       </Section>
@@ -561,6 +587,10 @@ export function TablePage() {
             pageSize={pageSize}
           />
         </ExampleGrid>
+      </Section>
+
+      <Section title="API Reference" description="All available props for the HxTable component.">
+        <PropsTable props={TABLE_PROPS} componentName="HxTable" />
       </Section>
     </ComponentPage>
   );

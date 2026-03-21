@@ -1,4 +1,5 @@
 import { ComponentPage, Section, ExampleGrid } from "../docs/component-page";
+import { PropsTable, type PropDef } from "../docs/props-table";
 import { useState, useRef, useEffect } from "react";
 import { ChevronDown, ChevronUp, Search } from "lucide-react";
 import { cn } from "../ui/utils";
@@ -55,6 +56,14 @@ function Dropdown({ style = "gray", size = "lg", state = "default", label = "Lab
 
 const options = [{ value: "btc", label: "Bitcoin" }, { value: "eth", label: "Ethereum" }, { value: "xrp", label: "Ripple" }, { value: "sol", label: "Solana" }, { value: "ada", label: "Cardano" }];
 
+const DROPDOWN_PROPS: PropDef[] = [
+  { name: "trigger", type: "ReactNode", required: true, description: "Element that opens the dropdown on click" },
+  { name: "items", type: "DropdownItem[]", required: true, description: "Menu items array" },
+  { name: "align", type: '"start" | "center" | "end"', default: '"start"', description: "Horizontal alignment relative to trigger" },
+  { name: "side", type: '"top" | "bottom"', default: '"bottom"', description: "Which side of the trigger the menu opens" },
+  { name: "sideOffset", type: "number", default: "4", description: "Gap between trigger and menu in px" },
+];
+
 export function DropdownPage() {
   return (
     <ComponentPage name="Dropdown" description="Searchable select menu with gray, white, and midTone styling variants. Supports validation states, coin icons, and helper text.">
@@ -82,6 +91,8 @@ export function DropdownPage() {
       <Section title="With Helper Text">
         <ExampleGrid label="Helper"><div className="w-64"><Dropdown label="Trading Pair" options={options} placeholder="Select base coin" helperText="Choose the coin you want to trade" /></div></ExampleGrid>
       </Section>
+
+      <Section title="API Reference"><PropsTable props={DROPDOWN_PROPS} componentName="DropdownMenu" /></Section>
     </ComponentPage>
   );
 }

@@ -195,6 +195,15 @@
   filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%);
 }
 
+/* ── Syntax highlight token colors ───────────── */
+.hl-tag { color: var(--hl-tag); }
+.hl-attr { color: var(--hl-attr); }
+.hl-string { color: var(--hl-string); }
+.hl-keyword { color: var(--hl-keyword); }
+.hl-comment { color: var(--hl-comment); font-style: italic; }
+.hl-number { color: var(--hl-number); }
+.hl-punct { color: var(--hl-punct); opacity: 0.6; }
+
 /* ── Global focus-visible ring ────────────────────
    Consistent focus ring for all interactive elements.
    WCAG 2.4.7 Focus Visible
@@ -374,6 +383,16 @@
 
   /* Tabler icon filter (light mode: none, dark mode: invert) */
   --tabler-icon-filter: none;
+
+  /* ── Code block & syntax highlight tokens ─── */
+  --code-block-bg: #F6F8FA;
+  --hl-tag: #1a7f37;
+  --hl-attr: #953800;
+  --hl-string: #0550ae;
+  --hl-keyword: #cf222e;
+  --hl-comment: #6e7781;
+  --hl-number: #0550ae;
+  --hl-punct: #24292f;
 
   /* ── HollaEx Component Tokens ──────────────── */
 
@@ -1016,6 +1035,16 @@
   --sidebar-ring: #4D8EFF;
 
   --tabler-icon-filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%);
+
+  /* ── Code block & syntax highlight (dark) ─── */
+  --code-block-bg: #161B22;
+  --hl-tag: #7ee787;
+  --hl-attr: #d2a8ff;
+  --hl-string: #a5d6ff;
+  --hl-keyword: #ff7b72;
+  --hl-comment: #8b949e;
+  --hl-number: #79c0ff;
+  --hl-punct: #c9d1d9;
 
   /* Color palette (dark) */
   --color-text-primary: #F2F4F5;

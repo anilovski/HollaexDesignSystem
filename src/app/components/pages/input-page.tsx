@@ -1,4 +1,5 @@
 import { ComponentPage, Section, ExampleGrid } from "../docs/component-page";
+import { PropsTable, type PropDef } from "../docs/props-table";
 import { useState } from "react";
 import { Mail, Search, Eye, EyeOff, Minus, Plus, XCircle } from "lucide-react";
 import { cn } from "../ui/utils";
@@ -87,6 +88,19 @@ function NumberInput({ style = "gray", corners = "sharp", size = "md", state = "
   );
 }
 
+const INPUT_PROPS: PropDef[] = [
+  { name: "style", type: '"gray" | "white"', default: '"gray"', description: "Background style variant" },
+  { name: "corners", type: '"rounded" | "sharp"', default: '"rounded"', description: "Border radius style" },
+  { name: "size", type: '"sm" | "md" | "lg" | "xl"', default: '"md"', description: "Input height preset" },
+  { name: "label", type: "string", description: "Label text above the input" },
+  { name: "helperText", type: "string", description: "Helper or error text below the input" },
+  { name: "leftIcon", type: "ReactNode", description: "Icon inside the input on the left" },
+  { name: "rightText", type: "string", description: "Static text on the right side (e.g. currency)" },
+  { name: "clearable", type: "boolean", default: "false", description: "Shows a clear (x) button when input has value" },
+  { name: "error", type: "boolean", default: "false", description: "Error validation state" },
+  { name: "skeleton", type: "boolean", default: "false", description: "Renders a loading skeleton" },
+];
+
 export function InputPage() {
   return (
     <ComponentPage name="Input" description="Text, number, and phone-number input fields. All three types share a common size/style/state system with labels, helper text, and validation." hideFab>
@@ -132,6 +146,8 @@ export function InputPage() {
         </ExampleGrid>
         <ExampleGrid label="Skeleton"><div className="w-80"><NumberInput state="skeleton" label="Loading" placeholder="0" /></div></ExampleGrid>
       </Section>
+
+      <Section title="API Reference"><PropsTable props={INPUT_PROPS} componentName="TextInput" /></Section>
     </ComponentPage>
   );
 }
