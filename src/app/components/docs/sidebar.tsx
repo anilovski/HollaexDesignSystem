@@ -415,14 +415,15 @@ function StickyFoundation({ pathname, scrollRef, onNavigate }: {
       <div
         style={{
           position: "sticky",
-          top: 0,
+          /* Pin above the nav viewport so the background covers the gap between the logo and this section */
+          top: "calc(-1 * var(--space-6))",
           zIndex: 2,
           backgroundColor: "var(--background)",
           marginLeft: "calc(-1 * var(--space-4))",
           marginRight: "calc(-1 * var(--space-4))",
           paddingLeft: "var(--space-4)",
           paddingRight: "var(--space-4)",
-          paddingTop: "var(--space-2)",
+          paddingTop: "calc(var(--space-6) + var(--space-2))",
           paddingBottom: "var(--space-3)",
           borderBottom: isStuck ? "1px solid var(--border-subtle)" : "1px solid transparent",
           boxShadow: isStuck ? "0 4px 12px -4px rgba(0,0,0,0.08)" : "none",
