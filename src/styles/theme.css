@@ -185,6 +185,16 @@
   transform: translateY(0);
 }
 
+/* ── Logo dark-mode inversion ────────────────────
+   The HollaEx logo SVG is dark; invert it in dark mode
+   so it remains visible against the dark sidebar. */
+.hx-logo-adaptive {
+  transition: filter var(--duration-medium-2, 300ms) var(--ease-standard, ease);
+}
+.dark .hx-logo-adaptive {
+  filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%);
+}
+
 /* ── Global focus-visible ring ────────────────────
    Consistent focus ring for all interactive elements.
    WCAG 2.4.7 Focus Visible

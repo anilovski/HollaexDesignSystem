@@ -350,15 +350,16 @@ export function DocsSidebar() {
         />
       </div>
 
-      {/* Scrollable navigation */}
+      {/* Single scrollable navigation — all sections scroll together so no section steals space */}
       <nav ref={scrollRef} className="flex-1 overflow-y-auto min-h-0"
         aria-label="Design system navigation"
-        style={{ padding: "var(--space-6) var(--space-4)" }}
+        style={{ padding: "var(--space-6) var(--space-4) 0" }}
       >
+        {/* Getting Started + Components */}
         {navigation.map((section, sectionIndex) => {
           const sectionHasActive = section.items.some((item) => pathname === item.href);
           return (
-          <CollapsibleNavGroup key={section.title} title={section.title} isLast={sectionIndex === navigation.length - 1} containsActive={sectionHasActive}>
+          <CollapsibleNavGroup key={section.title} title={section.title} isLast={false} containsActive={sectionHasActive}>
             <ul style={{ display: "flex", flexDirection: "column", gap: "var(--space-1)" }}>
               {section.items.map((item, index) => {
                 const isActive = pathname === item.href;
@@ -401,35 +402,43 @@ export function DocsSidebar() {
           </CollapsibleNavGroup>
           );
         })}
-      </nav>
 
-      {/* Pinned bottom sections: Foundation & Patterns */}
-      <div
-        className="shrink-0 relative"
-        style={{
-          backgroundColor: "var(--sidebar-pinned-bg)",
-          padding: "var(--space-5) var(--space-4) var(--space-5)",
-          borderTop: "1px solid var(--border-subtle)",
-        }}
-      >
-        {pinnedNavSections.map((section, sIdx) => {
-          const sectionHasActive = section.items.some((item) => pathname === item.href);
-          return (
-          <CollapsibleNavGroup key={section.title} title={section.title} isLast={sIdx === pinnedNavSections.length - 1} containsActive={sectionHasActive}>
-            <ul style={{ display: "flex", flexDirection: "column", gap: "var(--space-1)" }}>
-              {section.items.map((item, index) => {
-                const isActive = pathname === item.href;
-                return (
-                  <li key={item.href}>
-                    <SidebarLink href={item.href} label={item.label} isActive={isActive} staggerIndex={index} navRef={scrollRef} />
-                  </li>
-                );
-              })}
-            </ul>
-          </CollapsibleNavGroup>
-          );
-        })}
-      </div>
+        {/* Foundation & Patterns — visually separated, scrollable with the rest */}
+        <div
+          style={{
+            marginTop: "var(--space-4)",
+            paddingTop: "var(--space-5)",
+            paddingBottom: "var(--space-5)",
+            borderTop: "1px solid var(--border-subtle)",
+            backgroundColor: "var(--sidebar-pinned-bg)",
+            marginLeft: "calc(-1 * var(--space-4))",
+            marginRight: "calc(-1 * var(--space-4))",
+            paddingLeft: "var(--space-4)",
+            paddingRight: "var(--space-4)",
+          }}
+        >
+          {pinnedNavSections.map((section, sIdx) => {
+            const sectionHasActive = section.items.some((item) => pathname === item.href);
+            return (
+            <CollapsibleNavGroup key={section.title} title={section.title} isLast={sIdx === pinnedNavSections.length - 1} containsActive={sectionHasActive}>
+              <ul style={{ display: "flex", flexDirection: "column", gap: "var(--space-1)" }}>
+                {section.items.map((item, index) => {
+                  const isActive = pathname === item.href;
+                  return (
+                    <li key={item.href}>
+                      <SidebarLink href={item.href} label={item.label} isActive={isActive} staggerIndex={index} navRef={scrollRef} />
+                    </li>
+                  );
+                })}
+              </ul>
+            </CollapsibleNavGroup>
+            );
+          })}
+        </div>
+
+        {/* Scroll padding so last items aren't flush against the footer */}
+        <div style={{ height: "var(--space-4)" }} aria-hidden="true" />
+      </nav>
 
       {/* Footer */}
       <div className="shrink-0 border-t" style={{ borderColor: "var(--border-layout)", backgroundColor: "var(--background)", padding: "var(--space-5) var(--space-6)" }}>

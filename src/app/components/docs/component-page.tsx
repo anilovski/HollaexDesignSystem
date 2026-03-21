@@ -69,13 +69,13 @@ export function ComponentPage({
           <nav aria-label="Breadcrumb">
             <ol className="flex items-center" style={{ gap: "var(--space-3)", listStyle: "none", margin: 0, padding: 0 }}>
               <li>
-                <span style={{ fontSize: "11px", color: "var(--muted-foreground)", fontFamily: "var(--font-family-supreme)" }}>{breadcrumbPrefix}</span>
+                <span style={{ fontSize: "12px", color: "var(--muted-foreground)", fontFamily: "var(--font-family-supreme)" }}>{breadcrumbPrefix}</span>
               </li>
               <li aria-hidden="true">
-                <span style={{ fontSize: "11px", color: "var(--border)" }}>&rsaquo;</span>
+                <span style={{ fontSize: "12px", color: "var(--border)" }}>&rsaquo;</span>
               </li>
               <li aria-current="page">
-                <span style={{ fontSize: "11px", color: "var(--foreground)", fontWeight: "var(--font-weight-bold)", fontFamily: "var(--font-family-supreme)" }}>{name}</span>
+                <span style={{ fontSize: "12px", color: "var(--foreground)", fontWeight: "var(--font-weight-bold)", fontFamily: "var(--font-family-supreme)" }}>{name}</span>
               </li>
             </ol>
           </nav>
@@ -161,6 +161,8 @@ export function ComponentPage({
             <ArrowRight size={10} />
           </Link>
         </div>
+        {/* Spacer: ensures the footer clears the fixed FAB (48px button + 28px offset + buffer) when scrolled to the bottom */}
+        <div style={{ height: "96px" }} aria-hidden="true" />
         </FadeInContent>
       </div>
 

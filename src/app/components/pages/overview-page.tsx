@@ -154,7 +154,7 @@ export function OverviewPage() {
               </svg>
             </button>
             <button
-              onClick={() => navigate("/foundation/colors")}
+              onClick={() => navigate("/components/button")}
               className="inline-flex items-center border cursor-pointer"
               style={{
                 padding: "var(--space-3) var(--space-6)",
@@ -171,7 +171,7 @@ export function OverviewPage() {
               onMouseEnter={(e) => { e.currentTarget.style.opacity = "0.8"; }}
               onMouseLeave={(e) => { e.currentTarget.style.opacity = "1"; }}
             >
-              View color tokens
+              Browse components
             </button>
           </div>
         </div>
