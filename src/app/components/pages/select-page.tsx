@@ -1,4 +1,5 @@
 import { ComponentPage, Section, ExampleGrid } from "../docs/component-page";
+import { PropsTable, type PropDef } from "../docs/props-table";
 import { HxSelect } from "../ui/hx-select";
 
 const COINS = [
@@ -24,6 +25,19 @@ const GROUPED = [
     { value: "xht", label: "HollaEx (XHT)" },
     { value: "bnb", label: "BNB", disabled: true },
   ]},
+];
+
+const SELECT_PROPS: PropDef[] = [
+  { name: "options", type: "{ value: string; label: string }[]", required: true, description: "List of selectable options" },
+  { name: "value", type: "string", description: "Controlled selected value" },
+  { name: "onChange", type: "(value: string) => void", description: "Callback when selection changes" },
+  { name: "placeholder", type: "string", description: "Placeholder text when no value is selected" },
+  { name: "size", type: '"sm" | "md" | "lg"', default: '"md"', description: "Input height preset" },
+  { name: "disabled", type: "boolean", default: "false", description: "Disables the select" },
+  { name: "label", type: "string", description: "Label text above the select" },
+  { name: "helperText", type: "string", description: "Helper text below the select" },
+  { name: "error", type: "boolean", default: "false", description: "Error validation state" },
+  { name: "skeleton", type: "boolean", default: "false", description: "Renders a loading skeleton" },
 ];
 
 export function SelectPage() {
@@ -90,6 +104,8 @@ export function SelectPage() {
           <div className="w-72"><HxSelect items={COINS} label="Base currency" placeholder="Select..." helperText="This will be your default trading pair" /></div>
         </ExampleGrid>
       </Section>
+
+      <Section title="API Reference"><PropsTable props={SELECT_PROPS} componentName="HxSelect" /></Section>
     </ComponentPage>
   );
 }

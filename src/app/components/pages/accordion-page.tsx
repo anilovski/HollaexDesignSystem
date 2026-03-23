@@ -1,5 +1,12 @@
 import { ComponentPage, Section, ExampleGrid } from "../docs/component-page";
+import { PropsTable, type PropDef } from "../docs/props-table";
 import { Accordion, AccordionItem } from "../ui/accordion";
+
+const ACCORDION_PROPS: PropDef[] = [
+  { name: "type", type: '"single" | "multiple"', default: '"single"', description: "Whether one or multiple items can be expanded" },
+  { name: "defaultValue", type: "string | string[]", description: "Initially expanded item(s)" },
+  { name: "collapsible", type: "boolean", default: "true", description: "Whether all items can be collapsed" },
+];
 
 export function AccordionPage() {
   return (
@@ -39,6 +46,8 @@ export function AccordionPage() {
       <Section title="States">
         <ExampleGrid label="Disabled"><Accordion><AccordionItem title="This item is disabled" disabled><p style={{fontSize:"var(--text-body)",color:"var(--color-text-secondary)",fontFamily:"var(--font-family-supreme)",lineHeight:"var(--lh-body)"}}>You cannot see this.</p></AccordionItem></Accordion></ExampleGrid>
       </Section>
+
+      <Section title="API Reference"><PropsTable props={ACCORDION_PROPS} componentName="Accordion" /></Section>
     </ComponentPage>
   );
 }

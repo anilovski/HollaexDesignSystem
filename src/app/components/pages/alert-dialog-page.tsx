@@ -45,7 +45,7 @@ export function AlertDialogPage() {
   const [result, setResult] = useState<string | null>(null);
 
   return (
-    <ComponentPage name="Alert Dialog" description="A modal dialog that interrupts the user with important content and expects a response. Built on Radix UI Alert Dialog for full accessibility.">
+    <ComponentPage name="Alert Dialog" description="A modal dialog that interrupts the user with important content and expects a response. Built on Radix UI Alert Dialog for full accessibility." hideFab>
       <Section title="Basic" description="A confirmation dialog with cancel and continue actions.">
         <ExampleRow label="Default">
           <AlertDialog>

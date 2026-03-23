@@ -3,6 +3,18 @@ import { useOutletContext, Link } from "react-router";
 import { HxThemeToggle } from "../ui/hx-toggle";
 import { SearchTrigger } from "../docs/search-command";
 import { SectionJumpFab } from "../docs/section-jump-fab";
+import { IconRoute, IconTargetArrow, IconScript, IconRobot, IconWindow, IconTable, IconExternalLink } from "@tabler/icons-react";
+import type { ComponentType } from "react";
+
+const FAB_ICONS: Record<string, ComponentType<{ size?: number; stroke?: number }>> = {
+  "Agent Testing Workflow": IconRoute,
+  "Selector Strategy": IconTargetArrow,
+  "Playwright Scripts": IconScript,
+  "AI Agent Automation": IconRobot,
+  "Modal & Dialog Patterns": IconWindow,
+  "Table & Data Grid Patterns": IconTable,
+  "Related Resources": IconExternalLink,
+};
 import { FadeInContent } from "../ui/page-loader";
 import { Bot, Play, Terminal, Workflow, FlaskConical, Scan, ArrowRight, MousePointerClick, Keyboard, Eye } from "lucide-react";
 import { Button } from "../ui/hollaex-button";
@@ -190,7 +202,7 @@ export function TestingWithAgentsPage() {
   const search = useOutletContext<{ open: boolean; setOpen: (v: boolean) => void } | undefined>();
 
   return (
-    <div className="min-h-full" style={{ backgroundColor: "var(--secondary-subtle)" }}>
+    <div className="min-h-full shrink-0" style={{ backgroundColor: "var(--secondary-subtle)" }}>
       <div ref={sentinelRef} className="h-0 w-full" aria-hidden="true" />
 
       {/* Breadcrumb */}
@@ -746,7 +758,7 @@ function sortByColumn(headerText: string) {
         </FadeInContent>
       </div>
 
-      <SectionJumpFab />
+      <SectionJumpFab iconMap={FAB_ICONS} />
     </div>
   );
 }

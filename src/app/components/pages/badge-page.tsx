@@ -1,12 +1,30 @@
 import { ComponentPage, Section, ExampleRow } from "../docs/component-page";
+import { PropsTable, type PropDef } from "../docs/props-table";
 import { Badge } from "../ui/hx-badge";
 import { Star, Zap } from "lucide-react";
+
+const BADGE_PROPS: PropDef[] = [
+  { name: "variant", type: '"neutral-white" | "neutral-gray" | "informational" | "success" | "warning" | "error" | "black" | "olive" | "purple" | "orange" | "pink"', default: '"informational"', description: "Color variant" },
+  { name: "size", type: '"xs" | "sm" | "md" | "lg" | "xl"', default: '"md"', description: "Badge size preset" },
+  { name: "shape", type: '"circular" | "rounded"', default: '"circular"', description: "Border radius style" },
+  { name: "indicator", type: '"green" | "red" | "yellow" | "blue"', description: "Optional colored dot indicator" },
+  { name: "leftIcon", type: "ReactNode", description: "Icon before the label" },
+  { name: "counter", type: "number", description: "Numeric counter badge" },
+  { name: "skeleton", type: "boolean", default: "false", description: "Renders a loading skeleton" },
+];
+
+const CODE_BASIC = `import { HxBadge } from "@hollaex/ui"
+
+<HxBadge variant="informational">Info</HxBadge>
+<HxBadge variant="success">Success</HxBadge>
+<HxBadge variant="warning">Warning</HxBadge>
+<HxBadge variant="error">Error</HxBadge>`;
 
 export function BadgePage() {
   return (
     <ComponentPage name="Badge" description="Colored labels with 11 color variants, indicator dots, icons, and counter bubbles. Available in circular (pill) and rounded shapes.">
       <Section title="Color Variants" description="Eleven color options for different semantic purposes.">
-        <ExampleRow label="All variants">
+        <ExampleRow label="All variants" code={CODE_BASIC}>
           <Badge variant="neutral-white">White</Badge>
           <Badge variant="neutral-gray">Gray</Badge>
           <Badge variant="informational">Info</Badge>
@@ -77,6 +95,9 @@ export function BadgePage() {
           <Badge skeleton size="md" />
           <Badge skeleton size="lg" />
         </ExampleRow>
+      </Section>
+      <Section title="API Reference" description="All available props for the HxBadge component.">
+        <PropsTable props={BADGE_PROPS} componentName="HxBadge" />
       </Section>
     </ComponentPage>
   );

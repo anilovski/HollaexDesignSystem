@@ -1,6 +1,16 @@
 import { useState, useCallback } from "react";
 import { ComponentPage, Section, ExampleRow, ExampleGrid } from "../docs/component-page";
+import { PropsTable, type PropDef } from "../docs/props-table";
 import { ProgressBar, ProgressCircle } from "../ui/hx-progress";
+
+const PROGRESS_PROPS: PropDef[] = [
+  { name: "value", type: "number", required: true, description: "Current progress value (0-100)" },
+  { name: "max", type: "number", default: "100", description: "Maximum value" },
+  { name: "size", type: '"sm" | "md" | "lg"', default: '"md"', description: "Bar thickness preset" },
+  { name: "variant", type: '"default" | "success" | "warning" | "error"', default: '"default"', description: "Color variant" },
+  { name: "showValue", type: "boolean", default: "false", description: "Displays the percentage label" },
+  { name: "animated", type: "boolean", default: "true", description: "Animate the progress fill on change" },
+];
 
 export function ProgressPage() {
   const [barValue, setBarValue] = useState(45);
@@ -74,6 +84,8 @@ export function ProgressPage() {
           </div>
         </ExampleGrid>
       </Section>
+
+      <Section title="API Reference"><PropsTable props={PROGRESS_PROPS} componentName="HxProgress" /></Section>
     </ComponentPage>
   );
 }

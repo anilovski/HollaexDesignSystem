@@ -1,4 +1,5 @@
 import { ComponentPage, Section, ExampleGrid } from "../docs/component-page";
+import { PropsTable, type PropDef } from "../docs/props-table";
 import { useState } from "react";
 import { Mail, Search, Eye, EyeOff, Minus, Plus, XCircle } from "lucide-react";
 import { cn } from "../ui/utils";
@@ -29,11 +30,11 @@ function TextInput({ style = "gray", corners = "sharp", size = "md", state = "de
   return (
     <div className="flex flex-col w-full">
       {label && <div className="pb-[8px]"><span className={cn("font-sans text-[12px] leading-[16px]", isDisabled ? "text-[#c8c8c8]" : "text-[var(--color-text-secondary)]")}>{label}</span></div>}
-      <div className={cn("relative group overflow-hidden flex items-center gap-[8px] w-full px-[16px] transition-colors", heights[size], bg, border, corners === "rounded" && "rounded-[8px]", isDisabled && "opacity-50 cursor-not-allowed")}>
+      <div data-focus-custom className={cn("relative group overflow-hidden flex items-center gap-[8px] w-full px-[16px] transition-colors outline-none focus-within:outline-none focus-visible:outline-none", heights[size], bg, border, corners === "rounded" && "rounded-[8px]", isDisabled && "opacity-50 cursor-not-allowed")}>
         {leftIcon && <span className="shrink-0 flex items-center justify-center size-[18px]" style={{ color: "var(--color-text-tertiary)" }}>{leftIcon}</span>}
-        <input type={type === "password" && showPassword ? "text" : type} placeholder={placeholder} value={value} onChange={e => setValue(e.target.value)} disabled={isDisabled}
+        <input data-focus-custom type={type === "password" && showPassword ? "text" : type} placeholder={placeholder} value={value} onChange={e => setValue(e.target.value)} disabled={isDisabled}
           onFocus={() => setFocused(true)} onBlur={() => setFocused(false)}
-          className={cn("flex-1 min-w-0 bg-transparent outline-none border-none font-sans placeholder:text-[#a0a0a0]", textSizes[size], isDisabled ? "text-[#c8c8c8] cursor-not-allowed" : "text-[var(--color-text-primary)]")} />
+          className={cn("flex-1 min-w-0 bg-transparent outline-none focus-visible:outline-none border-none font-sans placeholder:text-[#a0a0a0]", textSizes[size], isDisabled ? "text-[#c8c8c8] cursor-not-allowed" : "text-[var(--color-text-primary)]")} />
         {clearable && value.length > 0 && !isDisabled && <button type="button" onClick={() => setValue("")} className="shrink-0 cursor-pointer text-[#a0a0a0] hover:text-[#1a1a1a]"><XCircle size={16} /></button>}
         {rightText && <span className="shrink-0 font-sans text-[14px] text-[#a0a0a0]">{rightText}</span>}
         {type === "password" && <button type="button" onClick={() => setShowPassword(v => !v)} className="shrink-0 cursor-pointer text-[#a0a0a0] hover:text-[#1a1a1a]">{showPassword ? <EyeOff size={16} /> : <Eye size={16} />}</button>}
@@ -68,10 +69,10 @@ function NumberInput({ style = "gray", corners = "sharp", size = "md", state = "
   return (
     <div className="flex flex-col w-full">
       {label && <div className="pb-[8px]"><span className={cn("font-sans text-[12px] leading-[16px]", isDisabled ? "text-[#c8c8c8]" : "text-[var(--color-text-secondary)]")}>{label}</span></div>}
-      <div className={cn("relative group overflow-hidden flex items-center w-full transition-colors", heights[size], bg, corners === "rounded" ? "border border-[#e1e1e1] rounded-[8px]" : "border-b border-[#e1e1e1]", isDisabled && "opacity-50")}>
+      <div data-focus-custom className={cn("relative group overflow-hidden flex items-center w-full transition-colors outline-none focus-within:outline-none focus-visible:outline-none", heights[size], bg, corners === "rounded" ? "border border-[#e1e1e1] rounded-[8px]" : "border-b border-[#e1e1e1]", isDisabled && "opacity-50")}>
         <div className="flex-1 flex items-center gap-[8px] px-[16px]">
-          <input type="text" inputMode="decimal" placeholder={placeholder} value={value} onChange={e => setValue(e.target.value)} disabled={isDisabled}
-            className="flex-1 min-w-0 bg-transparent outline-none border-none font-sans text-[14px] placeholder:text-[#a0a0a0] text-[var(--color-text-primary)]" />
+          <input data-focus-custom type="text" inputMode="decimal" placeholder={placeholder} value={value} onChange={e => setValue(e.target.value)} disabled={isDisabled}
+            className="flex-1 min-w-0 bg-transparent outline-none focus-visible:outline-none border-none font-sans text-[14px] placeholder:text-[#a0a0a0] text-[var(--color-text-primary)]" />
           {rightText && <span className="shrink-0 font-sans text-[14px] text-[#a0a0a0]">{rightText}</span>}
         </div>
         <div className="w-px self-stretch bg-[#e1e1e1]" />
@@ -87,9 +88,22 @@ function NumberInput({ style = "gray", corners = "sharp", size = "md", state = "
   );
 }
 
+const INPUT_PROPS: PropDef[] = [
+  { name: "style", type: '"gray" | "white"', default: '"gray"', description: "Background style variant" },
+  { name: "corners", type: '"rounded" | "sharp"', default: '"rounded"', description: "Border radius style" },
+  { name: "size", type: '"sm" | "md" | "lg" | "xl"', default: '"md"', description: "Input height preset" },
+  { name: "label", type: "string", description: "Label text above the input" },
+  { name: "helperText", type: "string", description: "Helper or error text below the input" },
+  { name: "leftIcon", type: "ReactNode", description: "Icon inside the input on the left" },
+  { name: "rightText", type: "string", description: "Static text on the right side (e.g. currency)" },
+  { name: "clearable", type: "boolean", default: "false", description: "Shows a clear (x) button when input has value" },
+  { name: "error", type: "boolean", default: "false", description: "Error validation state" },
+  { name: "skeleton", type: "boolean", default: "false", description: "Renders a loading skeleton" },
+];
+
 export function InputPage() {
   return (
-    <ComponentPage name="Input" description="Text, number, and phone-number input fields. All three types share a common size/style/state system with labels, helper text, and validation.">
+    <ComponentPage name="Input" description="Text, number, and phone-number input fields. All three types share a common size/style/state system with labels, helper text, and validation." hideFab>
       <Section title="TextInput" description="Standard single-line text input with optional icons, clear button, and password toggle.">
         <ExampleGrid label="Styles: gray & white">
           <div className="flex" style={{ gap: "var(--space-7)" }}><div className="w-80"><TextInput style="gray" label="Gray style" placeholder="Enter text" /></div><div className="w-80"><TextInput style="white" label="White style" placeholder="Enter text" /></div></div>
@@ -132,6 +146,8 @@ export function InputPage() {
         </ExampleGrid>
         <ExampleGrid label="Skeleton"><div className="w-80"><NumberInput state="skeleton" label="Loading" placeholder="0" /></div></ExampleGrid>
       </Section>
+
+      <Section title="API Reference"><PropsTable props={INPUT_PROPS} componentName="TextInput" /></Section>
     </ComponentPage>
   );
 }

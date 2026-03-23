@@ -21,7 +21,7 @@ function PanelContent({ label, color }: { label: string; color: string }) {
 
 export function ResizablePage() {
   return (
-    <ComponentPage name="Resizable" description="Resizable panel groups that let users adjust layout proportions by dragging handles. Built on react-resizable-panels for accessible, keyboard-friendly resizing.">
+    <ComponentPage name="Resizable" description="Resizable panel groups that let users adjust layout proportions by dragging handles. Built on react-resizable-panels for accessible, keyboard-friendly resizing." hideFab>
       <Section title="Horizontal" description="Two horizontally resizable panels with a drag handle.">
         <ExampleRow label="Side by side">
           <div className="w-full rounded-lg overflow-hidden border" style={{ borderColor: "var(--border-subtle)", maxWidth: 600 }}>

@@ -2,6 +2,29 @@ import { useState } from "react";
 import { ComponentPage, Section, ExampleRow, ExampleGrid } from "../docs/component-page";
 import { HxToggle, HxThemeToggle } from "../ui/hx-toggle";
 import { useTheme } from "../theme-context";
+import { PropsTable, type PropDef } from "../docs/props-table";
+
+const TOGGLE_PROPS: PropDef[] = [
+  { name: "checked", type: "boolean", description: "Controlled checked state" },
+  { name: "defaultChecked", type: "boolean", default: "false", description: "Initial state for uncontrolled usage" },
+  { name: "onChange", type: "(checked: boolean) => void", description: "Callback fired when the toggle state changes" },
+  { name: "size", type: '"sm" | "md" | "lg"', default: '"md"', description: "Toggle size preset" },
+  { name: "disabled", type: "boolean", default: "false", description: "Disables interaction" },
+  { name: "label", type: "string", description: "Text label displayed next to the toggle" },
+  { name: "helperText", type: "string", description: "Secondary text below the label" },
+  { name: "labelLeft", type: "boolean", default: "false", description: "Renders the label on the left side" },
+  { name: "skeleton", type: "boolean", default: "false", description: "Renders a loading skeleton" },
+];
+
+const CODE_BASIC = `import { HxToggle } from "@hollaex/ui"
+
+const [enabled, setEnabled] = useState(false)
+
+<HxToggle
+  checked={enabled}
+  onChange={setEnabled}
+  label="Enable notifications"
+/>`;
 
 export function TogglePage() {
   const [basic, setBasic] = useState(false);
@@ -15,7 +38,7 @@ export function TogglePage() {
     >
       {/* ── 1. Default ───────────────────────── */}
       <Section title="Default Toggle" description="Standard on/off switch with green active fill.">
-        <ExampleRow label="Interactive">
+        <ExampleRow label="Interactive" code={CODE_BASIC}>
           <HxToggle checked={basic} onChange={setBasic} />
           <span
             style={{
@@ -183,6 +206,10 @@ export function TogglePage() {
             ))}
           </div>
         </ExampleGrid>
+      </Section>
+
+      <Section title="API Reference" description="All available props for the HxToggle component.">
+        <PropsTable props={TOGGLE_PROPS} componentName="HxToggle" />
       </Section>
     </ComponentPage>
   );

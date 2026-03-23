@@ -22,7 +22,7 @@ export function MenubarPage() {
   const [profile, setProfile] = useState("benoit");
 
   return (
-    <ComponentPage name="Menubar" description="A horizontal menu bar with dropdown menus, keyboard navigation, submenus, and checkbox/radio items. Built on Radix UI Menubar.">
+    <ComponentPage name="Menubar" description="A horizontal menu bar with dropdown menus, keyboard navigation, submenus, and checkbox/radio items. Built on Radix UI Menubar." hideFab>
       <Section title="Basic" description="A desktop-style menubar with File, Edit, View, and Profiles menus.">
         <ExampleRow label="Full menubar">
           <Menubar>

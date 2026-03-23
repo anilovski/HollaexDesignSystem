@@ -1,9 +1,24 @@
 import { HxThemeToggle } from "../ui/hx-toggle";
 import { useOutletContext } from "react-router";
 import { SearchTrigger } from "../docs/search-command";
+import { PageTabs } from "../docs/component-page";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { Button } from "../ui/hollaex-button";
 import { SectionJumpFab } from "../docs/section-jump-fab";
+import { IconAtom, IconBox, IconLayout, IconFile, IconRuler2, IconSpacingVertical, IconBook, IconBulb, IconEye } from "@tabler/icons-react";
+import type { ComponentType } from "react";
+
+const FAB_ICONS: Record<string, ComponentType<{ size?: number; stroke?: number }>> = {
+  "Micro": IconAtom,
+  "Element": IconBox,
+  "Layout": IconLayout,
+  "Page": IconFile,
+  "Base Scale": IconRuler2,
+  "Component Spacing": IconSpacingVertical,
+  "Usage": IconBook,
+  "Principles": IconBulb,
+  "Applied Examples": IconEye,
+};
 
 /* ══════════════════════════════════════════════════════════════
    COPY BUTTON
@@ -1028,7 +1043,7 @@ export function SpacingPage() {
 
   return (
     <div
-      className="min-h-full"
+      className="min-h-full shrink-0"
       style={{
         backgroundColor: "var(--secondary-subtle)",
         fontFamily: "var(--font-family-supreme)",
@@ -1036,9 +1051,9 @@ export function SpacingPage() {
     >
       <div ref={sentinelRef} className="h-0 w-full" aria-hidden="true" />
 
-      {/* ── Sticky breadcrumb bar with centered tabs ──────── */}
+      {/* ── Sticky breadcrumb bar ──────── */}
       <div
-        className="border-b sticky top-0 z-10 transition-shadow duration-[var(--duration-short-4)] relative"
+        className="border-b sticky top-0 z-10 transition-shadow duration-[var(--duration-short-4)]"
         style={{
           height: 72,
           borderColor: "var(--border-subtle)",
@@ -1046,8 +1061,7 @@ export function SpacingPage() {
           boxShadow: scrolled ? "var(--elevation-sm)" : "none",
         }}
       >
-        {/* Full-width layer: breadcrumb left, controls right */}
-        <div className="h-full flex items-center justify-between relative z-[1]" style={{ padding: "0 var(--space-10)" }}>
+        <div className="h-full flex items-center justify-between" style={{ padding: "0 var(--space-10)" }}>
           <div className="flex items-center shrink-0" style={{ gap: "var(--space-3)" }}>
             <span style={{ fontSize: "var(--text-caption)", color: "var(--muted-foreground)", fontFamily: "var(--font-family-supreme)" }}>Foundation</span>
             <span style={{ fontSize: "var(--text-caption)", color: "var(--border)" }}>&rsaquo;</span>
@@ -1060,46 +1074,6 @@ export function SpacingPage() {
           </div>
         </div>
 
-        {/* Centered tab layer — aligned with content container below */}
-        <div className="absolute inset-0 h-full flex items-center pointer-events-none" style={{ maxWidth: "1120px", margin: "0 auto", padding: "0 var(--space-8)" }}>
-          <div className="flex pointer-events-auto" role="tablist" style={{ fontFamily: "var(--font-family-supreme)" }}>
-            {TAB_ITEMS.map((tab) => {
-              const isActive = tab.value === activeTab;
-              return (
-                <button
-                  key={tab.value}
-                  role="tab"
-                  aria-selected={isActive}
-                  onClick={() => setActiveTab(tab.value)}
-                  className="relative flex items-center justify-center cursor-pointer select-none outline-none transition-colors duration-[var(--duration-short-3)]"
-                  style={{
-                    height: "72px",
-                    padding: "0 var(--space-5)",
-                    fontSize: "var(--text-body)",
-                    fontWeight: isActive ? ("var(--font-weight-medium)" as any) : ("var(--font-weight-regular)" as any),
-                    color: isActive ? "var(--color-text-primary)" : "var(--color-text-tertiary)",
-                    fontFamily: "var(--font-family-supreme)",
-                    backgroundColor: "transparent",
-                    border: "none",
-                  }}
-                  onMouseEnter={(e) => { if (!isActive) e.currentTarget.style.color = "var(--color-text-secondary)"; }}
-                  onMouseLeave={(e) => { if (!isActive) e.currentTarget.style.color = "var(--color-text-tertiary)"; }}
-                >
-                  {tab.label}
-                  <span
-                    className="absolute bottom-0 left-0 w-full transition-transform duration-[var(--duration-medium-2)] origin-left"
-                    style={{
-                      height: "2px",
-                      backgroundColor: "var(--brand-default)",
-                      transform: isActive ? "scaleX(1)" : "scaleX(0)",
-                      transitionTimingFunction: "cubic-bezier(0.25, 0.1, 0.25, 1)",
-                    }}
-                  />
-                </button>
-              );
-            })}
-          </div>
-        </div>
       </div>
 
       {/* ── Page content ──────────────────────────────── */}
@@ -1182,6 +1156,9 @@ export function SpacingPage() {
           </div>
         </div>
 
+        {/* Tab bar */}
+        <PageTabs items={TAB_ITEMS} activeTab={activeTab} onTabChange={setActiveTab} />
+
         {/* Tab content */}
         <section
           style={{
@@ -1223,7 +1200,7 @@ export function SpacingPage() {
           </p>
         </div>
       </div>
-      <SectionJumpFab />
+      <SectionJumpFab iconMap={FAB_ICONS} />
     </div>
   );
 }

@@ -80,6 +80,7 @@ export const pinnedNavSections: NavSection[] = [
       { label: "Spacing", href: "/foundation/spacing" },
       { label: "Icons", href: "/foundation/icons" },
       { label: "Motion", href: "/foundation/motion" },
+      { label: "Layout & Grid", href: "/foundation/layout-grid" },
       { label: "Agent Legibility", href: "/foundation/agent-legibility" },
     ],
   },

@@ -1,7 +1,27 @@
 import { ComponentPage, Section, ExampleGrid, ExampleRow } from "../docs/component-page";
+import { PropsTable, type PropDef } from "../docs/props-table";
 import { ToastProvider, useToast, type ToastStatus, type ToastPosition } from "../ui/hx-toast";
 import { Button } from "../ui/hollaex-button";
 import { useState } from "react";
+
+const TOAST_PROPS: PropDef[] = [
+  { name: "status", type: '"info" | "success" | "warning" | "error" | "neutral"', default: '"info"', description: "Visual status type with matching color and icon" },
+  { name: "title", type: "string", required: true, description: "Main toast heading" },
+  { name: "description", type: "string", description: "Optional secondary text" },
+  { name: "duration", type: "number", default: "5000", description: "Auto-dismiss delay in ms. Set to Infinity for persistent toasts" },
+  { name: "actionLabel", type: "string", description: "Label for an optional action button" },
+  { name: "onAction", type: "() => void", description: "Callback when the action button is clicked" },
+];
+
+const CODE_BASIC = `import { useToast } from "@hollaex/ui"
+
+const { addToast } = useToast()
+
+addToast({
+  status: "success",
+  title: "Trade executed",
+  description: "Bought 0.5 BTC at $42,150",
+})`;
 
 function ToastDemos() {
   const { addToast, setPosition, position } = useToast();
@@ -16,7 +36,7 @@ function ToastDemos() {
   return (
     <>
       <Section title="Status Variants" description="Five status types with matching icon colors. Click each button to fire a live toast.">
-        <ExampleRow label="Fire toasts">
+        <ExampleRow label="Fire toasts" code={CODE_BASIC}>
           <Button variant="primary" onClick={() => fire("info", "New deposit detected", "0.05 BTC received to your wallet.")}>Info</Button>
           <Button variant="primary" onClick={() => fire("success", "Trade executed successfully")}>Success</Button>
           <Button variant="primary" onClick={() => fire("warning", "Session expires in 5 minutes")}>Warning</Button>
@@ -65,6 +85,9 @@ export function ToastPage() {
     <ToastProvider defaultPosition="top-right">
       <ComponentPage name="Toast" description="Lightweight, auto-dismissing notifications for quick feedback — copy confirmations, trade alerts, status updates. Distinct from Alert which is persistent and inline.">
         <ToastDemos />
+        <Section title="API Reference" description="All available props for the addToast() function.">
+          <PropsTable props={TOAST_PROPS} componentName="addToast" />
+        </Section>
       </ComponentPage>
     </ToastProvider>
   );

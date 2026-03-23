@@ -5,7 +5,9 @@ import { HxThemeToggle } from "../ui/hx-toggle";
 import { SearchTrigger } from "./search-command";
 import { SectionJumpFab } from "./section-jump-fab";
 import { FadeInContent } from "../ui/page-loader";
-import { Bot, ArrowRight } from "lucide-react";
+import { Bot, ArrowRight, Menu } from "lucide-react";
+import { CodeBlock } from "./code-block";
+import hollaExLogoFull from "../../../imports/HollaEx_Logo-1.svg";
 
 export function slugify(text: string) {
   return text.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
@@ -37,6 +39,7 @@ export function ComponentPage({
   children,
   sideNav,
   fabIconMap,
+  hideFab = false,
 }: {
   name: string;
   description: string;
@@ -44,11 +47,14 @@ export function ComponentPage({
   children: ReactNode;
   sideNav?: ReactNode;
   fabIconMap?: Record<string, ComponentType<{ size?: number; stroke?: number }>>;
+  hideFab?: boolean;
 }) {
   const [sentinelRef, scrolled] = useScrolledPast();
+  const ctx = useOutletContext<{ isMobile?: boolean; openMobileNav?: () => void } | undefined>();
+  const isMobile = ctx?.isMobile ?? false;
 
   return (
-    <div className="min-h-full">
+    <div className="min-h-full shrink-0">
       {/* Scroll sentinel – sits at the very top; when it's gone the breadcrumb gets a shadow */}
       <div ref={sentinelRef} className="h-0 w-full" aria-hidden="true" />
 
@@ -61,30 +67,51 @@ export function ComponentPage({
         }}
       >
         <div className="h-full flex items-center justify-between"
-          style={{ padding: "0 var(--space-10)" }}
+          style={{ padding: isMobile ? "0 var(--space-5)" : "0 var(--space-10)" }}
         >
-          {/* WCAG 1.3.1: Semantic breadcrumb navigation */}
-          <nav aria-label="Breadcrumb">
-            <ol className="flex items-center" style={{ gap: "var(--space-3)", listStyle: "none", margin: 0, padding: 0 }}>
-              <li>
-                <span style={{ fontSize: "11px", color: "var(--muted-foreground)", fontFamily: "var(--font-family-supreme)" }}>{breadcrumbPrefix}</span>
-              </li>
-              <li aria-hidden="true">
-                <span style={{ fontSize: "11px", color: "var(--border)" }}>&rsaquo;</span>
-              </li>
-              <li aria-current="page">
-                <span style={{ fontSize: "11px", color: "var(--foreground)", fontWeight: "var(--font-weight-bold)", fontFamily: "var(--font-family-supreme)" }}>{name}</span>
-              </li>
-            </ol>
-          </nav>
+          <div className="flex items-center" style={{ gap: "var(--space-3)" }}>
+            {/* Mobile: hamburger + logo */}
+            {isMobile && (
+              <>
+                <button
+                  onClick={ctx?.openMobileNav}
+                  className="inline-flex items-center justify-center cursor-pointer"
+                  style={{
+                    width: 36, height: 36, borderRadius: "var(--radius)",
+                    border: "none", backgroundColor: "transparent",
+                    color: "var(--foreground)",
+                  }}
+                  aria-label="Open navigation"
+                >
+                  <Menu size={20} />
+                </button>
+                <img src={hollaExLogoFull} alt="" className="hx-logo-adaptive" style={{ height: "28px" }} />
+                <span style={{ color: "var(--border)", fontSize: "16px", fontWeight: 200 }}>|</span>
+              </>
+            )}
+            {/* WCAG 1.3.1: Semantic breadcrumb navigation */}
+            <nav aria-label="Breadcrumb">
+              <ol className="flex items-center" style={{ gap: "var(--space-3)", listStyle: "none", margin: 0, padding: 0 }}>
+                <li>
+                  <span style={{ fontSize: "12px", color: "var(--muted-foreground)", fontFamily: "var(--font-family-supreme)" }}>{breadcrumbPrefix}</span>
+                </li>
+                <li aria-hidden="true">
+                  <span style={{ fontSize: "12px", color: "var(--border)" }}>&rsaquo;</span>
+                </li>
+                <li aria-current="page">
+                  <span style={{ fontSize: "12px", color: "var(--foreground)", fontWeight: "var(--font-weight-bold)", fontFamily: "var(--font-family-supreme)" }}>{name}</span>
+                </li>
+              </ol>
+            </nav>
+          </div>
           <div className="flex items-center" style={{ gap: "var(--space-4)" }}>
-            <BreadcrumbSearch />
-            <HxThemeToggle size="lg" />
+            {!isMobile && <BreadcrumbSearch />}
+            <HxThemeToggle size={isMobile ? "md" : "lg"} />
           </div>
         </div>
       </div>
 
-      <div className="mx-auto" style={{ maxWidth: sideNav ? 1120 : 860, padding: "0 var(--space-10)" }}>
+      <div className="mx-auto" style={{ maxWidth: sideNav ? 1120 : 860, padding: isMobile ? "0 var(--space-5)" : "0 var(--space-10)" }}>
         <FadeInContent>
         {/* Page header */}
         <div className="border-b" style={{
@@ -94,7 +121,7 @@ export function ComponentPage({
           animation: "hx-expand-in var(--duration-medium-2) var(--ease-emphasized-decelerate) both",
         }}>
           <h1 style={{
-            fontSize: "52px",
+            fontSize: isMobile ? "36px" : "52px",
             fontWeight: "var(--font-weight-bold)",
             color: "var(--foreground)",
             lineHeight: 1.1,
@@ -159,11 +186,13 @@ export function ComponentPage({
             <ArrowRight size={10} />
           </Link>
         </div>
+        {/* Spacer: ensures the footer clears the fixed FAB (48px button + 28px offset + buffer) when scrolled to the bottom */}
+        <div style={{ height: "96px" }} aria-hidden="true" />
         </FadeInContent>
       </div>
 
       {/* Section jump FAB */}
-      <SectionJumpFab iconMap={fabIconMap} />
+      {!hideFab && <SectionJumpFab iconMap={fabIconMap} />}
     </div>
   );
 }
@@ -246,9 +275,11 @@ export function Section({
 export function ExampleRow({
   label,
   children,
+  code,
 }: {
   label?: string;
   children: ReactNode;
+  code?: string;
 }) {
   return (
     <div className="rounded-xl border" style={{
@@ -273,9 +304,14 @@ export function ExampleRow({
           </span>
         </div>
       )}
-      <div className="flex flex-wrap items-center rounded-b-xl" style={{ padding: "var(--space-8) var(--space-7)", gap: "var(--space-5)", backgroundColor: "var(--background)", overflow: "visible" }}>
+      <div className="flex flex-wrap items-center" style={{ padding: "var(--space-8) var(--space-7)", gap: "var(--space-5)", backgroundColor: "var(--background)", overflow: "visible", borderRadius: code ? undefined : "0 0 12px 12px" }}>
         {children}
       </div>
+      {code && (
+        <div style={{ borderTop: "1px solid var(--border-subtle)" }}>
+          <CodeBlock code={code} embedded />
+        </div>
+      )}
     </div>
   );
 }
@@ -283,9 +319,11 @@ export function ExampleRow({
 export function ExampleGrid({
   label,
   children,
+  code,
 }: {
   label?: string;
   children: ReactNode;
+  code?: string;
 }) {
   return (
     <div className="rounded-xl border" style={{
@@ -310,8 +348,73 @@ export function ExampleGrid({
           </span>
         </div>
       )}
-      <div className="flex flex-col rounded-b-xl" style={{ padding: "var(--space-8) var(--space-7)", gap: "var(--space-7)", backgroundColor: "var(--background)", overflow: "visible", minWidth: 0 }}>
+      <div className="flex flex-col" style={{ padding: "var(--space-8) var(--space-7)", gap: "var(--space-7)", backgroundColor: "var(--background)", overflow: "visible", minWidth: 0, borderRadius: code ? undefined : "0 0 12px 12px" }}>
         {children}
+      </div>
+      {code && (
+        <div style={{ borderTop: "1px solid var(--border-subtle)" }}>
+          <CodeBlock code={code} embedded />
+        </div>
+      )}
+    </div>
+  );
+}
+
+/** Sticky tab bar – sits below the page header, pins at top: 72px (below the breadcrumb) */
+export function PageTabs<T extends string>({
+  items,
+  activeTab,
+  onTabChange,
+}: {
+  items: readonly { value: T; label: string }[];
+  activeTab: T;
+  onTabChange: (value: T) => void;
+}) {
+  return (
+    <div
+      className="sticky z-[9] border-b"
+      style={{
+        top: 72,
+        backgroundColor: "var(--secondary-subtle)",
+        borderColor: "var(--border-subtle)",
+      }}
+    >
+      <div className="flex" role="tablist" style={{ fontFamily: "var(--font-family-supreme)" }}>
+        {items.map((tab) => {
+          const isActive = tab.value === activeTab;
+          return (
+            <button
+              key={tab.value}
+              role="tab"
+              aria-selected={isActive}
+              onClick={() => onTabChange(tab.value as T)}
+              className="relative flex items-center justify-center cursor-pointer select-none outline-none transition-colors duration-[var(--duration-short-3)]"
+              style={{
+                height: 44,
+                padding: "0 var(--space-5)",
+                fontSize: "var(--text-body)",
+                fontWeight: isActive ? ("var(--font-weight-medium)" as any) : ("var(--font-weight-regular)" as any),
+                color: isActive ? "var(--color-text-primary)" : "var(--color-text-tertiary)",
+                fontFamily: "var(--font-family-supreme)",
+                backgroundColor: "transparent",
+                border: "none",
+              }}
+              onMouseEnter={(e) => { if (!isActive) e.currentTarget.style.color = "var(--color-text-secondary)"; }}
+              onMouseLeave={(e) => { if (!isActive) e.currentTarget.style.color = "var(--color-text-tertiary)"; }}
+            >
+              {tab.label}
+              <span
+                className="absolute bottom-0 left-0 w-full transition-transform duration-[var(--duration-medium-2)] origin-left"
+                style={{
+                  height: "2px",
+                  backgroundColor: "var(--brand-default)",
+                  transform: isActive ? "scaleX(1)" : "scaleX(0)",
+                  transitionTimingFunction: "cubic-bezier(0.25, 0.1, 0.25, 1)",
+                }}
+              />
+            </button>
+          );
+        })}
       </div>
     </div>
   );

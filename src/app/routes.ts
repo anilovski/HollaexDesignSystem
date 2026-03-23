@@ -42,6 +42,7 @@ const SpacingPage = lazyPage(() => import("./components/pages/spacing-page"), "S
 const IconsPage = lazyPage(() => import("./components/pages/icons-page"), "IconsPage", "icons");
 const MotionPage = lazyPage(() => import("./components/pages/motion-page"), "MotionPage", "motion");
 const AgentLegibilityPage = lazyPage(() => import("./components/pages/agent-legibility-page"), "AgentLegibilityPage", "agent-legibility");
+const LayoutGridPage = lazyPage(() => import("./components/pages/layout-grid-page"), "LayoutGridPage", "layout-grid");
 
 // ── Component pages ─────────────────────────────────────────────
 const AccordionPage = lazyPage(() => import("./components/pages/accordion-page"), "AccordionPage", "accordion");
@@ -114,6 +115,7 @@ export const router = createBrowserRouter([
       { path: "foundation/icons", Component: IconsPage },
       { path: "foundation/motion", Component: MotionPage },
       { path: "foundation/agent-legibility", Component: AgentLegibilityPage },
+      { path: "foundation/layout-grid", Component: LayoutGridPage },
       { path: "components/accordion", Component: AccordionPage },
       { path: "components/alert", Component: AlertPage },
       { path: "components/alert-dialog", Component: AlertDialogPage },

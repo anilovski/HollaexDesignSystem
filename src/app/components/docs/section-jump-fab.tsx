@@ -67,10 +67,12 @@ export function SectionJumpFab({
   sectionSelector = ".section-block[data-section-title]",
   titleExtractor,
   iconMap,
+  showColorDots = false,
 }: {
   sectionSelector?: string;
   titleExtractor?: (el: HTMLElement) => { id: string; title: string } | null;
   iconMap?: Record<string, ComponentType<{ size?: number; stroke?: number }>>;
+  showColorDots?: boolean;
 } = {}) {
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState("");
@@ -556,7 +558,7 @@ export function SectionJumpFab({
                           >
                             <IconComponent size={14} stroke={isSelected ? 2 : 1.5} />
                           </span>
-                        ) : (
+                        ) : showColorDots ? (
                           <span
                             style={{
                               width: 10,
@@ -565,6 +567,18 @@ export function SectionJumpFab({
                               backgroundColor: color,
                               flexShrink: 0,
                               opacity: isSelected ? 1 : 0.6,
+                              transition: "opacity 100ms ease",
+                            }}
+                          />
+                        ) : (
+                          <span
+                            style={{
+                              width: 6,
+                              height: 6,
+                              borderRadius: "var(--radius-circle)",
+                              backgroundColor: "var(--background)",
+                              flexShrink: 0,
+                              opacity: isSelected ? 0.9 : 0.3,
                               transition: "opacity 100ms ease",
                             }}
                           />

@@ -30,7 +30,7 @@ const slides = [
 
 export function CarouselPage() {
   return (
-    <ComponentPage name="Carousel" description="A slideshow component for cycling through content panels. Built on Embla Carousel with accessible previous/next controls and flexible sizing.">
+    <ComponentPage name="Carousel" description="A slideshow component for cycling through content panels. Built on Embla Carousel with accessible previous/next controls and flexible sizing." hideFab>
       <Section title="Basic" description="A simple horizontal carousel with navigation buttons.">
         <ExampleRow label="Default">
           <div className="w-full" style={{ maxWidth: 480 }}>

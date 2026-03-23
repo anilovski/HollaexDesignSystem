@@ -4,6 +4,15 @@ import { SearchTrigger } from "../docs/search-command";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { Button } from "../ui/hollaex-button";
 import { SectionJumpFab } from "../docs/section-jump-fab";
+import { PageTabs } from "../docs/component-page";
+import { IconTypography, IconTextSize, IconBold, IconBook } from "@tabler/icons-react";
+import type { ComponentType } from "react";
+
+const FAB_ICONS: Record<string, ComponentType<{ size?: number; stroke?: number }>> = {
+  "Type Scale": IconTextSize,
+  "Font Weights": IconBold,
+  "Usage": IconBook,
+};
 
 /* ══════════════════════════════════════════════════════════════
    COPY BUTTON
@@ -478,7 +487,7 @@ export function TypographyPage() {
 
   return (
     <div
-      className="min-h-full"
+      className="min-h-full shrink-0"
       style={{
         backgroundColor: "var(--secondary-subtle)",
         fontFamily: "var(--font-family-supreme)",
@@ -486,9 +495,9 @@ export function TypographyPage() {
     >
       <div ref={sentinelRef} className="h-0 w-full" aria-hidden="true" />
 
-      {/* ── Sticky breadcrumb bar with centered tabs ──────── */}
+      {/* ── Sticky breadcrumb bar ──────── */}
       <div
-        className="border-b sticky top-0 z-10 transition-shadow duration-[var(--duration-short-4)] relative"
+        className="border-b sticky top-0 z-10 transition-shadow duration-[var(--duration-short-4)]"
         style={{
           height: 72,
           borderColor: "var(--border-subtle)",
@@ -496,8 +505,7 @@ export function TypographyPage() {
           boxShadow: scrolled ? "var(--elevation-sm)" : "none",
         }}
       >
-        {/* Full-width layer: breadcrumb left, controls right */}
-        <div className="h-full flex items-center justify-between relative z-[1]" style={{ padding: "0 var(--space-10)" }}>
+        <div className="h-full flex items-center justify-between" style={{ padding: "0 var(--space-10)" }}>
           <div className="flex items-center shrink-0" style={{ gap: "var(--space-3)" }}>
             <span style={{ fontSize: "var(--text-caption)", color: "var(--muted-foreground)", fontFamily: "var(--font-family-supreme)" }}>Foundation</span>
             <span style={{ fontSize: "var(--text-caption)", color: "var(--border)" }}>&rsaquo;</span>
@@ -507,47 +515,6 @@ export function TypographyPage() {
             <span style={{ fontSize: "var(--text-caption)", color: "var(--muted-foreground)", fontFamily: "var(--font-family-supreme)" }}>{scaleCount} sizes · {info.weights.length} weights</span>
             <BreadcrumbSearch />
             <HxThemeToggle size="lg" />
-          </div>
-        </div>
-
-        {/* Centered tab layer — aligned with content container below */}
-        <div className="absolute inset-0 h-full flex items-center pointer-events-none" style={{ maxWidth: "1120px", margin: "0 auto", padding: "0 var(--space-8)" }}>
-          <div className="flex pointer-events-auto" role="tablist" style={{ fontFamily: "var(--font-family-supreme)" }}>
-            {TAB_ITEMS.map((tab) => {
-              const isActive = tab.value === activeTab;
-              return (
-                <button
-                  key={tab.value}
-                  role="tab"
-                  aria-selected={isActive}
-                  onClick={() => handleTabChange(tab.value)}
-                  className="relative flex items-center justify-center cursor-pointer select-none outline-none transition-colors duration-[var(--duration-short-3)]"
-                  style={{
-                    height: "72px",
-                    padding: "0 var(--space-5)",
-                    fontSize: "var(--text-body)",
-                    fontWeight: isActive ? ("var(--font-weight-medium)" as any) : ("var(--font-weight-regular)" as any),
-                    color: isActive ? "var(--color-text-primary)" : "var(--color-text-tertiary)",
-                    fontFamily: "var(--font-family-supreme)",
-                    backgroundColor: "transparent",
-                    border: "none",
-                  }}
-                  onMouseEnter={(e) => { if (!isActive) e.currentTarget.style.color = "var(--color-text-secondary)"; }}
-                  onMouseLeave={(e) => { if (!isActive) e.currentTarget.style.color = "var(--color-text-tertiary)"; }}
-                >
-                  {tab.label}
-                  <span
-                    className="absolute bottom-0 left-0 w-full transition-transform duration-[var(--duration-medium-2)] origin-left"
-                    style={{
-                      height: "2px",
-                      backgroundColor: "var(--brand-default)",
-                      transform: isActive ? "scaleX(1)" : "scaleX(0)",
-                      transitionTimingFunction: "cubic-bezier(0.25, 0.1, 0.25, 1)",
-                    }}
-                  />
-                </button>
-              );
-            })}
           </div>
         </div>
       </div>
@@ -621,6 +588,9 @@ export function TypographyPage() {
             .
           </p>
         </div>
+
+        {/* Tab bar */}
+        <PageTabs items={TAB_ITEMS} activeTab={activeTab} onTabChange={handleTabChange} />
 
         {/* ══════════════════════════════════════════════════
            SECTION 1: Typeface Specimen + Font Stack
@@ -933,7 +903,7 @@ export function TypographyPage() {
           </p>
         </div>
       </div>
-      <SectionJumpFab />
+      <SectionJumpFab iconMap={FAB_ICONS} />
     </div>
   );
 }

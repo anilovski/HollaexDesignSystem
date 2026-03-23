@@ -34,7 +34,7 @@ function ListItem({ title, children, href = "#" }: { title: string; children: Re
 
 export function NavigationMenuPage() {
   return (
-    <ComponentPage name="Navigation Menu" description="A collection of links for navigating websites, with support for dropdown content panels, keyboard navigation, and accessible labeling. Built on Radix UI Navigation Menu.">
+    <ComponentPage name="Navigation Menu" description="A collection of links for navigating websites, with support for dropdown content panels, keyboard navigation, and accessible labeling. Built on Radix UI Navigation Menu." hideFab>
       <Section title="Basic" description="A horizontal navigation menu with dropdown panels.">
         <ExampleRow label="With dropdowns">
           <NavigationMenu>

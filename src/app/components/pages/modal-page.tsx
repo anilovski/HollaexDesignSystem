@@ -25,6 +25,28 @@ import {
   CheckCircle2,
   Info,
 } from "lucide-react";
+import { PropsTable, type PropDef } from "../docs/props-table";
+
+const MODAL_PROPS: PropDef[] = [
+  { name: "open", type: "boolean", required: true, description: "Controls modal visibility" },
+  { name: "onClose", type: "() => void", required: true, description: "Callback when the modal is dismissed" },
+  { name: "size", type: '"sm" | "md" | "lg" | "xl" | "full"', default: '"md"', description: "Modal width preset" },
+  { name: "title", type: "string", description: "Header title text" },
+  { name: "description", type: "string", description: "Subtitle text below the title" },
+  { name: "children", type: "ReactNode", required: true, description: "Modal body content" },
+  { name: "footer", type: "ReactNode", description: "Footer area, typically action buttons" },
+  { name: "hideClose", type: "boolean", default: "false", description: "Hides the close (×) button" },
+];
+
+const CODE_BASIC = `import { HxModal } from "@hollaex/ui"
+
+const [open, setOpen] = useState(false)
+
+<Button onClick={() => setOpen(true)}>Open modal</Button>
+
+<HxModal open={open} onClose={() => setOpen(false)} title="Confirm Action">
+  <p>Are you sure you want to proceed?</p>
+</HxModal>`;
 
 /* ── Shared demo button ──────────────────────── */
 function DemoBtn({
@@ -293,7 +315,7 @@ export function ModalPage() {
         title="Basic usage"
         description="A minimal modal with a header, body text, and a footer with action buttons."
       >
-        <ExampleRow label="Default">
+        <ExampleRow label="Default" code={CODE_BASIC}>
           <DemoBtn onClick={() => setBasic(true)}>Open modal</DemoBtn>
         </ExampleRow>
 
@@ -1402,6 +1424,10 @@ function MyComponent() {
 }`}
           </pre>
         </div>
+      </Section>
+
+      <Section title="API Reference" description="All available props for the HxModal component.">
+        <PropsTable props={MODAL_PROPS} componentName="HxModal" />
       </Section>
     </ComponentPage>
   );

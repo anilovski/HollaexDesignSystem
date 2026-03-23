@@ -306,7 +306,7 @@ export function SearchDialog({
         }}
       />
 
-      {/* Dialog wrapper (positions dialog + external close button) */}
+      {/* Dialog wrapper */}
       <div
         style={{
           position: "fixed",
@@ -321,37 +321,6 @@ export function SearchDialog({
           transition: "opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1)",
         }}
       >
-        {/* Close button — outside right side */}
-        <button
-          onClick={onClose}
-          aria-label="Close search"
-          style={{
-            position: "absolute",
-            top: "0px",
-            right: "-48px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            width: "36px",
-            height: "36px",
-            borderRadius: "var(--radius-circle)",
-            border: "none",
-            backgroundColor: "var(--search-close-bg)",
-            color: "var(--search-close-fg)",
-            cursor: "pointer",
-            transition: "background-color 0.15s ease, color 0.15s ease",
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = "var(--search-close-hover-bg)";
-            e.currentTarget.style.color = "var(--search-close-hover-fg)";
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.backgroundColor = "var(--search-close-bg)";
-            e.currentTarget.style.color = "var(--search-close-fg)";
-          }}
-        >
-          <X size={18} />
-        </button>
 
         {/* Dialog card */}
         <div
@@ -492,6 +461,36 @@ export function SearchDialog({
               }
             >
               Search
+            </button>
+
+            {/* Close button — inside the header so it's always within the viewport */}
+            <button
+              onClick={onClose}
+              aria-label="Close search"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                width: "36px",
+                height: "36px",
+                borderRadius: "var(--radius-circle)",
+                border: "none",
+                backgroundColor: "var(--search-close-bg)",
+                color: "var(--search-close-fg)",
+                cursor: "pointer",
+                flexShrink: 0,
+                transition: "background-color 0.15s ease, color 0.15s ease",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = "var(--search-close-hover-bg)";
+                e.currentTarget.style.color = "var(--search-close-hover-fg)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = "var(--search-close-bg)";
+                e.currentTarget.style.color = "var(--search-close-fg)";
+              }}
+            >
+              <X size={18} />
             </button>
           </div>
 
